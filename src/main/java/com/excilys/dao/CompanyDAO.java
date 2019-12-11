@@ -20,13 +20,9 @@ public class CompanyDAO  {
 	public Connection connect = ConnectionSQL.seConnecter();
 	
 	//constructeur privé pour garantir une unique instance de la classe
-	private CompanyDAO() {
-		System.out.println("Singleton CompanyDAO créé");
-	};
+	private CompanyDAO() {};
 	
-	
-	
-	//methode public pour initialiser l'unique instance de la classe
+
 	public static CompanyDAO getCompanyDAO() {
 		if(companyDAO == null) {
 			companyDAO = new CompanyDAO();
@@ -50,7 +46,7 @@ public class CompanyDAO  {
 
 				int id = resultat.getInt("id");
 				String name = resultat.getString("name");
-				Company company = new Company(id, name);
+				Company company = new Company.CompanyBuilder().idCompany(id).nameCompany(name).build();
 				companyList.add(company); 
 				}
 

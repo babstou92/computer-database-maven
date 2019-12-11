@@ -9,7 +9,7 @@ public class ConnectionSQL {
 	
 	private static String user="admincdb";
 	private static String mdp="qwerty1234";
-	private static String url = "jdbc:mysql://localhost/computer-database-db";
+	private static String url = "jdbc:mysql://localhost/computer-database-db?useSSL=false";
 	
 	//variable d'instance - instanciation de la classe Connection
 	private static Connection connection;

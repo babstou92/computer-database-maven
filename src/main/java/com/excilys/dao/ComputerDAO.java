@@ -1,12 +1,13 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 import com.excilys.models.Company;
@@ -15,8 +16,6 @@ import com.excilys.models.Computer;
 
 public class ComputerDAO {
 	
-	
-	public Connection connect = ConnectionSQL.seConnecter();
 	private static ComputerDAO computerDAO = null;
 	
 	private static final String SELECT_ALL_COMPUTER = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
@@ -30,15 +29,15 @@ public class ComputerDAO {
 														+ "computer.company_id, company.name AS company_name "
 														+ "FROM computer, company "
 														+ "WHERE computer.company_id = company.id "
-														+ "AND company.id = ? ;";
+														+ "AND computer.id = ? ;";
 	
-	private static final String CREATE_ONE_COMPUTER = "INSERT into computer (id,name,introduced,discontinued,company_id) "
+	private static final String CREATE_ONE_COMPUTER = "INSERT into computer (name,introduced,discontinued,company_id) "
 
 
 
-														+ "VALUES (63,?,?,?,?)";
+														+ "VALUES (?,?,?,?)";
 	
-	private static final String UPDATE_ONE          = "UPDATE computer "
+	private static final String UPDATE_ONE_COMPUTER = "UPDATE computer "
 			
 														+ "SET name = ? "
 														+ "SET introduced = ? "
@@ -49,10 +48,7 @@ public class ComputerDAO {
 	private static final String DELETE_ONE_COMPUTER = "DELETE  from computer "
 														+ "WHERE id = ?";
 	
-	private ComputerDAO() {
-
-		System.out.println("Singleton ComputerDAO créé");
-	};
+	private ComputerDAO() {};
 	
 	
 	public static ComputerDAO getComputerDAO() {
@@ -68,22 +64,26 @@ public class ComputerDAO {
 		
 		List<Computer> computerList = new ArrayList<>();
 		
-		try {
+		try (Connection connect = ConnectionSQL.seConnecter()){
 			
 			PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);
 			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER);
 			
 			while (resultat.next()) {
 				
+				//call mapper
 				int id = resultat.getInt("id");
-				Date dateDis = resultat.getDate("discontinued");
-				Date dateInt = resultat.getDate("introduced");
+				Date dateSQLDis = resultat.getDate("discontinued");
+				LocalDate dateDis = (dateSQLDis == null ? null : dateSQLDis.toLocalDate());
+				Date dateSQLInt = resultat.getDate("introduced");
+				LocalDate dateInt = (dateSQLInt == null ? null : dateSQLInt.toLocalDate());
 				String name = resultat.getString("name");
 				int company_id = resultat.getInt("company_id");
 				String company_name = resultat.getString("company_name");
 				
-				//call mapper
-				Computer computer = new Computer(id, name, dateInt, dateDis, new Company(company_id, company_name) );
+
+				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
+						.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build();
 				computerList.add(computer);
 			    }
 		
@@ -100,19 +100,22 @@ public class ComputerDAO {
 		
 		try {
 			
+			Connection connect = ConnectionSQL.seConnecter();
 			PreparedStatement prepState = connect.prepareStatement(SELECT_ONE_COMPUTER);
-			prepState.setInt(1, idSearch);
-			
+			prepState.setInt(1, idSearch);		
 			ResultSet resultat = prepState.executeQuery();	
 			resultat.next();
-				int company_id = resultat.getInt("company_id");
-				Date dateDis = resultat.getDate("discontinued");
-				Date dateInt = resultat.getDate("introduced");
-				String name = resultat.getString("name");				
-				String company_name = resultat.getString("company_name");
+			int company_id = resultat.getInt("company_id");
+			Date dateSQLDis = resultat.getDate("discontinued");
+			LocalDate dateDis = (dateSQLDis == null ? null : dateSQLDis.toLocalDate());
+			Date dateSQLInt = resultat.getDate("introduced");
+			LocalDate dateInt = (dateSQLInt == null ? null : dateSQLInt.toLocalDate());
+			String name = resultat.getString("name");				
+			String company_name = resultat.getString("company_name");
 
-				//call mapper
-				computer = new Computer(idSearch, name, dateInt, dateDis, new Company(company_id, company_name)); 
+			//call mapper
+			computer = new Computer.ComputerBuilder().idComputer(idSearch).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
+									.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build(); 
 
 			
 		} catch (SQLException e ) {
@@ -123,19 +126,17 @@ public class ComputerDAO {
 	}
 
 
-	public void create(String computerName, Date introduced, Date discontinued, int company_id) {
-		try {
+	public void create(String computerName, LocalDate introduced, LocalDate discontinued, int company_id) {
+		try (Connection connect = ConnectionSQL.seConnecter()){
 			
 			
 			PreparedStatement prepState = connect.prepareStatement(CREATE_ONE_COMPUTER);
 			prepState.setString(1, computerName);
-			prepState.setTimestamp(2, new Timestamp(introduced.getTime()));
-			prepState.setTimestamp(3, new Timestamp(discontinued.getTime()));
+			prepState.setTimestamp(2,Timestamp.valueOf(introduced.atStartOfDay()));
+			prepState.setTimestamp(3,Timestamp.valueOf(discontinued.atStartOfDay()));
 			prepState.setInt(4, company_id);
 			prepState.executeUpdate();
-			
-			System.out.println("Creation d'un nouveau computer avec succès.");
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -143,13 +144,13 @@ public class ComputerDAO {
 	}
 
 
-	public void update(String computerName, Date introduced, Date discontinued, int company_id, int idSearch) {
-		try { 
+	public void update(String computerName, LocalDate introduced, LocalDate discontinued, int company_id, int idSearch) {
+		try (Connection connect = ConnectionSQL.seConnecter()){ 
 			
-			PreparedStatement prepState = connect.prepareStatement(UPDATE_ONE);
+			PreparedStatement prepState = connect.prepareStatement(UPDATE_ONE_COMPUTER);
 			prepState.setString(1,computerName );
-			prepState.setTimestamp(2, new Timestamp(introduced.getTime()));
-			prepState.setTimestamp(3, new Timestamp(discontinued.getTime()));
+			prepState.setTimestamp(2, Timestamp.valueOf(introduced.atStartOfDay()));
+			prepState.setTimestamp(3, Timestamp.valueOf(discontinued.atStartOfDay()));
 			prepState.setInt(4, 2);
 			
 			prepState.executeUpdate();
@@ -161,15 +162,13 @@ public class ComputerDAO {
 
 
 	public void delete(int idSearch) {
-		try {
+		try (Connection connect = ConnectionSQL.seConnecter()){
 			
 			
 			
 			PreparedStatement prepState = connect.prepareStatement(DELETE_ONE_COMPUTER);
 			prepState.setInt(1, idSearch);
 			prepState.executeUpdate();
-			//use logger instead of println
-			System.out.println("le computeur avec l'id "+idSearch+" a été supprimé avec succès.");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
