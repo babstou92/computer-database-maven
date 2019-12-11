@@ -79,12 +79,12 @@ public class ComputerDAO {
 				LocalDate dateInt = (dateSQLInt == null ? null : dateSQLInt.toLocalDate());
 				String name = resultat.getString("name");
 				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company_name");
-				
+				String company_name = resultat.getString("company_name");				
 
 				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
 						.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build();
 				computerList.add(computer);
+				
 			    }
 		
 		} catch (SQLException e) {
@@ -100,6 +100,7 @@ public class ComputerDAO {
 		
 		try {
 			
+			//call mapper
 			Connection connect = ConnectionSQL.seConnecter();
 			PreparedStatement prepState = connect.prepareStatement(SELECT_ONE_COMPUTER);
 			prepState.setInt(1, idSearch);		
@@ -112,8 +113,7 @@ public class ComputerDAO {
 			LocalDate dateInt = (dateSQLInt == null ? null : dateSQLInt.toLocalDate());
 			String name = resultat.getString("name");				
 			String company_name = resultat.getString("company_name");
-
-			//call mapper
+		
 			computer = new Computer.ComputerBuilder().idComputer(idSearch).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
 									.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build(); 
 

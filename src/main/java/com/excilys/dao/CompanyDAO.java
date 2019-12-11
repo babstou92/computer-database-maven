@@ -13,13 +13,12 @@ import com.excilys.models.Company;
 
 public class CompanyDAO  {
 	
-	//instanciation unique non-initialisée
+
 	private static CompanyDAO companyDAO = null;
 	private static final String SELECT_ALL_COMPUTER  = "SELECT * FROM company ;";												
-	//appelle la methode static de la classe CoSQL - stocke le return dans l'objet connect de la classe Connection
+
 	public Connection connect = ConnectionSQL.seConnecter();
-	
-	//constructeur privé pour garantir une unique instance de la classe
+
 	private CompanyDAO() {};
 	
 
@@ -30,18 +29,16 @@ public class CompanyDAO  {
 		return companyDAO;
 	}
 	
-	//methode pour recup tous les elements de la table Company
+
 	public List<Company> findAll() {
 		
 		List<Company> companyList = new ArrayList<Company>();
 		
 		try {             
-			//on stocke le resultat de la requete dans l'obj resultat - this correspond a l'instance de CompanyDAO appellant la methode
+
 			PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);
 			ResultSet resultat = statement.executeQuery();
-			
-			// tant que l'element suivant de la requete existe, on creer un nouvel objet company basé sur le modele 
-			// le nouvel objet company est add a la liste companyList
+
 			while (resultat.next()) {
 
 				int id = resultat.getInt("id");
