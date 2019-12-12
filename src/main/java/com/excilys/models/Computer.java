@@ -11,9 +11,7 @@ public class Computer {
 	private LocalDate introducedDate;
 	private LocalDate discontinuedDate;
 	private Company company;
-	
-	//a virer
-	public Computer() {};
+
 	
 	private Computer(ComputerBuilder builder) {
 		this.idComputer = builder.idComputer;
@@ -109,7 +107,7 @@ public class Computer {
 				+", company=" + company + "]";
 	}
 
-	@Override
+
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -121,7 +119,7 @@ public class Computer {
 		return result;
 	}
 
-	@Override
+
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

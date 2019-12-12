@@ -1,10 +1,12 @@
 package com.excilys.ui;
 
 import java.time.LocalDate;
-
-
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
@@ -21,16 +23,15 @@ public class Main {
 	private static int choixCommande;
 	private static int choixId;
 	private static int [] tableauId = new int[1];
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class); 
 	
-	/*public Main(ServiceCompany serviceCompany, ServiceComputer serviceComputer) {
-		this.serviceCompany = serviceCompany;
-		this.serviceComputer = serviceComputer;
-	}*/
 	
 	public static void main(String[] args) {
 		
-		//Main main = new Main(ServiceCompany.getServiceCompany(), ServiceComputer.getServiceCOmputer());
+		BasicConfigurator.configure();
 		
+		LOGGER.info("Start ...");
+
 		
 		boucleExt : do {
 			

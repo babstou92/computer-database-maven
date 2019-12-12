@@ -3,12 +3,16 @@ package com.excilys.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Computer;
+
 
 
 public class ComputerDAO {
@@ -38,9 +42,10 @@ public class ComputerDAO {
 	private static final String DELETE_ONE_COMPUTER = "DELETE  from computer "
 														+ "WHERE id = ?";
 	
-	
+
 	//a ne pas laisser
 	public Connection connect = ConnectionSQL.seConnecter();
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	
 	private ComputerDAO() {};
 	private static ComputerDAO computerDAO = null;
@@ -72,8 +77,8 @@ public class ComputerDAO {
 				
 			    }
 		
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
 
 		return computerList;
@@ -93,8 +98,8 @@ public class ComputerDAO {
 
 			computer = computerMapper.ResultSetToComputer(resultat);
 
-		} catch (SQLException e ) {
-			e.printStackTrace();
+		} catch (Exception e ) {
+			LOGGER.error(e.getMessage());
 		}
 		
 		return computer;
@@ -112,8 +117,8 @@ public class ComputerDAO {
 			prepState.setInt(4, computer.getCompany().getIdCompany());
 			prepState.executeUpdate();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
 		return;
 	}
@@ -131,8 +136,8 @@ public class ComputerDAO {
 			prepState.setInt(5,  computer.getIdComputer());
 			
 			prepState.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
 		
 	}
@@ -145,8 +150,8 @@ public class ComputerDAO {
 			prepState.setInt(1, idSearch);
 			prepState.executeUpdate();
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
 		
 	}
