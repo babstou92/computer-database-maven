@@ -1,12 +1,14 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.models.Company;
 
 
@@ -41,11 +43,9 @@ public class CompanyDAO  {
 
 			while (resultat.next()) {
 
-				int id = resultat.getInt("id");
-				String name = resultat.getString("name");
-				Company company = new Company.CompanyBuilder().idCompany(id).nameCompany(name).build();
-				companyList.add(company); 
-				}
+				companyList.add(CompanyMapper.ResultSetToCompany(resultat)); 
+				
+				};
 
 		} catch (SQLException e) {
 			e.printStackTrace();

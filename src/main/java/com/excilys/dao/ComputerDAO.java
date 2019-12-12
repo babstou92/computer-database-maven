@@ -1,7 +1,7 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.models.Company;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Computer;
 
 
@@ -71,19 +71,8 @@ public class ComputerDAO {
 			
 			while (resultat.next()) {
 				
-				//call mapper
-				int id = resultat.getInt("id");
-				Date dateSQLDis = resultat.getDate("discontinued");
-				LocalDate dateDis = (dateSQLDis == null ? null : dateSQLDis.toLocalDate());
-				Date dateSQLInt = resultat.getDate("introduced");
-				LocalDate dateInt = (dateSQLInt == null ? null : dateSQLInt.toLocalDate());
-				String name = resultat.getString("name");
-				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company_name");				
 
-				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
-						.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build();
-				computerList.add(computer);
+				computerList.add(ComputerMapper.ResultSetToComputer(resultat));
 				
 			    }
 		
@@ -100,24 +89,14 @@ public class ComputerDAO {
 		
 		try {
 			
-			//call mapper
 			Connection connect = ConnectionSQL.seConnecter();
 			PreparedStatement prepState = connect.prepareStatement(SELECT_ONE_COMPUTER);
 			prepState.setInt(1, idSearch);		
 			ResultSet resultat = prepState.executeQuery();	
 			resultat.next();
-			int company_id = resultat.getInt("company_id");
-			Date dateSQLDis = resultat.getDate("discontinued");
-			LocalDate dateDis = (dateSQLDis == null ? null : dateSQLDis.toLocalDate());
-			Date dateSQLInt = resultat.getDate("introduced");
-			LocalDate dateInt = (dateSQLInt == null ? null : dateSQLInt.toLocalDate());
-			String name = resultat.getString("name");				
-			String company_name = resultat.getString("company_name");
-		
-			computer = new Computer.ComputerBuilder().idComputer(idSearch).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
-									.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build(); 
 
-			
+			computer = ComputerMapper.ResultSetToComputer(resultat);
+
 		} catch (SQLException e ) {
 			e.printStackTrace();
 		}
