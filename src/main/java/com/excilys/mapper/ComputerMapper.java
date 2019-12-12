@@ -10,7 +10,17 @@ import com.excilys.models.Computer;
 
 public class ComputerMapper {
 	
-	public static Computer ResultSetToComputer(ResultSet resultat) {
+	private ComputerMapper() {};
+	private static ComputerMapper computerMapper;
+	
+	public static ComputerMapper getComputerMapper() {
+		if(computerMapper == null) {
+			computerMapper = new ComputerMapper();
+		}		
+		return computerMapper;
+	}
+	
+	public  Computer ResultSetToComputer(ResultSet resultat) {
 		
 		LocalDate dateDis = null, dateInt = null;
 		int id = 0, company_id = 0;

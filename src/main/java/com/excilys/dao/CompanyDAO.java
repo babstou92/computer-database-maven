@@ -15,13 +15,13 @@ import com.excilys.models.Company;
 
 public class CompanyDAO  {
 	
-
+	private CompanyDAO() {};
 	private static CompanyDAO companyDAO = null;
 	private static final String SELECT_ALL_COMPUTER  = "SELECT * FROM company ;";												
 
-	public Connection connect = ConnectionSQL.seConnecter();
-
-	private CompanyDAO() {};
+	private Connection connect = ConnectionSQL.seConnecter();
+	private static CompanyMapper companyMapper = CompanyMapper.getCompanyMapper();
+	
 	
 
 	public static CompanyDAO getCompanyDAO() {
@@ -43,7 +43,7 @@ public class CompanyDAO  {
 
 			while (resultat.next()) {
 
-				companyList.add(CompanyMapper.ResultSetToCompany(resultat)); 
+				companyList.add(companyMapper.ResultSetToCompany(resultat)); 
 				
 				};
 

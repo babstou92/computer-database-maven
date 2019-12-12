@@ -7,7 +7,17 @@ import com.excilys.models.Company;
 
 public class CompanyMapper {
 	
-	public static Company ResultSetToCompany(ResultSet resultat) {
+	private CompanyMapper() {};
+	private static CompanyMapper companyMapper;
+	
+	public static CompanyMapper getCompanyMapper() {
+		if(companyMapper == null) {
+			companyMapper = new CompanyMapper();
+		}
+		return companyMapper;
+	}
+	
+	public  Company ResultSetToCompany(ResultSet resultat) {
 		
 		int id = 0;
 		String name = null;

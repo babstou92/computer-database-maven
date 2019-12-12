@@ -1,7 +1,6 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,18 +8,14 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Computer;
 
 
 public class ComputerDAO {
 	
-	private static ComputerDAO computerDAO = null;
 	
 	private static final String SELECT_ALL_COMPUTER = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
-
-
 														+ "computer.company_id, company.name AS company_name "
 														+ "FROM computer, company "
 														+ "WHERE computer.company_id = company.id;";
@@ -32,24 +27,24 @@ public class ComputerDAO {
 														+ "AND computer.id = ? ;";
 	
 	private static final String CREATE_ONE_COMPUTER = "INSERT into computer (name,introduced,discontinued,company_id) "
-
-
-
 														+ "VALUES (?,?,?,?)";
 	
-	private static final String UPDATE_ONE_COMPUTER = "UPDATE computer "
-			
-														+ "SET name = ? "
-														+ "SET introduced = ? "
-														+ "SET discontinued = ? "
-														+ "SET company_id = ? "
-														+ "WHERE id = idSearch ;";
+	private static final String UPDATE_ONE_COMPUTER = "UPDATE computer "			
+														+ "SET name = ? ,"
+														+ "introduced = ? ,"
+														+ "discontinued = ? ,"
+														+ "company_id = ? "
+														+ "WHERE id = ? ;";
 	
 	private static final String DELETE_ONE_COMPUTER = "DELETE  from computer "
 														+ "WHERE id = ?";
 	
-	private ComputerDAO() {};
 	
+	//a ne pas laisser
+	public Connection connect = ConnectionSQL.seConnecter();
+	
+	private ComputerDAO() {};
+	private static ComputerDAO computerDAO = null;
 	
 	public static ComputerDAO getComputerDAO() {
 
@@ -58,6 +53,8 @@ public class ComputerDAO {
 		}
 		return computerDAO;
 	}
+	
+	private static ComputerMapper computerMapper = ComputerMapper.getComputerMapper();
 												
 	
 	public List<Computer> findAll() {
@@ -72,7 +69,7 @@ public class ComputerDAO {
 			while (resultat.next()) {
 				
 
-				computerList.add(ComputerMapper.ResultSetToComputer(resultat));
+				computerList.add(computerMapper.ResultSetToComputer(resultat));
 				
 			    }
 		
@@ -95,7 +92,7 @@ public class ComputerDAO {
 			ResultSet resultat = prepState.executeQuery();	
 			resultat.next();
 
-			computer = ComputerMapper.ResultSetToComputer(resultat);
+			computer = computerMapper.ResultSetToComputer(resultat);
 
 		} catch (SQLException e ) {
 			e.printStackTrace();
@@ -123,6 +120,7 @@ public class ComputerDAO {
 	}
 
 
+
 	public void update(String computerName, LocalDate introduced, LocalDate discontinued, int company_id, int idSearch) {
 		try (Connection connect = ConnectionSQL.seConnecter()){ 
 			
@@ -131,6 +129,7 @@ public class ComputerDAO {
 			prepState.setTimestamp(2, Timestamp.valueOf(introduced.atStartOfDay()));
 			prepState.setTimestamp(3, Timestamp.valueOf(discontinued.atStartOfDay()));
 			prepState.setInt(4, 2);
+			prepState.setInt(5,  idSearch);
 			
 			prepState.executeUpdate();
 		} catch (SQLException e) {

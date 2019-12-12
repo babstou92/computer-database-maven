@@ -1,10 +1,8 @@
 package com.excilys.models;
 
-
 import java.time.LocalDate;
-
 import com.excilys.models.Company;
-import com.excilys.models.Company.CompanyBuilder;
+
 
 public class Computer {
 	
