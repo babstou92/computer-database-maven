@@ -1,7 +1,5 @@
 package com.excilys.service;
 
-import java.time.LocalDate;
-
 import com.excilys.dao.ComputerDAO;
 import com.excilys.models.Computer;
 
@@ -35,12 +33,13 @@ public class ServiceComputer {
 		computerDAO.delete(id);
 	}
 	
-	public  void createOneComputer(String computerName, LocalDate introduced, LocalDate discontinued, int company_id) {
-		computerDAO.create(computerName, introduced, discontinued, company_id);
+	public void createOneComputer(Computer computer) {
+		
+		computerDAO.create(computer);
 	}
 
-	public  void updateOneComputer(String computerName, LocalDate introduced, LocalDate discontinued, int company_id, int idSearch) {
-		computerDAO.update(computerName, introduced, discontinued, company_id, idSearch);
+	public  void updateOneComputer(Computer computer) {
+		computerDAO.update(computer);
 	}
 
 }

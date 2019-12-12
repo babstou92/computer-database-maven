@@ -12,6 +12,9 @@ public class Computer {
 	private LocalDate discontinuedDate;
 	private Company company;
 	
+	//a virer
+	public Computer() {};
+	
 	private Computer(ComputerBuilder builder) {
 		this.idComputer = builder.idComputer;
 		this.name = builder.name;

@@ -2,8 +2,12 @@ package com.excilys.ui;
 
 import java.time.LocalDate;
 
+
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import com.excilys.models.Company;
+import com.excilys.models.Computer;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 
@@ -106,8 +110,12 @@ public class Main {
         LocalDate discontinued = LocalDate.parse(dateString, formatter);
         System.out.println("l'id de la company");
         int company_id = scanner.nextInt();
-		serviceComputer.createOneComputer(computerName, introduced, discontinued, company_id);
+		serviceComputer.createOneComputer(  new Computer.ComputerBuilder().name(computerName).introducedDate(introduced)
+														.discontinuedDate(discontinued).company(new Company.CompanyBuilder()
+														.idCompany(company_id).build()).build());
 	}
+	
+
 	
 	private static void updateComputer() {
 		System.out.println( "valeur de choixId: "+ tableauId[0] );
@@ -121,7 +129,9 @@ public class Main {
         LocalDate discontinued = LocalDate.parse(dateString, formatter);
         System.out.println("l'id de la company");
         int company_id = scanner.nextInt();
-        serviceComputer.updateOneComputer(computerName, introduced, discontinued, company_id, tableauId[0]); 
+        serviceComputer.updateOneComputer(  new Computer.ComputerBuilder().idComputer(tableauId[0]).name(computerName).introducedDate(introduced)
+														.discontinuedDate(discontinued).company(new Company.CompanyBuilder()
+														.idCompany(company_id).build()).build()); 
 	}
 	
 	private static void firstChoice() {

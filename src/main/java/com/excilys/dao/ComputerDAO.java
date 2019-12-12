@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.excilys.mapper.ComputerMapper;
@@ -102,15 +101,15 @@ public class ComputerDAO {
 	}
 
 
-	public void create(String computerName, LocalDate introduced, LocalDate discontinued, int company_id) {
+	public void create(Computer computer) {
 		try (Connection connect = ConnectionSQL.seConnecter()){
 			
 			
 			PreparedStatement prepState = connect.prepareStatement(CREATE_ONE_COMPUTER);
-			prepState.setString(1, computerName);
-			prepState.setTimestamp(2,Timestamp.valueOf(introduced.atStartOfDay()));
-			prepState.setTimestamp(3,Timestamp.valueOf(discontinued.atStartOfDay()));
-			prepState.setInt(4, company_id);
+			prepState.setString(1, computer.getNameComputer());
+			prepState.setTimestamp(2,Timestamp.valueOf(computer.getIntroducedDateComputer().atStartOfDay()));
+			prepState.setTimestamp(3,Timestamp.valueOf(computer.getDiscontinuedDateComputer().atStartOfDay()));
+			prepState.setInt(4, computer.getCompany().getIdCompany());
 			prepState.executeUpdate();
 
 		} catch (SQLException e) {
@@ -121,15 +120,15 @@ public class ComputerDAO {
 
 
 
-	public void update(String computerName, LocalDate introduced, LocalDate discontinued, int company_id, int idSearch) {
+	public void update(Computer computer) {
 		try (Connection connect = ConnectionSQL.seConnecter()){ 
 			
 			PreparedStatement prepState = connect.prepareStatement(UPDATE_ONE_COMPUTER);
-			prepState.setString(1,computerName );
-			prepState.setTimestamp(2, Timestamp.valueOf(introduced.atStartOfDay()));
-			prepState.setTimestamp(3, Timestamp.valueOf(discontinued.atStartOfDay()));
-			prepState.setInt(4, 2);
-			prepState.setInt(5,  idSearch);
+			prepState.setString(1, computer.getNameComputer() );
+			prepState.setTimestamp(2, Timestamp.valueOf(computer.getIntroducedDateComputer().atStartOfDay()));
+			prepState.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDateComputer().atStartOfDay()));
+			prepState.setInt(4, computer.getCompany().getIdCompany());
+			prepState.setInt(5,  computer.getIdComputer());
 			
 			prepState.executeUpdate();
 		} catch (SQLException e) {
@@ -141,9 +140,7 @@ public class ComputerDAO {
 
 	public void delete(int idSearch) {
 		try (Connection connect = ConnectionSQL.seConnecter()){
-			
-			
-			
+								
 			PreparedStatement prepState = connect.prepareStatement(DELETE_ONE_COMPUTER);
 			prepState.setInt(1, idSearch);
 			prepState.executeUpdate();
