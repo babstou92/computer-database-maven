@@ -1,5 +1,7 @@
 package com.excilys.service;
 
+import java.util.List;
+
 import com.excilys.dao.CompanyDAO;
 import com.excilys.models.Company;
 
@@ -19,9 +21,7 @@ public class ServiceCompany {
     }
 
     
-    public void findAllCompany() {
-        for(Company company : companyDAO.findAll()) {
-            System.out.println(company.toString());
-        }
+    public List<Company> findAllCompany() {
+    	return companyDAO.findAll();
     }
 }

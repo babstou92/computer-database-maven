@@ -1,15 +1,19 @@
 package com.excilys.mapper;
 
 import java.sql.Date;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 
 public class ComputerMapper {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 	private ComputerMapper() {};
 	private static ComputerMapper computerMapper;
 	
@@ -37,7 +41,7 @@ public class ComputerMapper {
 			name = resultat.getString("name");
 		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		
 		return new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)

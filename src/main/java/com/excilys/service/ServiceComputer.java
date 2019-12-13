@@ -1,5 +1,7 @@
 package com.excilys.service;
 
+import java.util.List;
+
 import com.excilys.dao.ComputerDAO;
 import com.excilys.models.Computer;
 
@@ -19,14 +21,13 @@ public class ServiceComputer {
 	}
 	
 	
-	public  void findAllComputer() {
-		for(Computer computer : computerDAO.findAll()) {
-			System.out.println(computer.toString());
+	public  List<Computer> findAllComputer() {
+		return computerDAO.findAll();
+		
 		}
-	}
 
-	public  void findOneComputer(int id) {	
-		System.out.println((computerDAO.findOne(id)).toString());
+	public  Computer findOneComputer(int id) {	
+		return computerDAO.findOne(id);
 	}
 	
 	public  void deleteOneComputer(int id) {

@@ -3,6 +3,7 @@ package com.excilys.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class ComputerDAO {
 				
 			    }
 		
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}
 
@@ -98,7 +99,7 @@ public class ComputerDAO {
 
 			computer = computerMapper.ResultSetToComputer(resultat);
 
-		} catch (Exception e ) {
+		} catch (SQLException e ) {
 			LOGGER.error(e.getMessage());
 		}
 		
@@ -117,7 +118,7 @@ public class ComputerDAO {
 			prepState.setInt(4, computer.getCompany().getIdCompany());
 			prepState.executeUpdate();
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}
 		return;
@@ -136,7 +137,7 @@ public class ComputerDAO {
 			prepState.setInt(5,  computer.getIdComputer());
 			
 			prepState.executeUpdate();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}
 		
@@ -150,7 +151,7 @@ public class ComputerDAO {
 			prepState.setInt(1, idSearch);
 			prepState.executeUpdate();
 			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}
 		

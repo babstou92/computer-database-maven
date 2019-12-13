@@ -2,12 +2,11 @@ package com.excilys.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
-
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 import com.excilys.service.ServiceCompany;
@@ -24,15 +23,13 @@ public class Main {
 	private static int choixId;
 	private static int [] tableauId = new int[1];
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class); 
-	
+
 	
 	public static void main(String[] args) {
 		
 		BasicConfigurator.configure();
-		
 		LOGGER.info("Start ...");
-
-		
+	
 		boucleExt : do {
 			
 			firstChoice();
@@ -40,17 +37,24 @@ public class Main {
 		
 			if(1 <= choixCommande && choixCommande <= 4 ) {		
 				switch (choixCommande) {
-				case 1: 
-					serviceCompany.findAllCompany(); 
+				case 1:
+					List<Company> listCompany = serviceCompany.findAllCompany();
+					for(Company company : listCompany) {
+						System.out.println(company.toString());
+					}
 					break;
 				case 2:
-					serviceComputer.findAllComputer();
+					List<Computer> listComputer = serviceComputer.findAllComputer();
+					for(Computer computer : listComputer) {
+						System.out.println(computer.toString());
+					}
 					break;
 				case 3:
 					System.out.println("Veuillez choisir un Id");
 					choixId = scanner.nextInt();
 					tableauId[0] = choixId;
-					serviceComputer.findOneComputer(choixId);
+					LOGGER.debug("L'id choisit est "+ choixId);
+					System.out.println(serviceComputer.findOneComputer(choixId).toString());
 					break;
 				case 4:
 				    newEntry();
