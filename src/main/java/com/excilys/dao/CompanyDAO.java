@@ -14,11 +14,6 @@ import org.slf4j.LoggerFactory;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.models.Company;
 
-
-
-
-
-
 public class CompanyDAO  {
 	
 	private static final String SELECT_ALL_COMPUTER  = "SELECT * FROM company ;";												

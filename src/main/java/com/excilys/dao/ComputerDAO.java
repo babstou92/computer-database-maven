@@ -22,7 +22,13 @@ public class ComputerDAO {
 	private static final String SELECT_ALL_COMPUTER = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name AS company_name "
 														+ "FROM computer, company "
-														+ "WHERE computer.company_id = company.id;";
+														+ "WHERE computer.company_id = company.id ;";
+	
+	private static final String SELECT_ALL_COMPUTER_PAGINATION = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
+														+ "computer.company_id, company.name AS company_name "
+														+ "FROM computer, company "
+														+ "WHERE computer.company_id = company.id "
+														+ " LIMIT ? OFFSET ? ;";
 	
 	private static final String SELECT_ONE_COMPUTER  = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name AS company_name "
@@ -44,7 +50,6 @@ public class ComputerDAO {
 														+ "WHERE id = ?";
 	
 
-	//a ne pas laisser
 	public Connection connect = ConnectionSQL.seConnecter();
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	
@@ -70,6 +75,32 @@ public class ComputerDAO {
 			
 			PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);
 			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER);
+			
+			while (resultat.next()) {
+				
+
+				computerList.add(computerMapper.ResultSetToComputer(resultat));
+				
+			    }
+		
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		return computerList;
+	}
+	
+	
+	public List<Computer> findAll(int limite, int offset) {
+		
+		List<Computer> computerList = new ArrayList<>();
+		
+		try (Connection connect = ConnectionSQL.seConnecter()){
+			
+			PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION);
+			statement.setInt(1, limite);
+			statement.setInt(2, offset);
+			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER_PAGINATION);
 			
 			while (resultat.next()) {
 				

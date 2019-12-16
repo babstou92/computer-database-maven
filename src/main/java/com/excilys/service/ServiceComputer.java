@@ -25,6 +25,11 @@ public class ServiceComputer {
 		return computerDAO.findAll();
 		
 		}
+	
+	public  List<Computer> findAllComputer(int limite, int offset) {
+		return computerDAO.findAll(limite, offset);
+		
+		}
 
 	public  Computer findOneComputer(int id) {	
 		return computerDAO.findOne(id);
