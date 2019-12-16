@@ -57,44 +57,52 @@ public class Computer {
     	}
 		
 	}
-	
-	
+
+
 	public int getIdComputer() {
 		return idComputer;
 	}
-	
+
+
 	public void setIdComputer(int idComputer) {
 		this.idComputer = idComputer;
 	}
-	
-	public String getNameComputer() {
+
+
+	public String getName() {
 		return name;
 	}
-	
-	public void setNameComputer(String nameComputer) {
-		this.name = nameComputer;
+
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public LocalDate getIntroducedDateComputer() {
+
+
+	public LocalDate getIntroducedDate() {
 		return introducedDate;
 	}
-	
-	public void setIntroducedDateComputer(LocalDate introducedDateComputer) {
-		this.introducedDate = introducedDateComputer;
+
+
+	public void setIntroducedDate(LocalDate introducedDate) {
+		this.introducedDate = introducedDate;
 	}
-	
-	public LocalDate getDiscontinuedDateComputer() {
+
+
+	public LocalDate getDiscontinuedDate() {
 		return discontinuedDate;
 	}
-	
-	public void setDiscontinuedDateComputer(LocalDate discontinuedDateComputer) {
-		this.discontinuedDate = discontinuedDateComputer;
+
+
+	public void setDiscontinuedDate(LocalDate discontinuedDate) {
+		this.discontinuedDate = discontinuedDate;
 	}
-	
+
 
 	public Company getCompany() {
 		return company;
 	}
+
 
 	public void setCompany(Company company) {
 		this.company = company;

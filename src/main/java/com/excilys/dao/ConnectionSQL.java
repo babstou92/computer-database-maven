@@ -20,10 +20,10 @@ public class ConnectionSQL {
 		if(connection == null) {
 			
 			try {
-
+				Class.forName("com.mysql.jdbc.Driver");
 				connection = DriverManager.getConnection(url, user, mdp);
 
-			} catch (SQLException e) {
+			} catch (SQLException | ClassNotFoundException e) {
 				e.printStackTrace();
 			} 
 		}

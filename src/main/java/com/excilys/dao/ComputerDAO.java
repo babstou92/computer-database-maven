@@ -112,9 +112,9 @@ public class ComputerDAO {
 			
 			
 			PreparedStatement prepState = connect.prepareStatement(CREATE_ONE_COMPUTER);
-			prepState.setString(1, computer.getNameComputer());
-			prepState.setTimestamp(2,Timestamp.valueOf(computer.getIntroducedDateComputer().atStartOfDay()));
-			prepState.setTimestamp(3,Timestamp.valueOf(computer.getDiscontinuedDateComputer().atStartOfDay()));
+			prepState.setString(1, computer.getName());
+			prepState.setTimestamp(2,Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			prepState.setTimestamp(3,Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
 			prepState.setInt(4, computer.getCompany().getIdCompany());
 			prepState.executeUpdate();
 
@@ -130,9 +130,9 @@ public class ComputerDAO {
 		try (Connection connect = ConnectionSQL.seConnecter()){ 
 			
 			PreparedStatement prepState = connect.prepareStatement(UPDATE_ONE_COMPUTER);
-			prepState.setString(1, computer.getNameComputer() );
-			prepState.setTimestamp(2, Timestamp.valueOf(computer.getIntroducedDateComputer().atStartOfDay()));
-			prepState.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDateComputer().atStartOfDay()));
+			prepState.setString(1, computer.getName());
+			prepState.setTimestamp(2, Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			prepState.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
 			prepState.setInt(4, computer.getCompany().getIdCompany());
 			prepState.setInt(5,  computer.getIdComputer());
 			
