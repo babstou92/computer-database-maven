@@ -27,7 +27,8 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                121 Computers found
+            
+                <c:out value="${nbComputer}" /> Computers found 
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -106,10 +107,13 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
+            
                 <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
+                	<c:if test="${currentPage != 1}">
+                    	<a href="dashboard" aria-label="Previous">
+                      		<span aria-hidden="true">&laquo;</span>
+                  		</a>
+                 	</c:if>
               </li>
               <li><a href="#">1</a></li>
               <li><a href="#">2</a></li>

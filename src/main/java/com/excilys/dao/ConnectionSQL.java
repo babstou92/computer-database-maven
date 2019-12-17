@@ -14,7 +14,6 @@ public class ConnectionSQL {
 
 	private static Connection connection;
 	
-
 	public static Connection seConnecter() {
 		
 		if(connection == null) {
@@ -28,6 +27,20 @@ public class ConnectionSQL {
 			} 
 		}
 		
+		return connection;
+	}
+	
+	public static Connection disconnectDB() {
+		if(connection!=null) {
+			try {
+				connection.close();
+				connection=null;
+			} catch (SQLException se) {
+				for(Throwable e : se) {
+					System.err.println("Problèmes rencontrés: " + e);
+				}
+			}
+		}
 		return connection;
 	}
 	

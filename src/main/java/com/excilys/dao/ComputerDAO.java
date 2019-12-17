@@ -21,14 +21,16 @@ public class ComputerDAO {
 	
 	private static final String SELECT_ALL_COMPUTER = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name AS company_name "
-														+ "FROM computer, company "
-														+ "WHERE computer.company_id = company.id ;";
+														+ "FROM computer "
+														+ "LEFT JOIN company ON computer.company_id = company.id "
+														+ "ORDER BY computer.id ;";
 	
 	private static final String SELECT_ALL_COMPUTER_PAGINATION = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name AS company_name "
-														+ "FROM computer, company "
-														+ "WHERE computer.company_id = company.id "
-														+ " LIMIT ? OFFSET ? ;";
+														+ "FROM computer "
+														+ "LEFT JOIN company ON computer.company_id = company.id "														
+														+ "LIMIT ? OFFSET ? "
+														+ "ORDER BY computer.id ;";
 	
 	private static final String SELECT_ONE_COMPUTER  = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name AS company_name "
@@ -49,8 +51,12 @@ public class ComputerDAO {
 	private static final String DELETE_ONE_COMPUTER = "DELETE  from computer "
 														+ "WHERE id = ?";
 	
+	private static final String COUNT_COMPUTER 		= "SELECT COUNT(id) AS nbComputer "
+														+ "FROM computer ";
+														
+	
 
-	public Connection connect = ConnectionSQL.seConnecter();
+	private Connection connect;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	
 	private ComputerDAO() {};
@@ -70,21 +76,23 @@ public class ComputerDAO {
 	public List<Computer> findAll() {
 		
 		List<Computer> computerList = new ArrayList<>();
+		this.connect = ConnectionSQL.seConnecter();
 		
-		try (Connection connect = ConnectionSQL.seConnecter()){
+		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);){
 			
-			PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);
-			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER);
-			
+			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER);			
 			while (resultat.next()) {
 				
-
 				computerList.add(computerMapper.ResultSetToComputer(resultat));
 				
 			    }
 		
 		} catch (SQLException e) {
-			LOGGER.error(e.getMessage());
+			
+			e.getMessage();
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
 		}
 
 		return computerList;
@@ -94,23 +102,25 @@ public class ComputerDAO {
 	public List<Computer> findAll(int limite, int offset) {
 		
 		List<Computer> computerList = new ArrayList<>();
+		this.connect = ConnectionSQL.seConnecter();
 		
-		try (Connection connect = ConnectionSQL.seConnecter()){
-			
-			PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION);
+		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION);){
+						
 			statement.setInt(1, limite);
 			statement.setInt(2, offset);
-			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER_PAGINATION);
-			
+			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER_PAGINATION);			
 			while (resultat.next()) {
 				
-
 				computerList.add(computerMapper.ResultSetToComputer(resultat));
 				
 			    }
 		
 		} catch (SQLException e) {
+			
 			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
 		}
 
 		return computerList;
@@ -119,19 +129,21 @@ public class ComputerDAO {
 	public Computer findOne(int idSearch) {
 			
 		Computer computer = null;
+		Connection connect = ConnectionSQL.seConnecter();
 		
-		try {
-			
-			Connection connect = ConnectionSQL.seConnecter();
-			PreparedStatement prepState = connect.prepareStatement(SELECT_ONE_COMPUTER);
-			prepState.setInt(1, idSearch);		
-			ResultSet resultat = prepState.executeQuery();	
+		try (PreparedStatement statement = connect.prepareStatement(SELECT_ONE_COMPUTER);){
+						
+			statement.setInt(1, idSearch);		
+			ResultSet resultat = statement.executeQuery();	
 			resultat.next();
-
 			computer = computerMapper.ResultSetToComputer(resultat);
 
 		} catch (SQLException e ) {
+			
 			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
 		}
 		
 		return computer;
@@ -139,18 +151,22 @@ public class ComputerDAO {
 
 
 	public void create(Computer computer) {
-		try (Connection connect = ConnectionSQL.seConnecter()){
+		Connection connect = ConnectionSQL.seConnecter();
+		
+		try (PreparedStatement statement = connect.prepareStatement(CREATE_ONE_COMPUTER);){		
 			
-			
-			PreparedStatement prepState = connect.prepareStatement(CREATE_ONE_COMPUTER);
-			prepState.setString(1, computer.getName());
-			prepState.setTimestamp(2,Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
-			prepState.setTimestamp(3,Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
-			prepState.setInt(4, computer.getCompany().getIdCompany());
-			prepState.executeUpdate();
+			statement.setString(1, computer.getName());
+			statement.setTimestamp(2,Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			statement.setTimestamp(3,Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
+			statement.setInt(4, computer.getCompany().getIdCompany());
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
+			
 			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
 		}
 		return;
 	}
@@ -158,34 +174,65 @@ public class ComputerDAO {
 
 
 	public void update(Computer computer) {
-		try (Connection connect = ConnectionSQL.seConnecter()){ 
+		Connection connect = ConnectionSQL.seConnecter();
+		
+		try (PreparedStatement statement = connect.prepareStatement(UPDATE_ONE_COMPUTER);){ 
+					
+			statement.setString(1, computer.getName());
+			statement.setTimestamp(2, Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			statement.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
+			statement.setInt(4, computer.getCompany().getIdCompany());
+			statement.setInt(5,  computer.getIdComputer());
 			
-			PreparedStatement prepState = connect.prepareStatement(UPDATE_ONE_COMPUTER);
-			prepState.setString(1, computer.getName());
-			prepState.setTimestamp(2, Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
-			prepState.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
-			prepState.setInt(4, computer.getCompany().getIdCompany());
-			prepState.setInt(5,  computer.getIdComputer());
-			
-			prepState.executeUpdate();
+			statement.executeUpdate();
 		} catch (SQLException e) {
+			
 			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
 		}
 		
 	}
 
 
 	public void delete(int idSearch) {
-		try (Connection connect = ConnectionSQL.seConnecter()){
+		
+		Connection connect = ConnectionSQL.seConnecter();
+		
+		try (PreparedStatement statement = connect.prepareStatement(DELETE_ONE_COMPUTER);){
 								
-			PreparedStatement prepState = connect.prepareStatement(DELETE_ONE_COMPUTER);
-			prepState.setInt(1, idSearch);
-			prepState.executeUpdate();
+			statement.setInt(1, idSearch);
+			statement.executeUpdate();
 			
 		} catch (SQLException e) {
+			
 			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
 		}
 		
+	}
+	
+	public int nbComputer() {
+		
+		Connection connect = ConnectionSQL.seConnecter();
+				
+		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER);) {
+			
+			ResultSet resultat = statement.executeQuery(COUNT_COMPUTER);
+			if (resultat.first()) {
+				return resultat.getInt("nbComputer");
+			}
+		} catch (SQLException e) {
+			
+			LOGGER.error(e.getMessage());	
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
+		}
+		return 0;
 	}
 
 }

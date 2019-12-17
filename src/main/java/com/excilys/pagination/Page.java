@@ -19,5 +19,8 @@ public class Page {
 	public void setLimite(int limite) {
 		this.limite = limite;
 	}
-
+	
+	public int nbPageTotal(int nbComputer) {
+		return (int) Math.ceil(((double) nbComputer / (double) this.limite));
+	}
 }

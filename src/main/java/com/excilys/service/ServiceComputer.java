@@ -44,8 +44,12 @@ public class ServiceComputer {
 		computerDAO.create(computer);
 	}
 
-	public  void updateOneComputer(Computer computer) {
+	public void updateOneComputer(Computer computer) {
 		computerDAO.update(computer);
+	}
+	
+	public int countComputer() {
+		return computerDAO.nbComputer();
 	}
 
 }

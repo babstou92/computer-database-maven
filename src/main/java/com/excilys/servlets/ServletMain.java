@@ -19,12 +19,22 @@ public class ServletMain extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	
-		List<Computer> listComputer = serviceComputer.findAllComputer();
-		request.setAttribute("listComputer", listComputer);
+		int currentPage = 1;
 
+		int nbComputer = serviceComputer.countComputer();
+		int nbPage = page.nbPageTotal(nbComputer);
+		List<Computer> listComputer = serviceComputer.findAllComputer();
+		System.out.println(listComputer);
+		request.setAttribute("nbComputer", nbComputer);
+		request.setAttribute("nbPage", nbPage);
+		request.setAttribute("listComputer", listComputer);
+		request.setAttribute("currentPage", currentPage);
+		
 
 		this.getServletContext().getRequestDispatcher( "/view/dashboard.jsp" ).forward( request, response );
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.doGet(request,response);
 	}
 
 }
