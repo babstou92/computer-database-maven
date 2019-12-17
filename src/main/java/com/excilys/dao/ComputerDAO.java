@@ -29,8 +29,7 @@ public class ComputerDAO {
 														+ "computer.company_id, company.name AS company_name "
 														+ "FROM computer "
 														+ "LEFT JOIN company ON computer.company_id = company.id "														
-														+ "LIMIT ? OFFSET ? "
-														+ "ORDER BY computer.id ;";
+														+ "LIMIT ? OFFSET ? ;";
 	
 	private static final String SELECT_ONE_COMPUTER  = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name AS company_name "
@@ -80,7 +79,7 @@ public class ComputerDAO {
 		
 		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);){
 			
-			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER);			
+			ResultSet resultat = statement.executeQuery();			
 			while (resultat.next()) {
 				
 				computerList.add(computerMapper.ResultSetToComputer(resultat));
@@ -108,7 +107,7 @@ public class ComputerDAO {
 						
 			statement.setInt(1, limite);
 			statement.setInt(2, offset);
-			ResultSet resultat = statement.executeQuery(SELECT_ALL_COMPUTER_PAGINATION);			
+			ResultSet resultat = statement.executeQuery();			
 			while (resultat.next()) {
 				
 				computerList.add(computerMapper.ResultSetToComputer(resultat));
@@ -221,13 +220,13 @@ public class ComputerDAO {
 				
 		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER);) {
 			
-			ResultSet resultat = statement.executeQuery(COUNT_COMPUTER);
+			ResultSet resultat = statement.executeQuery();
 			if (resultat.first()) {
 				return resultat.getInt("nbComputer");
 			}
 		} catch (SQLException e) {
 			
-			LOGGER.error(e.getMessage());	
+			LOGGER.error(e.getMessage(), "");	
 			
 		} finally {
 			this.connect = ConnectionSQL.disconnectDB();

@@ -108,23 +108,42 @@
         <div class="container text-center">
             <ul class="pagination">
             
-                <li>
-                	<c:if test="${currentPage != 1}">
+            	<c:if test="${currentPage != 1}">
+                	<li>
                     	<a href="dashboard" aria-label="Previous">
                       		<span aria-hidden="true">&laquo;</span>
-                  		</a>
-                 	</c:if>
-              </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
+                  		</a> 	
+		        	</li>
+		        </c:if>
+		        
+              <c:if test="${currentPage - 2 > 1}">
+              	<li><a href="dashboard?page=${currentPage - 2}"><c:out value="${currentPage - 2}"/></a></li>
+              </c:if>
+              
+              <c:if test="${currentPage - 1 > 1}">
+              	<li><a href="dashboard?page=${currentPage - 1}"><c:out value="${currentPage - 1}"/></a></li>
+              </c:if>
+              
+              <c:if test="${currentPage != 1}">
+              	<li><a href="dashboard?page=${currentPage    }"><c:out value="${currentPage    }"/></a></li>
+              </c:if>
+              
+              <c:if test="${currentPage + 1  < nbPage}">
+              	<li><a href="dashboard?page=${currentPage + 1}"><c:out value="${currentPage + 1}"/></a></li>
+              </c:if>
+              
+              <c:if test="${currentPage + 2  < nbPage}">
+              	<li><a href="dashboard?page=${currentPage + 2}"><c:out value="${currentPage + 2}"/></a></li>
+              </c:if>
+              
+              <c:if test="${currentPage < nbPage}">
+              	<li>
+	                <a href="dashboard?page=${nbPage}" aria-label="Next">
+	                    <span aria-hidden="true">&raquo;</span>
+	                </a>            
+            	</li>
+            </c:if>
+            
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >

@@ -23,4 +23,8 @@ public class Page {
 	public int nbPageTotal(int nbComputer) {
 		return (int) Math.ceil(((double) nbComputer / (double) this.limite));
 	}
+	
+	public int calculOffset(int page) {
+		return page * this.limite - this.limite;
+	}
 }
