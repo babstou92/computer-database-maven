@@ -40,7 +40,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="/computer-database/addComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -147,9 +147,11 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+        
+            <a class="btn btn-default" href="dashboard?limit=${10}"><c:out value="${10}"/></a>
+            <a class="btn btn-default" href="dashboard?limit=${50}"><c:out value="${50}"/></a>
+            <a class="btn btn-default" href="dashboard?limit=${100}"><c:out value="${100}"/></a>
+            
         </div>
 	</div>
     </footer>

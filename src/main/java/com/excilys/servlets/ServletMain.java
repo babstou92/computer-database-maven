@@ -34,6 +34,16 @@ public class ServletMain extends HttpServlet {
 		int nbComputer = serviceComputer.countComputer();
 		int nbPage = page.nbPageTotal(nbComputer);
 		
+		if(request.getParameter("limit") != null) {
+			try {
+				int limit = Integer.parseInt(request.getParameter("limit"));
+				page.setLimite(limit);
+				nbPage = page.nbPageTotal(nbComputer);
+			} catch (NumberFormatException e) {
+				
+			}
+		}
+		
 		if (request.getParameter("page") != null) {
 			try {
 				currentPage = Integer.parseInt(request.getParameter("page"));
