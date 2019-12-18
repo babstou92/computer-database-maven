@@ -31,19 +31,19 @@ public class ServletAddComputer extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String computerName = request.getParameter("computerName");
+		String computerName =  request.getParameter("computerName");
 		String dateStringInt = request.getParameter("introduced");
 		LocalDate introduced = LocalDate.parse(dateStringInt, formatter);
 		String dateStringDis = request.getParameter("discontinued");
 		LocalDate discontinued = LocalDate.parse(dateStringDis, formatter);
-		int company_id = Integer.parseInt(request.getParameter("companyId"));
+		int company_id = (int) Integer.parseInt(request.getParameter("companyId").trim());
 
 		
 		serviceComputer.createOneComputer(  new Computer.ComputerBuilder().name(computerName).introducedDate(introduced)
 				.discontinuedDate(discontinued).company(new Company.CompanyBuilder()
 				.idCompany(company_id).build()).build());
 		
-		this.getServletContext().getRequestDispatcher( "/view/dashboard.jsp" ).forward( request, response );
+		this.getServletContext().getRequestDispatcher( "/" ).forward( request, response );
 		
 	}
 

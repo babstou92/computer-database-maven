@@ -29,11 +29,12 @@ public class ServletMain extends HttpServlet {
 		BasicConfigurator.configure();
 		LOGGER.info("Start ...");
 		
+		
 		int offset = 0;
 		int currentPage = 1;
 		int nbComputer = serviceComputer.countComputer();
 		int nbPage = page.nbPageTotal(nbComputer);
-		
+
 		if(request.getParameter("limit") != null) {
 			try {
 				int limit = Integer.parseInt(request.getParameter("limit"));

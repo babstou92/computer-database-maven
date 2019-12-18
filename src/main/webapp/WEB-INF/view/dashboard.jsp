@@ -116,11 +116,11 @@
 		        	</li>
 		        </c:if>
 		        
-              <c:if test="${currentPage - 2 > 1}">
+              <c:if test="${currentPage - 2 > 0}">
               	<li><a href="dashboard?page=${currentPage - 2}"><c:out value="${currentPage - 2}"/></a></li>
               </c:if>
               
-              <c:if test="${currentPage - 1 > 1}">
+              <c:if test="${currentPage - 1 > 0}">
               	<li><a href="dashboard?page=${currentPage - 1}"><c:out value="${currentPage - 1}"/></a></li>
               </c:if>
               
@@ -128,11 +128,11 @@
               	<li><a href="dashboard?page=${currentPage    }"><c:out value="${currentPage    }"/></a></li>
               </c:if>
               
-              <c:if test="${currentPage + 1  < nbPage}">
+              <c:if test="${currentPage + 1  < nbPage+1}">
               	<li><a href="dashboard?page=${currentPage + 1}"><c:out value="${currentPage + 1}"/></a></li>
               </c:if>
               
-              <c:if test="${currentPage + 2  < nbPage}">
+              <c:if test="${currentPage + 2  < nbPage+1}">
               	<li><a href="dashboard?page=${currentPage + 2}"><c:out value="${currentPage + 2}"/></a></li>
               </c:if>
               
