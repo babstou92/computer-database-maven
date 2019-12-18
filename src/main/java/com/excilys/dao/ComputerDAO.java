@@ -77,7 +77,7 @@ public class ComputerDAO {
 		List<Computer> computerList = new ArrayList<>();
 		this.connect = ConnectionSQL.seConnecter();
 		
-		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER);){
+		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER)){
 			
 			ResultSet resultat = statement.executeQuery();			
 			while (resultat.next()) {
@@ -103,7 +103,7 @@ public class ComputerDAO {
 		List<Computer> computerList = new ArrayList<>();
 		this.connect = ConnectionSQL.seConnecter();
 		
-		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION);){
+		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION)){
 						
 			statement.setInt(1, limite);
 			statement.setInt(2, offset);
