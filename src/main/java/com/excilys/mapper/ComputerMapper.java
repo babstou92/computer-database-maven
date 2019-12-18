@@ -1,21 +1,19 @@
 package com.excilys.mapper;
 
-import java.sql.Date;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.excilys.dto.CompanyDTO;
+import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 
 public class ComputerMapper {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 	private ComputerMapper() {};
 	private static ComputerMapper computerMapper;
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 	
 	public static ComputerMapper getComputerMapper() {
 		if(computerMapper == null) {
@@ -24,28 +22,29 @@ public class ComputerMapper {
 		return computerMapper;
 	}
 	
-	public  Computer ResultSetToComputer(ResultSet resultat) {
+	public  Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
 		
-		LocalDate dateDis = null, dateInt = null;
-		int id = 0, company_id = 0;
-		String name = null, company_name = null;
+		String dateStringInt = computerDTO.getIntroducedDate();
+		LocalDate introduced = LocalDate.parse(dateStringInt, formatter);
+		String dateStringDis = computerDTO.getDiscontinuedDate();
+		LocalDate discontinued = LocalDate.parse(dateStringDis, formatter);
+		CompanyDTO companyDTO = computerDTO.getCompanyDTO();
+		
+		
+		return new Computer.ComputerBuilder().idComputer(computerDTO.getIdComputer()).name(computerDTO.getName())
+							.introducedDate(introduced).discontinuedDate(discontinued)
+							.company(new Company.CompanyBuilder().idCompany(companyDTO.getIdCompany()).nameCompany(companyDTO.getNameCompany()).build()).build();
 
-		try {
-			Date dateSQLDis = resultat.getDate("discontinued");
-			dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
-			Date dateSQLInt = resultat.getDate("introduced");
-			dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
-			id = resultat.getInt("id");
-			company_id = resultat.getInt("company_id");
-			company_name = resultat.getString("company_name");
-			name = resultat.getString("name");
+
+	}
+	
+	public  ComputerDTO ComputerToComputerDTO(Computer computer) {
+			 
 		
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage());
-		}
 		
-		return new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
-					.company(new Company.CompanyBuilder().idCompany(company_id).nameCompany(company_name).build()).build();
+		return new ComputerDTO.ComputerDTOBuilder().idComputer(computer.getIdComputer()).name(computer.getName())
+								.introducedDate(computer.getIntroducedDate().toString()).discontinuedDate(computer.getDiscontinuedDate().toString())
+								.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(computer.getCompany().getIdCompany()).nameCompany(computer.getCompany().getNameCompany()).build()).build();
 
 
 	}

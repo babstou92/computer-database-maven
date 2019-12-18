@@ -1,17 +1,18 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.excilys.mapper.ComputerMapper;
+import com.excilys.models.Company;
 import com.excilys.models.Computer;
 
 
@@ -69,7 +70,6 @@ public class ComputerDAO {
 		return computerDAO;
 	}
 	
-	private static ComputerMapper computerMapper = ComputerMapper.getComputerMapper();
 												
 	
 	public List<Computer> findAll() {
@@ -81,8 +81,19 @@ public class ComputerDAO {
 			
 			ResultSet resultat = statement.executeQuery();			
 			while (resultat.next()) {
+				Date dateSQLDis = resultat.getDate("discontinued");
+				LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
+				Date dateSQLInt = resultat.getDate("introduced");
+				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
+				int id = resultat.getInt("id");
+				int company_id = resultat.getInt("company_id");
+				String company_name = resultat.getString("company_name");
+				String name = resultat.getString("name");
 				
-				computerList.add(computerMapper.ResultSetToComputer(resultat));
+				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
+											.company(new Company.CompanyBuilder().idCompany(company_id)
+											.nameCompany(company_name).build()).build();
+				computerList.add(computer);
 				
 			    }
 		
@@ -109,8 +120,19 @@ public class ComputerDAO {
 			statement.setInt(2, offset);
 			ResultSet resultat = statement.executeQuery();			
 			while (resultat.next()) {
+				Date dateSQLDis = resultat.getDate("discontinued");
+				LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
+				Date dateSQLInt = resultat.getDate("introduced");
+				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
+				int id = resultat.getInt("id");
+				int company_id = resultat.getInt("company_id");
+				String company_name = resultat.getString("company_name");
+				String name = resultat.getString("name");
 				
-				computerList.add(computerMapper.ResultSetToComputer(resultat));
+				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
+											.company(new Company.CompanyBuilder().idCompany(company_id)
+											.nameCompany(company_name).build()).build();
+				computerList.add(computer);
 				
 			    }
 		
@@ -135,7 +157,18 @@ public class ComputerDAO {
 			statement.setInt(1, idSearch);		
 			ResultSet resultat = statement.executeQuery();	
 			resultat.next();
-			computer = computerMapper.ResultSetToComputer(resultat);
+			Date dateSQLDis = resultat.getDate("discontinued");
+			LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
+			Date dateSQLInt = resultat.getDate("introduced");
+			LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
+			int id = resultat.getInt("id");
+			int company_id = resultat.getInt("company_id");
+			String company_name = resultat.getString("company_name");
+			String name = resultat.getString("name");
+			
+			computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
+										.company(new Company.CompanyBuilder().idCompany(company_id)
+										.nameCompany(company_name).build()).build();
 
 		} catch (SQLException e ) {
 			
