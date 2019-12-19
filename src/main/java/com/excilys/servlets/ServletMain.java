@@ -21,7 +21,7 @@ import com.excilys.service.ServiceComputer;
 public class ServletMain extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static ServiceComputer serviceComputer = ServiceComputer.getServiceCOmputer();
-	private static Page page = Page.getPage();
+	private Page page = Page.getPage();
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServletMain.class); 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

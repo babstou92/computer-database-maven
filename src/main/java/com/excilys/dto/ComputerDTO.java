@@ -1,7 +1,5 @@
 package com.excilys.dto;
 
-
-
 public class ComputerDTO {
 	
 	private int idComputer;

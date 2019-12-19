@@ -4,7 +4,7 @@ public class Page {
 	
 	private int limite = 10;
 	private Page() {};
-	private static Page page = null;
+	private static Page page;
 	public static Page getPage() {
 		if(page == null) {
 			page = new Page();
