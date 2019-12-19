@@ -31,6 +31,11 @@
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
                                 <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name">
+                                                              
+                                	<c:if test="${ValidationNameIsEmpty}">
+                                		<c:out value="Vous devez rentrer au moins un caractère" />
+                                	</c:if>                               
+                                
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>

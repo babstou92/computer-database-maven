@@ -188,8 +188,8 @@ public class ComputerDAO {
 		try (PreparedStatement statement = connect.prepareStatement(CREATE_ONE_COMPUTER);){		
 			
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2,Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
-			statement.setTimestamp(3,Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
+			statement.setTimestamp(2, computer.getIntroducedDate() == null ? null : Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			statement.setTimestamp(3,computer.getDiscontinuedDate() == null ? null : Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
 			statement.setInt(4, computer.getCompany().getIdCompany());
 			statement.executeUpdate();
 
@@ -211,7 +211,7 @@ public class ComputerDAO {
 		try (PreparedStatement statement = connect.prepareStatement(UPDATE_ONE_COMPUTER);){ 
 					
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			statement.setTimestamp(2, computer.getIntroducedDate().equals(null)?null:Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
 			statement.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
 			statement.setInt(4, computer.getCompany().getIdCompany());
 			statement.setInt(5,  computer.getIdComputer());

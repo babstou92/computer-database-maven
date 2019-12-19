@@ -25,9 +25,9 @@ public class ComputerMapper {
 	public  Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
 		
 		String dateStringInt = computerDTO.getIntroducedDate();
-		LocalDate introduced = LocalDate.parse(dateStringInt, formatter);
+		LocalDate introduced = dateStringInt.equals("") ? null : LocalDate.parse(dateStringInt, formatter);
 		String dateStringDis = computerDTO.getDiscontinuedDate();
-		LocalDate discontinued = LocalDate.parse(dateStringDis, formatter);
+		LocalDate discontinued = dateStringDis.equals("") ? null : LocalDate.parse(dateStringDis, formatter);
 		CompanyDTO companyDTO = computerDTO.getCompanyDTO();
 		
 		
