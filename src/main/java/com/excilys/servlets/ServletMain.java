@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import com.excilys.models.Computer;
 import com.excilys.pagination.Page;
 import com.excilys.service.ServiceComputer;
 
-//@WebServlet(name = "Dashboard", urlPatterns = "/dashboard")
+@WebServlet(name = "Dashboard", urlPatterns = "/")
 public class ServletMain extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static ServiceComputer serviceComputer = ServiceComputer.getServiceCOmputer();
