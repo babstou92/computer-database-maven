@@ -15,6 +15,7 @@ import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Company;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
+import com.excilys.validation.ValidationBack;
 import com.excilys.validation.ValidationFront;
 
 
@@ -25,6 +26,7 @@ public class ServletAddComputer extends HttpServlet {
 	private static ServiceCompany serviceCompany = ServiceCompany.getServiceCompany();
 	private static ComputerMapper computerMapper = ComputerMapper.getComputerMapper();
 	private static ValidationFront validationFront = ValidationFront.getValidationFront();
+
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Company> listCompany = serviceCompany.findAllCompany();
@@ -40,6 +42,7 @@ public class ServletAddComputer extends HttpServlet {
 		String dateStringDis = request.getParameter("discontinued");
 		int company_id =  Integer.parseInt(request.getParameter("companyId").trim());
 		Boolean ValidationNameIsEmpty = validationFront.verificationNameComputerIsEmpty(computerName);
+
 		
 		if(!ValidationNameIsEmpty) {
 			

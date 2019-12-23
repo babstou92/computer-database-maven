@@ -8,6 +8,7 @@ import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
+import com.excilys.validation.ValidationBack;
 
 public class ComputerMapper {
 	
@@ -30,10 +31,10 @@ public class ComputerMapper {
 		LocalDate discontinued = dateStringDis.equals("") ? null : LocalDate.parse(dateStringDis, formatter);
 		CompanyDTO companyDTO = computerDTO.getCompanyDTO();
 		
-		
 		return new Computer.ComputerBuilder().idComputer(computerDTO.getIdComputer()).name(computerDTO.getName())
 							.introducedDate(introduced).discontinuedDate(discontinued)
 							.company(new Company.CompanyBuilder().idCompany(companyDTO.getIdCompany()).nameCompany(companyDTO.getNameCompany()).build()).build();
+
 
 
 	}
