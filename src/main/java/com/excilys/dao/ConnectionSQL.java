@@ -1,16 +1,18 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 
 public class ConnectionSQL {
 	
-	private static String user="admincdb";
-	private static String mdp="qwerty1234";
-	private static String url = "jdbc:mysql://localhost/computer-database-db?useSSL=false";
-	
+	//initialiser HikariConfig avec un fichier de propriétés placé dans le répertoire resources :
+	private static HikariConfig config = new HikariConfig("/database.properties" );
+	//creation d'une instance unique d'une source de donnée
+	private static HikariDataSource ds = new HikariDataSource( config );
 
 	private static Connection connection;
 	
@@ -19,10 +21,9 @@ public class ConnectionSQL {
 		if(connection == null) {
 			
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				connection = DriverManager.getConnection(url, user, mdp);
+				connection = ds.getConnection();
 
-			} catch (SQLException | ClassNotFoundException e) {
+			} catch (SQLException  e) {
 				e.printStackTrace();
 			} 
 		}
