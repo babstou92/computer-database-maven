@@ -152,12 +152,13 @@
             <a class="btn btn-default" href="dashboard?limit=${50}"><c:out value="${50}"/></a>
             <a class="btn btn-default" href="dashboard?limit=${100}"><c:out value="${100}"/></a>
             
+            
         </div>
 	</div>
     </footer>
     
 <script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script> 
 <script src="/js/dashboard.js"></script>
 
 </body>

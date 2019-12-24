@@ -53,6 +53,10 @@ public class ComputerDAO {
 	
 	private static final String COUNT_COMPUTER 		= "SELECT COUNT(id) AS nbComputer "
 														+ "FROM computer ";
+	
+	private static final String SEARCH_COMPUTER_BY_NAME = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, "
+														+ "company.id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id "
+														+ "WHERE company.name LIKE ? OR computer.name LIKE ? LIMIT ? OFFSET ?";
 														
 	
 
@@ -265,6 +269,46 @@ public class ComputerDAO {
 			this.connect = ConnectionSQL.disconnectDB();
 		}
 		return 0;
+	}
+	
+	public List<Computer> searchComputerByName(int limite, int offset, String name) {
+		
+		List<Computer> computerList = new ArrayList<>();
+		this.connect = ConnectionSQL.seConnecter();
+		
+		try (PreparedStatement statement = connect.prepareStatement(SEARCH_COMPUTER_BY_NAME)){
+			
+			statement.setString(1, "%"+ name +"%");
+			statement.setString(2, "%"+ name +"%");
+			statement.setInt(3, limite);
+			statement.setInt(4, offset);
+			ResultSet resultat = statement.executeQuery();			
+			while (resultat.next()) {
+				Date dateSQLDis = resultat.getDate("discontinued");
+				LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
+				Date dateSQLInt = resultat.getDate("introduced");
+				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
+				int id = resultat.getInt("id");
+				int company_id = resultat.getInt("company_id");
+				String company_name = resultat.getString("company_name");
+				String computer_name = resultat.getString("name");
+				
+				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(computer_name).introducedDate(dateInt).discontinuedDate(dateDis)
+											.company(new Company.CompanyBuilder().idCompany(company_id)
+											.nameCompany(company_name).build()).build();
+				computerList.add(computer);
+				
+			    }
+		
+		} catch (SQLException e) {
+			
+			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
+		}
+
+		return computerList;
 	}
 
 }

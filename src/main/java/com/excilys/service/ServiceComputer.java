@@ -51,5 +51,9 @@ public class ServiceComputer {
 	public int countComputer() {
 		return computerDAO.nbComputer();
 	}
+	
+	public List<Computer> searchComputerByName(int limite, int offset, String name) {
+		return computerDAO.searchComputerByName(limite, offset, name);
+	}
 
 }
