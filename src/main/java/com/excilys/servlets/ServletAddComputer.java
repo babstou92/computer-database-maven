@@ -1,6 +1,7 @@
 package com.excilys.servlets;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,6 @@ import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Company;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
-import com.excilys.validation.ValidationBack;
 import com.excilys.validation.ValidationFront;
 
 

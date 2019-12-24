@@ -12,9 +12,9 @@
 <!-- <link href="../style/bootstrap.min.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="../style/font-awesome.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="../style/main.css" rel="stylesheet" media="screen"> -->
-<style><%@ include file ="../style/main.css"%></style>
-<style><%@ include file ="../style/font-awesome.css"%></style>
-<style><%@ include file ="../style/bootstrap.min.css"%></style>
+<style><%@ include file ="/style/main.css"%></style>
+<style><%@ include file ="/style/font-awesome.css"%></style>
+<style><%@ include file ="/style/bootstrap.min.css"%></style>
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="/computer-database/addcomputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
@@ -155,9 +155,10 @@
         </div>
 	</div>
     </footer>
-<script src="../script/jquery.min.js"></script>
-<script src="../script/bootstrap.min.js"></script>
-<script src="../script/dashboard.js"></script>
+    
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/dashboard.js"></script>
 
 </body>
 </html>
