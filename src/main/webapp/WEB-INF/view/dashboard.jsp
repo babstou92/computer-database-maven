@@ -20,7 +20,7 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
         	
-            <a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+            <a class="navbar-brand" href="/computer-database"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -34,9 +34,9 @@
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"
-                        class="btn btn-primary" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${search}" />
+                        <input type="submit" id="searchsubmit" value="Filter by name"class="btn btn-primary" />
+                        
                     </form>
                 </div>
                 <div class="pull-right">
@@ -91,7 +91,7 @@
 	                            <input type="checkbox" name="cb" class="cb" value="0">
 	                        </td>
 	                        <td>
-	                            <a href="editComputer.html" onclick="">${computer.getName()}</a>
+	                            <a href="/computer-database/editcomputer" onclick="">${computer.getName()}</a>
 	                        </td>
 	                        <td>${computer.getIntroducedDate()}</td>
 	                        <td>${computer.getDiscontinuedDate()}</td>

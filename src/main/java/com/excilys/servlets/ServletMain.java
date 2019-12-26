@@ -57,11 +57,26 @@ public class ServletMain extends HttpServlet {
 			offset = page.calculOffset(currentPage);
 		}
 		
-		List<Computer> listComputer = serviceComputer.findAllComputer(page.getLimite(), offset);
-		request.setAttribute("nbComputer", nbComputer);
-		request.setAttribute("nbPage", nbPage);
-		request.setAttribute("listComputer", listComputer);
-		request.setAttribute("currentPage", currentPage);
+		if(request.getParameter("search") != null) {
+			
+			List<Computer> listComputer = serviceComputer.searchComputerByName(page.getLimite(), offset, request.getParameter("search"));
+			nbComputer= serviceComputer.countComputerByName(request.getParameter("search"));
+			nbPage = page.nbPageTotal(nbComputer);
+			request.setAttribute("nbComputer", nbComputer);
+			request.setAttribute("nbPage", nbPage);
+			request.setAttribute("listComputer", listComputer);
+			request.setAttribute("currentPage", currentPage);
+			request.setAttribute("search", request.getParameter("search"));
+			
+		} else {
+		
+			List<Computer> listComputer = serviceComputer.findAllComputer(page.getLimite(), offset);
+			request.setAttribute("nbComputer", nbComputer);
+			request.setAttribute("nbPage", nbPage);
+			request.setAttribute("listComputer", listComputer);
+			request.setAttribute("currentPage", currentPage);
+		
+		}
 		
 
 		this.getServletContext().getRequestDispatcher( "/view/dashboard.jsp" ).forward( request, response );

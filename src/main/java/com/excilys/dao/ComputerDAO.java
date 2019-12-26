@@ -21,19 +21,19 @@ public class ComputerDAO {
 	
 	
 	private static final String SELECT_ALL_COMPUTER = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
-														+ "computer.company_id, company.name AS company_name "
+														+ "computer.company_id, company.name "
 														+ "FROM computer "
 														+ "LEFT JOIN company ON computer.company_id = company.id "
 														+ "ORDER BY computer.id ;";
 	
 	private static final String SELECT_ALL_COMPUTER_PAGINATION = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
-														+ "computer.company_id, company.name AS company_name "
+														+ "computer.company_id, company.name "
 														+ "FROM computer "
 														+ "LEFT JOIN company ON computer.company_id = company.id "														
 														+ "LIMIT ? OFFSET ? ;";
 	
 	private static final String SELECT_ONE_COMPUTER  = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
-														+ "computer.company_id, company.name AS company_name "
+														+ "computer.company_id, company.name "
 														+ "FROM computer, company "
 														+ "WHERE computer.company_id = company.id "
 														+ "AND computer.id = ? ;";
@@ -55,8 +55,15 @@ public class ComputerDAO {
 														+ "FROM computer ";
 	
 	private static final String SEARCH_COMPUTER_BY_NAME = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, "
-														+ "company.id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id "
+														+ "computer.company_id, company.name FROM computer "
+														+ "LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ? LIMIT ? OFFSET ?";
+	
+	private static final String COUNT_COMPUTER_BY_NAME 	= "SELECT COUNT(id) AS nbComputerByName "
+														+ "FROM computer LEFT JOIN company ON computer.company_id = company.id "
+														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
+	
+	
 														
 	
 
@@ -91,7 +98,7 @@ public class ComputerDAO {
 				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
 				int id = resultat.getInt("id");
 				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company_name");
+				String company_name = resultat.getString("company.name");
 				String name = resultat.getString("name");
 				
 				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
@@ -130,7 +137,7 @@ public class ComputerDAO {
 				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
 				int id = resultat.getInt("id");
 				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company_name");
+				String company_name = resultat.getString("company.name");
 				String name = resultat.getString("name");
 				
 				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
@@ -167,7 +174,7 @@ public class ComputerDAO {
 			LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
 			int id = resultat.getInt("id");
 			int company_id = resultat.getInt("company_id");
-			String company_name = resultat.getString("company_name");
+			String company_name = resultat.getString("company.name");
 			String name = resultat.getString("name");
 			
 			computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
@@ -290,7 +297,7 @@ public class ComputerDAO {
 				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
 				int id = resultat.getInt("id");
 				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company_name");
+				String company_name = resultat.getString("company.name");
 				String computer_name = resultat.getString("name");
 				
 				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(computer_name).introducedDate(dateInt).discontinuedDate(dateDis)
@@ -309,6 +316,28 @@ public class ComputerDAO {
 		}
 
 		return computerList;
+	}
+	
+	public int nbComputerByName(String name) {
+		
+		Connection connect = ConnectionSQL.seConnecter();
+				
+		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER_BY_NAME);) {
+
+			statement.setString(1, "%"+ name +"%");
+			statement.setString(2, "%"+ name +"%");
+			ResultSet resultat = statement.executeQuery();
+			if (resultat.first()) {
+				return resultat.getInt("nbComputerByName");
+			}
+		} catch (SQLException e) {
+			
+			LOGGER.error(e.getMessage(), "");	
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
+		}
+		return 0;
 	}
 
 }
