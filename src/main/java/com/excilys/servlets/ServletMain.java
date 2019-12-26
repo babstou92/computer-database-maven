@@ -2,6 +2,7 @@ package com.excilys.servlets;
 
 import java.io.IOException;
 
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,11 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.models.Computer;
 import com.excilys.pagination.Page;
 import com.excilys.service.ServiceComputer;
@@ -23,14 +19,10 @@ public class ServletMain extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static ServiceComputer serviceComputer = ServiceComputer.getServiceCOmputer();
 	private Page page = Page.getPage();
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServletMain.class); 
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		BasicConfigurator.configure();
-		LOGGER.info("Start ...");
-		
-		
+			
 		int offset = 0;
 		int currentPage = 1;
 		int nbComputer = 0;
@@ -77,6 +69,7 @@ public class ServletMain extends HttpServlet {
 
 		this.getServletContext().getRequestDispatcher( "/view/dashboard.jsp" ).forward( request, response );
 	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.doGet(request,response);
 	}

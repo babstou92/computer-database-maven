@@ -225,7 +225,7 @@ public class ComputerDAO {
 			statement.setTimestamp(2, computer.getIntroducedDate().equals(null)?null:Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
 			statement.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
 			statement.setInt(4, computer.getCompany().getIdCompany());
-			statement.setInt(5,  computer.getIdComputer());
+			statement.setInt(5, computer.getIdComputer());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
