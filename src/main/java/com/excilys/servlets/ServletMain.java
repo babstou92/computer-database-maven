@@ -33,14 +33,13 @@ public class ServletMain extends HttpServlet {
 		
 		int offset = 0;
 		int currentPage = 1;
-		int nbComputer = serviceComputer.countComputer();
-		int nbPage = page.nbPageTotal(nbComputer);
+		int nbComputer = 0;
+		int nbPage = 0;
 
 		if(request.getParameter("limit") != null) {
 			try {
 				int limit = Integer.parseInt(request.getParameter("limit"));
 				page.setLimite(limit);
-				nbPage = page.nbPageTotal(nbComputer);
 			} catch (NumberFormatException e) {
 				
 			}
@@ -61,23 +60,20 @@ public class ServletMain extends HttpServlet {
 			
 			List<Computer> listComputer = serviceComputer.searchComputerByName(page.getLimite(), offset, request.getParameter("search"));
 			nbComputer= serviceComputer.countComputerByName(request.getParameter("search"));
-			nbPage = page.nbPageTotal(nbComputer);
-			request.setAttribute("nbComputer", nbComputer);
-			request.setAttribute("nbPage", nbPage);
 			request.setAttribute("listComputer", listComputer);
-			request.setAttribute("currentPage", currentPage);
 			request.setAttribute("search", request.getParameter("search"));
+			nbPage = page.nbPageTotal(nbComputer);
 			
 		} else {
 		
 			List<Computer> listComputer = serviceComputer.findAllComputer(page.getLimite(), offset);
+			nbComputer = serviceComputer.countComputer();
+			request.setAttribute("listComputer", listComputer);
+			nbPage = page.nbPageTotal(nbComputer);
+		}
 			request.setAttribute("nbComputer", nbComputer);
 			request.setAttribute("nbPage", nbPage);
-			request.setAttribute("listComputer", listComputer);
 			request.setAttribute("currentPage", currentPage);
-		
-		}
-		
 
 		this.getServletContext().getRequestDispatcher( "/view/dashboard.jsp" ).forward( request, response );
 	}

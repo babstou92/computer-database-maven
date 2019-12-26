@@ -59,7 +59,7 @@ public class ComputerDAO {
 														+ "LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ? LIMIT ? OFFSET ?";
 	
-	private static final String COUNT_COMPUTER_BY_NAME 	= "SELECT COUNT(id) AS nbComputerByName "
+	private static final String COUNT_COMPUTER_BY_NAME 	= "SELECT COUNT(computer.id) AS nbComputerByName "
 														+ "FROM computer LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
 	
