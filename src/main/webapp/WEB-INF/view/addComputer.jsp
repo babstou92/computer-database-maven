@@ -6,10 +6,8 @@
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<!-- <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen"> -->
-<!-- <link href="../css/font-awesome.css" rel="stylesheet" media="screen"> -->
-<!-- <link href="../css/main.css" rel="stylesheet" media="screen"> -->
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="screen">
 <style><%@ include file ="../style/main.css"%></style>
 <style><%@ include file ="../style/font-awesome.css"%></style>
 <style><%@ include file ="../style/bootstrap.min.css"%></style>
@@ -26,7 +24,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="addComputer" method="POST">
+                    <form action="/computer-database/addcomputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>

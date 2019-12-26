@@ -29,6 +29,7 @@ public class ServletAddComputer extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		List<Company> listCompany = serviceCompany.findAllCompany();
 		request.setAttribute("listCompany", listCompany);
 		this.getServletContext().getRequestDispatcher("/view/addComputer.jsp").forward( request, response );
@@ -36,13 +37,16 @@ public class ServletAddComputer extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
+		System.out.println("dans la methode post du servlet addCOmptuer");
 		String computerName =  request.getParameter("computerName");
 		String dateStringInt = request.getParameter("introduced");
 		String dateStringDis = request.getParameter("discontinued");
 		int company_id =  Integer.parseInt(request.getParameter("companyId").trim());
 		Boolean ValidationNameIsEmpty = validationFront.verificationNameComputerIsEmpty(computerName);
+		System.out.println(ValidationNameIsEmpty);
+		
 
+		
 		
 		if(!ValidationNameIsEmpty) {
 			

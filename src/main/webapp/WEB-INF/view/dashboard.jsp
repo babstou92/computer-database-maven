@@ -8,10 +8,8 @@
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
-<!-- Bootstrap -->
-<!-- <link href="../style/bootstrap.min.css" rel="stylesheet" media="screen"> -->
-<!-- <link href="../style/font-awesome.css" rel="stylesheet" media="screen"> -->
-<!-- <link href="../style/main.css" rel="stylesheet" media="screen"> -->
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="screen">
 <style><%@ include file ="/style/main.css"%></style>
 <style><%@ include file ="/style/font-awesome.css"%></style>
 <style><%@ include file ="/style/bootstrap.min.css"%></style>
@@ -41,7 +39,7 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="/computer-database/addcomputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
@@ -157,9 +155,9 @@
 	</div>
     </footer>
     
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script> 
-<script src="/js/dashboard.js"></script>
+<script><%@ include file ="/js/jquery.min.js"%></script>
+<script><%@ include file ="/js/bootstrap.min.js"%></script>
+<script><%@ include file ="/js/dashboard.js"%></script>
 
 </body>
 </html>
