@@ -1,8 +1,7 @@
 package com.excilys.servlets;
 
 import java.io.IOException;
-
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -71,6 +70,8 @@ public class ServletMain extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+
 		this.doGet(request,response);
 	}
 
