@@ -13,6 +13,7 @@ import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Company;
+import com.excilys.models.Computer;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 
@@ -24,11 +25,13 @@ public class ServletEditComputer extends HttpServlet {
 	ComputerMapper computerMapper = ComputerMapper.getComputerMapper();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String computerId = request.getParameter("computer_id");
+
+		int computerId = Integer.parseInt(request.getParameter("computer_id"));
+		Computer computer = serviceComputer.findOneComputer(computerId);
 		List<Company> listCompany = serviceCompany.findAllCompany();
 		request.setAttribute("listCompany", listCompany);
-		request.setAttribute("computerId", computerId);
+		request.setAttribute("computer", computer);
+
 		this.getServletContext().getRequestDispatcher( "/view/editComputer.jsp" ).forward( request, response );
 	}
 
@@ -43,6 +46,7 @@ public class ServletEditComputer extends HttpServlet {
 		ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().idComputer(computerId).name(computerName)
 									.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
 									.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
+
 		
         serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
         

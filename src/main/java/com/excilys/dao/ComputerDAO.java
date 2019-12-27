@@ -34,9 +34,9 @@ public class ComputerDAO {
 	
 	private static final String SELECT_ONE_COMPUTER  = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name "
-														+ "FROM computer, company "
-														+ "WHERE computer.company_id = company.id "
-														+ "AND computer.id = ? ;";
+														+ "FROM computer LEFT JOIN company "
+														+ "ON computer.company_id = company.id "
+														+ "WHERE computer.id = ? ;";
 	
 	private static final String CREATE_ONE_COMPUTER = "INSERT into computer (name,introduced,discontinued,company_id) "
 														+ "VALUES (?,?,?,?)";
@@ -49,7 +49,7 @@ public class ComputerDAO {
 														+ "WHERE id = ? ;";
 	
 	private static final String DELETE_ONE_COMPUTER = "DELETE  from computer "
-														+ "WHERE id = ?";
+														+ "WHERE id = ? ;";
 	
 	private static final String COUNT_COMPUTER 		= "SELECT COUNT(id) AS nbComputer "
 														+ "FROM computer ";
@@ -164,15 +164,15 @@ public class ComputerDAO {
 		Connection connect = ConnectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(SELECT_ONE_COMPUTER);){
-						
-			statement.setInt(1, idSearch);		
+		
+			statement.setInt(1, idSearch);
 			ResultSet resultat = statement.executeQuery();	
 			resultat.next();
 			Date dateSQLDis = resultat.getDate("discontinued");
 			LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
 			Date dateSQLInt = resultat.getDate("introduced");
 			LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
-			int id = resultat.getInt("id");
+			int id = idSearch;
 			int company_id = resultat.getInt("company_id");
 			String company_name = resultat.getString("company.name");
 			String name = resultat.getString("name");
@@ -222,8 +222,8 @@ public class ComputerDAO {
 		try (PreparedStatement statement = connect.prepareStatement(UPDATE_ONE_COMPUTER);){ 
 					
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, computer.getIntroducedDate().equals(null)?null:Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
-			statement.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
+			statement.setTimestamp(2, computer.getIntroducedDate() == null ? null : Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
+			statement.setTimestamp(3, computer.getIntroducedDate() == null ? null : Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
 			statement.setInt(4, computer.getCompany().getIdCompany());
 			statement.setInt(5, computer.getIdComputer());
 			

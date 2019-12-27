@@ -23,24 +23,24 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <div class="label label-default pull-right">
-                        id: <c:out value="${computerId}"/>
+                        id: <c:out value="${computer.getIdComputer()}"/>
                     </div>
                     <h1>Edit Computer</h1>
 
                     <form action="/computer-database/editcomputer" method="POST">
-                        <input type="hidden" value="${computerId}" id="id" name="id"/> 
+                        <input type="hidden" id="id" name="id" value="${computer.getIdComputer()}"/> 
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name" value="${computer.getName()}">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date">
+                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="Introduced date" value="${computer.getIntroducedDate()}">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date">
+                                <input type="date" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date" value="${computer.getDiscontinuedDate()}">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
