@@ -3,7 +3,6 @@ package com.excilys.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -71,7 +70,15 @@ public class ServletMain extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-
+		String checkbox = request.getParameter("selection");
+		String checkboxNettoyée = checkbox.replaceAll(",", " ");
+		String [] checkboxTableau = checkboxNettoyée.split(" ");
+		for(String id : checkboxTableau) {
+			
+				serviceComputer.deleteOneComputer(Integer.parseInt(id));	
+				
+		}
+		
 		this.doGet(request,response);
 	}
 

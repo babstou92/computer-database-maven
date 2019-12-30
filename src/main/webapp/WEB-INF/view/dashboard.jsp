@@ -52,13 +52,11 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <!-- Variable declarations for passing labels as parameters -->
-                        <!-- Table header for Computer Name -->
 
                         <th class="editMode" style="width: 60px; height: 22px;">
                             <input type="checkbox" id="selectall" /> 
                             <span style="vertical-align: top;">
-                                 -  <a href="/computer-database" id="deleteSelected" onclick="$.fn.deleteSelected();">
+                                 -  <a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
                                         <i class="fa fa-trash-o fa-lg"></i>
                                     </a>
                             </span>
@@ -86,7 +84,7 @@
                 	<c:forEach items ="${listComputer}" var="computer">
                 	    <tr>
 	                        <td class="editMode">
-	                            <input type="checkbox" name="cb" class="cb" value="0">
+	                            <input type="checkbox" name="cb" class="cb" value="${computer.getIdComputer()}">
 	                        </td>
 	                        <td>
 	                            <a href="/computer-database/editcomputer?computer_id=${computer.getIdComputer()}" onclick="">${computer.getName()}</a>
