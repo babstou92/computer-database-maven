@@ -36,7 +36,7 @@ public class Main {
 			firstChoice();
 			choixCommande = scanner.nextInt();
 		
-			if(1 <= choixCommande && choixCommande <= 4 ) {		
+			if(1 <= choixCommande && choixCommande <= 5 ) {		
 				switch (choixCommande) {
 				case 1:
 					List<Company> listCompany = serviceCompany.findAllCompany();
@@ -59,6 +59,12 @@ public class Main {
 					break;
 				case 4:
 				    newEntry();
+					break;
+				case 5:
+					System.out.println("Veuillez choisir un id de company");
+					int companyId = scanner.nextInt();
+					LOGGER.debug("L'id de la company choisit est "+ companyId);
+					serviceCompany.deleteOneCompany(companyId);;
 					break;
 				}
 			
@@ -145,7 +151,8 @@ public class Main {
 		System.out.println(" 1 -> Afficher toutes les company "
 						+ " \n 2 -> Afficher tous les computers "
 						+ " \n 3 -> Afficher les infomations d'un computer "
-						+ " \n 4 -> Créer une nouvelle entrée computer dans la base de donnée");
+						+ " \n 4 -> Créer une nouvelle entrée computer dans la base de donnée "
+						+ " \n 5 -> Supprimer une company ");
 	
 		System.out.println("Veuillez saisir une commande");		
 	}

@@ -62,13 +62,7 @@ public class ComputerDAO {
 	private static final String COUNT_COMPUTER_BY_NAME 	= "SELECT COUNT(computer.id) AS nbComputerByName "
 														+ "FROM computer LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
-	
-	private static final String DELETE_ONE_COMPANY = "DELETE  from company "
-														+ "WHERE name = ? ;";
-	
-	private static final String DELETE_ALL_COMPUTER_BY_COMPANYNAME = "DELETE  from computer "
-														+ "LEFT JOIN company ON computer.company_id = company.id "
-														+ "WHERE company.name = ? ;";
+
 	
 	
 														
@@ -347,42 +341,5 @@ public class ComputerDAO {
 		return 0;
 	}
 	
-	public void deleteCompany(String companyName) {
-		
-		Connection connect = ConnectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(DELETE_ONE_COMPANY);){
-								
-			statement.setString(1, companyName);
-			statement.executeUpdate();
-			
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
-		}
-		
-	}
-	
-	public void deleteAllComputerByCompanyName(String companyName) {
-		
-		Connection connect = ConnectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(DELETE_ALL_COMPUTER_BY_COMPANYNAME);){
-								
-			statement.setString(1, companyName);
-			statement.executeUpdate();
-			
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
-		}
-		
-	}
 
 }

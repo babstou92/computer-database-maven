@@ -58,6 +58,6 @@ public class ServiceComputer {
 	
 	public int countComputerByName(String name) {
 		return computerDAO.nbComputerByName(name);
-	}
+	}	
 
 }

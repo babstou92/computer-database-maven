@@ -17,7 +17,11 @@ import com.excilys.models.Company;
 
 public class CompanyDAO  {
 	
-	private static final String SELECT_ALL_COMPUTER  = "SELECT * FROM company ;";												
+	private static final String SELECT_ALL_COMPUTER  		  = "SELECT * FROM company ;";	
+	
+	private static final String DELETE_COMPANY_BY_COMPANYID   = "DELETE FROM company where id = ? ;";
+	
+	private static final String DELETE_COMPUTER_BY_COMPANYID  = "DELETE FROM computer where company_id = ? ;";
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	private Connection connect;
@@ -60,6 +64,32 @@ public class CompanyDAO  {
 		}
 
 		return companyList;
+	}
+	
+	public void deleteCompany(int companyId) {
+		
+		Connection connect = ConnectionSQL.seConnecter();
+		
+		try (PreparedStatement statementOne = connect.prepareStatement(DELETE_COMPUTER_BY_COMPANYID);
+			 PreparedStatement statementTwo = connect.prepareStatement(DELETE_COMPANY_BY_COMPANYID);){
+			
+			connect.setAutoCommit(false);
+			
+			statementOne.setInt(1, companyId);
+			statementOne.execute();
+			statementTwo.setInt(1, companyId);
+			statementTwo.executeUpdate();
+			
+			connect.commit();
+			
+		} catch (SQLException e) {
+			
+			LOGGER.error(e.getMessage());
+			
+		} finally {
+			this.connect = ConnectionSQL.disconnectDB();
+		}
+		
 	}
 
 }
