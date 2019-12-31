@@ -1,6 +1,7 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,7 +68,6 @@ public class ComputerDAO {
 	
 														
 	
-
 	private Connection connect;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	
@@ -260,7 +260,7 @@ public class ComputerDAO {
 	}
 	
 	public int nbComputer() {
-		
+
 		Connection connect = ConnectionSQL.seConnecter();
 				
 		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER);) {
