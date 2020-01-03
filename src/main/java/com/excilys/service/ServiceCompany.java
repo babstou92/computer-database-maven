@@ -1,26 +1,16 @@
 package com.excilys.service;
 
 import java.util.List;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.excilys.dao.CompanyDAO;
 import com.excilys.models.Company;
 
+@Service
 public class ServiceCompany {
     
-    private static CompanyDAO companyDAO = CompanyDAO.getCompanyDAO();
-    
-    private ServiceCompany() {};
-    
-    private static ServiceCompany serviceCompany = null;
-    
-    public static ServiceCompany getServiceCompany() {
-    	if(serviceCompany == null) {
-    		serviceCompany = new ServiceCompany();
-    	}
-    	return serviceCompany;
-    }
-
+	@Autowired
+    private CompanyDAO companyDAO;
     
     public List<Company> findAllCompany() {
     	return companyDAO.findAll();

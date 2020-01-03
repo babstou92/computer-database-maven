@@ -6,23 +6,17 @@ import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
-
+@Component
 public class ComputerMapper {
 	
-	private ComputerMapper() {};
-	private static ComputerMapper computerMapper;
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	private  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 	
-	public static ComputerMapper getComputerMapper() {
-		if(computerMapper == null) {
-			computerMapper = new ComputerMapper();
-		}		
-		return computerMapper;
-	}
 	
 	public  Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
 		

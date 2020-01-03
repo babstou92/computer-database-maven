@@ -1,18 +1,9 @@
 package com.excilys.validation;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ValidationFront {
-	
-	private static ValidationFront validationFront;
-
-	private ValidationFront() {}
-
-	public static ValidationFront getValidationFront() {
-		
-		if (validationFront == null) {
-			validationFront = new ValidationFront();
-		}
-		return validationFront;
-	}
 	
 	public boolean verificationNameComputerIsEmpty(String nameComputer) {
 		if(nameComputer.isEmpty()) {

@@ -1,16 +1,11 @@
 package com.excilys.pagination;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Page {
 	
 	private int limite = 10;
-	private Page() {};
-	private static Page page;
-	public static Page getPage() {
-		if(page == null) {
-			page = new Page();
-		}
-		return page;
-	}
 	
 	public int getLimite() {
 		return limite;

@@ -1,7 +1,6 @@
 package com.excilys.dao;
 
 import java.sql.Connection;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,14 +9,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 
 
-
+@Repository
 public class ComputerDAO {
 	
 	
@@ -63,31 +63,20 @@ public class ComputerDAO {
 	private static final String COUNT_COMPUTER_BY_NAME 	= "SELECT COUNT(computer.id) AS nbComputerByName "
 														+ "FROM computer LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
+	@Autowired
+	private ConnectionSQL connectionSQL;
 
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	
 														
 	
-	private Connection connect;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
-	
-	private ComputerDAO() {};
-	private static ComputerDAO computerDAO = null;
-	
-	public static ComputerDAO getComputerDAO() {
-
-		if(computerDAO == null) { 
-			computerDAO = new ComputerDAO();
-		}
-		return computerDAO;
-	}
-	
-												
+	private Connection connect;											
 	
 	public List<Computer> findAll() {
 		
 		List<Computer> computerList = new ArrayList<>();
-		this.connect = ConnectionSQL.seConnecter();
+		this.connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER)){
 			
@@ -114,7 +103,7 @@ public class ComputerDAO {
 			e.getMessage();
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 
 		return computerList;
@@ -124,7 +113,7 @@ public class ComputerDAO {
 	public List<Computer> findAll(int limite, int offset) {
 		
 		List<Computer> computerList = new ArrayList<>();
-		this.connect = ConnectionSQL.seConnecter();
+		this.connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION)){
 						
@@ -153,7 +142,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage());
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 
 		return computerList;
@@ -162,7 +151,7 @@ public class ComputerDAO {
 	public Computer findOne(int idSearch) {
 			
 		Computer computer = null;
-		Connection connect = ConnectionSQL.seConnecter();
+		Connection connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(SELECT_ONE_COMPUTER);){
 		
@@ -187,7 +176,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage());
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 		
 		return computer;
@@ -195,7 +184,7 @@ public class ComputerDAO {
 
 
 	public void create(Computer computer) {
-		Connection connect = ConnectionSQL.seConnecter();
+		Connection connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(CREATE_ONE_COMPUTER);){		
 			
@@ -210,7 +199,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage());
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 		return;
 	}
@@ -218,7 +207,7 @@ public class ComputerDAO {
 
 
 	public void update(Computer computer) {
-		Connection connect = ConnectionSQL.seConnecter();
+		Connection connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(UPDATE_ONE_COMPUTER);){ 
 					
@@ -234,7 +223,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage());
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 		
 	}
@@ -242,7 +231,7 @@ public class ComputerDAO {
 
 	public void delete(int idSearch) {
 		
-		Connection connect = ConnectionSQL.seConnecter();
+		Connection connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(DELETE_ONE_COMPUTER);){
 								
@@ -254,14 +243,14 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage());
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 		
 	}
 	
 	public int nbComputer() {
 
-		Connection connect = ConnectionSQL.seConnecter();
+		Connection connect = connectionSQL.seConnecter();
 				
 		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER);) {
 			
@@ -274,7 +263,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage(), "");	
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 		return 0;
 	}
@@ -282,7 +271,7 @@ public class ComputerDAO {
 	public List<Computer> searchComputerByName(int limite, int offset, String name) {
 		
 		List<Computer> computerList = new ArrayList<>();
-		this.connect = ConnectionSQL.seConnecter();
+		this.connect = connectionSQL.seConnecter();
 		
 		try (PreparedStatement statement = connect.prepareStatement(SEARCH_COMPUTER_BY_NAME)){
 			
@@ -313,7 +302,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage());
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 
 		return computerList;
@@ -321,7 +310,7 @@ public class ComputerDAO {
 	
 	public int nbComputerByName(String name) {
 		
-		Connection connect = ConnectionSQL.seConnecter();
+		Connection connect = connectionSQL.seConnecter();
 				
 		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER_BY_NAME);) {
 
@@ -336,7 +325,7 @@ public class ComputerDAO {
 			LOGGER.error(e.getMessage(), "");	
 			
 		} finally {
-			this.connect = ConnectionSQL.disconnectDB();
+			this.connect = connectionSQL.disconnectDB();
 		}
 		return 0;
 	}

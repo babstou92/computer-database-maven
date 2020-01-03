@@ -17,7 +17,7 @@ public class Main {
 	
 	private static Scanner scanner = new Scanner(System.in);
 	private static ServiceCompany serviceCompany = ServiceCompany.getServiceCompany();
-	private static ServiceComputer serviceComputer = ServiceComputer.getServiceCOmputer();
+	private static ServiceComputer serviceComputer;
 	private static String choixQuitter;
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 	private static int choixCommande;

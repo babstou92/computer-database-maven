@@ -3,10 +3,12 @@ package com.excilys.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-
+@Component
 public class ConnectionSQL {
 	
 	//initialiser HikariConfig avec un fichier de propriétés placé dans le répertoire resources :
@@ -16,22 +18,19 @@ public class ConnectionSQL {
 
 	private static Connection connection;
 	
-	public static Connection seConnecter() {
+	public Connection seConnecter() {	
 		
-		if(connection == null) {
-			
-			try {
-				connection = ds.getConnection();
+		try {
+			connection = ds.getConnection();
 
-			} catch (SQLException  e) {
+		} catch (SQLException  e) {
 				e.printStackTrace();
-			} 
-		}
+		} 
 		
 		return connection;
 	}
 	
-	public static Connection disconnectDB() {
+	public Connection disconnectDB() {
 		if(connection!=null) {
 			try {
 				connection.close();

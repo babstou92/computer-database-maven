@@ -1,34 +1,24 @@
 package com.excilys.service;
 
 import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.excilys.dao.ComputerDAO;
 import com.excilys.models.Computer;
 
+@Service
 public class ServiceComputer {
-		
-	private static ComputerDAO computerDAO = ComputerDAO.getComputerDAO();
 	
-	private ServiceComputer() {};
-	
-	private static ServiceComputer serviceComputer = null;
-	
-	public static ServiceComputer getServiceCOmputer() {
-		if(serviceComputer == null) {
-			serviceComputer = new ServiceComputer();
-		}
-		return serviceComputer;
-	}
+	@Autowired
+	private ComputerDAO computerDAO;
 	
 	
 	public  List<Computer> findAllComputer() {
 		return computerDAO.findAll();
-		
 		}
 	
 	public  List<Computer> findAllComputer(int limite, int offset) {
-		return computerDAO.findAll(limite, offset);
-		
+		return computerDAO.findAll(limite, offset);	
 		}
 
 	public  Computer findOneComputer(int id) {	
@@ -39,8 +29,7 @@ public class ServiceComputer {
 		computerDAO.delete(id);
 	}
 	
-	public void createOneComputer(Computer computer) {
-		
+	public void createOneComputer(Computer computer) {		
 		computerDAO.create(computer);
 	}
 
