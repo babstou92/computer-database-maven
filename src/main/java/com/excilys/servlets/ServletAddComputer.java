@@ -57,14 +57,14 @@ public class ServletAddComputer extends HttpServlet {
 		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);
 	
 		if(!ValidationNameIsEmpty) {
-			
+
 			ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().name(computerName)
 										.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
 										.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
 	
 			serviceComputer.createOneComputer(ComputerMapper.ComputerDTOToComputer(computerDTO));
-			
-			this.getServletContext().getRequestDispatcher( "/" ).forward( request, response );
+
+			response.sendRedirect("/computer-database");
 			
 		} else {
 			

@@ -155,6 +155,11 @@
 	    <version>${Spring.version}</version>
 	</dependency>
 	<dependency>
+   	 	<groupId>org.springframework</groupId>
+    	<artifactId>spring-jdbc</artifactId>
+    	<version>${Spring.version}</version>
+	</dependency>
+	<dependency>
 		<groupId>ch.qos.logback</groupId>
 		<artifactId>logback-classic</artifactId>
 		<version>${logback-classic}</version>

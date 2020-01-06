@@ -64,7 +64,7 @@ public class ServletEditComputer extends HttpServlet {
 		
         serviceComputer.updateOneComputer(ComputerMapper.ComputerDTOToComputer(computerDTO)); 
         
-        this.getServletContext().getRequestDispatcher( "/" ).forward( request, response );
+        response.sendRedirect("/computer-database");
 	}
 
 }

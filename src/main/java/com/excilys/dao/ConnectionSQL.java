@@ -2,29 +2,28 @@ package com.excilys.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import javax.sql.DataSource;
 import org.springframework.stereotype.Component;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 @Component
 public class ConnectionSQL {
 	
-	//initialiser HikariConfig avec un fichier de propriétés placé dans le répertoire resources :
-	private static HikariConfig config = new HikariConfig("/database.properties" );
-	//creation d'une instance unique d'une source de donnée
-	private static HikariDataSource ds = new HikariDataSource( config );
+	private DataSource datasource;
+	public ConnectionSQL (DataSource datasource) {
+		this.datasource = datasource;
+	}
 
 	private static Connection connection;
 	
 	public Connection seConnecter() {	
 		
 		try {
-			connection = ds.getConnection();
+			connection = datasource.getConnection();
 
-		} catch (SQLException  e) {
-				e.printStackTrace();
+		} catch (SQLException  sqle) {
+			for(Throwable e : sqle) {
+				System.err.println("Problèmes rencontrés: " + e);
+			}
 		} 
 		
 		return connection;
@@ -35,8 +34,8 @@ public class ConnectionSQL {
 			try {
 				connection.close();
 				connection=null;
-			} catch (SQLException se) {
-				for(Throwable e : se) {
+			} catch (SQLException sqle) {
+				for(Throwable e : sqle) {
 					System.err.println("Problèmes rencontrés: " + e);
 				}
 			}
