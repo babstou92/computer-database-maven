@@ -16,7 +16,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 
 @Configuration
 @ComponentScan(basePackages = {"com.excilys.configuration","com.excilys.dao","com.excilys.service", "com.excilys.servlets", 
-								"com.excilys.pagination"})
+								"com.excilys.pagination", "com.excilys.mapper"})
 @PropertySource(value="classpath:database.properties")
 public class SpringConfig extends AbstractContextLoaderInitializer{
 	

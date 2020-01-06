@@ -64,7 +64,7 @@ public class Main {
 					System.out.println("Veuillez choisir un id de company");
 					int companyId = scanner.nextInt();
 					LOGGER.debug("L'id de la company choisit est "+ companyId);
-					serviceCompany.deleteOneCompany(companyId);;
+//					serviceCompany.deleteOneCompany(companyId);;
 					break;
 				}
 			

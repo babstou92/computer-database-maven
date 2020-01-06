@@ -85,6 +85,7 @@
 		<artifactId>junit-jupiter-engine</artifactId>
 		<version>${junit.jupiter.version}</version>
 	</dependency>
+	
 	<dependency>
 		<groupId>org.junit.vintage</groupId>
 		<artifactId>junit-vintage-engine</artifactId>
@@ -133,32 +134,31 @@
     	<artifactId>HikariCP</artifactId>
     	<version>${HikariCP.version}</version>
 	</dependency>	
-	
+		
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-web</artifactId>
 	    <version>${Spring.version}</version>
 	</dependency>
-	  <dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-context</artifactId>
-	    <version>${Spring.version}</version>
-	</dependency>
-	  <dependency>
+	
+	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-core</artifactId>
 	    <version>${Spring.version}</version>
 	</dependency>
+	
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-webmvc</artifactId>
 	    <version>${Spring.version}</version>
 	</dependency>
+	
 	<dependency>
    	 	<groupId>org.springframework</groupId>
     	<artifactId>spring-jdbc</artifactId>
     	<version>${Spring.version}</version>
 	</dependency>
+	
 	<dependency>
 		<groupId>ch.qos.logback</groupId>
 		<artifactId>logback-classic</artifactId>

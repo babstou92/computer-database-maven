@@ -18,8 +18,8 @@ public class ServiceCompany {
     	return companyDAO.findAll();
     }
     
-    public void deleteOneCompany(int companyName) {
-    	companyDAO.deleteCompany(companyName);
-    	return;
-    }
+//    public void deleteOneCompany(int companyName) {
+//    	companyDAO.deleteCompany(companyName);
+//    	return;
+//    }
 }
