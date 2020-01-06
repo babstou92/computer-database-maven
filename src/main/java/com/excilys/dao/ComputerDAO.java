@@ -63,8 +63,11 @@ public class ComputerDAO {
 	private static final String COUNT_COMPUTER_BY_NAME 	= "SELECT COUNT(computer.id) AS nbComputerByName "
 														+ "FROM computer LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
-	@Autowired
+	
 	private ConnectionSQL connectionSQL;
+	public ComputerDAO (ConnectionSQL connectionSQL) {
+		this.connectionSQL = connectionSQL;
+	}
 
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 

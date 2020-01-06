@@ -31,6 +31,7 @@
 	<jstl.version>1.2</jstl.version>
 	<HikariCP.version>3.4.0</HikariCP.version>
 	<Spring.version>5.2.0.RELEASE</Spring.version>
+	<logback-classic>1.2.3</logback-classic>
     
   </properties>
 
@@ -152,6 +153,11 @@
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-webmvc</artifactId>
 	    <version>${Spring.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+		<version>${logback-classic}</version>
 	</dependency>
  
   </dependencies>

@@ -31,8 +31,6 @@ public class ServletEditComputer extends HttpServlet {
 	ServiceCompany serviceCompany;
 	@Autowired
 	ServiceComputer serviceComputer;
-	@Autowired
-	ComputerMapper computerMapper;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -64,7 +62,7 @@ public class ServletEditComputer extends HttpServlet {
 									.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
 
 		
-        serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
+        serviceComputer.updateOneComputer(ComputerMapper.ComputerDTOToComputer(computerDTO)); 
         
         this.getServletContext().getRequestDispatcher( "/" ).forward( request, response );
 	}

@@ -16,7 +16,7 @@ import com.excilys.service.ServiceComputer;
 public class Main {
 	
 	private static Scanner scanner = new Scanner(System.in);
-	private static ServiceCompany serviceCompany = ServiceCompany.getServiceCompany();
+	private static ServiceCompany serviceCompany;
 	private static ServiceComputer serviceComputer;
 	private static String choixQuitter;
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");

@@ -4,21 +4,19 @@ package com.excilys.mapper;
 import java.time.LocalDate;
 
 
+
 import java.time.format.DateTimeFormatter;
-
-import org.springframework.stereotype.Component;
-
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
-@Component
+
 public class ComputerMapper {
 	
-	private  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	private  static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 	
 	
-	public  Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
+	public  static Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
 		
 		String dateStringInt = computerDTO.getIntroducedDate();
 		LocalDate introduced = dateStringInt.equals("") ? null : LocalDate.parse(dateStringInt, formatter);
@@ -34,7 +32,7 @@ public class ComputerMapper {
 
 	}
 	
-	public  ComputerDTO ComputerToComputerDTO(Computer computer) {
+	public  static ComputerDTO ComputerToComputerDTO(Computer computer) {
 			 
 		
 		

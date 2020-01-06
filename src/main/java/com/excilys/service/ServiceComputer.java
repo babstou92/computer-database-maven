@@ -1,16 +1,17 @@
 package com.excilys.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.excilys.dao.ComputerDAO;
 import com.excilys.models.Computer;
 
 @Service
 public class ServiceComputer {
-	
-	@Autowired
+
 	private ComputerDAO computerDAO;
+	public ServiceComputer(ComputerDAO computerDAO) {
+		this.computerDAO = computerDAO;
+	}
 	
 	
 	public  List<Computer> findAllComputer() {

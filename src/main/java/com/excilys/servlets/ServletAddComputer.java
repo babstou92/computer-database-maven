@@ -33,10 +33,7 @@ public class ServletAddComputer extends HttpServlet {
 	private  ServiceComputer serviceComputer;
 	@Autowired
 	private  ServiceCompany serviceCompany;
-	@Autowired
-	private  ComputerMapper computerMapper;
-	@Autowired
-	private  ValidationFront validationFront;
+
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -57,7 +54,7 @@ public class ServletAddComputer extends HttpServlet {
 		String dateStringInt = request.getParameter("introduced");
 		String dateStringDis = request.getParameter("discontinued");
 		int company_id =  Integer.parseInt(request.getParameter("companyId").trim());
-		Boolean ValidationNameIsEmpty = validationFront.verificationNameComputerIsEmpty(computerName);
+		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);
 	
 		if(!ValidationNameIsEmpty) {
 			
@@ -65,7 +62,7 @@ public class ServletAddComputer extends HttpServlet {
 										.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
 										.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
 	
-			serviceComputer.createOneComputer(computerMapper.ComputerDTOToComputer(computerDTO));
+			serviceComputer.createOneComputer(ComputerMapper.ComputerDTOToComputer(computerDTO));
 			
 			this.getServletContext().getRequestDispatcher( "/" ).forward( request, response );
 			

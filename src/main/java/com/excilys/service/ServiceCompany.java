@@ -1,7 +1,6 @@
 package com.excilys.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.excilys.dao.CompanyDAO;
 import com.excilys.models.Company;
@@ -9,8 +8,11 @@ import com.excilys.models.Company;
 @Service
 public class ServiceCompany {
     
-	@Autowired
+	
     private CompanyDAO companyDAO;
+    public ServiceCompany(CompanyDAO companyDAO) {
+    	this.companyDAO = companyDAO;
+    }
     
     public List<Company> findAllCompany() {
     	return companyDAO.findAll();

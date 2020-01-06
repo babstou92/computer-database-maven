@@ -9,7 +9,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 
 @Configuration
 @ComponentScan(basePackages = {"com.excilys.configuration","com.excilys.dao","com.excilys.service", "com.excilys.servlets", 
-								"com.excilys.pagination", "com.excilys.mapper", "com.excilys.validation"})
+								"com.excilys.pagination"})
 public class SpringConfig extends AbstractContextLoaderInitializer{
 
 	protected WebApplicationContext createRootApplicationContext() {
