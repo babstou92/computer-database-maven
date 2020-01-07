@@ -33,6 +33,8 @@ public class ServletAddComputer extends HttpServlet {
 	private  ServiceComputer serviceComputer;
 	@Autowired
 	private  ServiceCompany serviceCompany;
+	@Autowired
+	ComputerMapper computerMapper;
 
 	
 	@Override
@@ -62,7 +64,7 @@ public class ServletAddComputer extends HttpServlet {
 										.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
 										.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
 	
-			serviceComputer.createOneComputer(ComputerMapper.ComputerDTOToComputer(computerDTO));
+			serviceComputer.createOneComputer(computerMapper.ComputerDTOToComputer(computerDTO));
 
 			response.sendRedirect("/computer-database");
 			

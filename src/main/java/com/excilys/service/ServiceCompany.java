@@ -16,6 +16,7 @@ public class ServiceCompany {
     
     public List<Company> findAllCompany() {
     	return companyDAO.findAll();
+
     }
     
 //    public void deleteOneCompany(int companyName) {

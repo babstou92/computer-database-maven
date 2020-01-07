@@ -9,9 +9,16 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 
@@ -63,273 +70,68 @@ public class ComputerDAO {
 														+ "FROM computer LEFT JOIN company ON computer.company_id = company.id "
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
 	
-	private ConnectionSQL connectionSQL;
-	public ComputerDAO (ConnectionSQL connectionSQL) {
-		this.connectionSQL = connectionSQL;
+	private JdbcTemplate jdbcTemplate;
+
+	public ComputerDAO(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
-	
-														
-	
-	private Connection connect;											
+	@Autowired
+	private ComputerMapper computerMapper;
+								
 	
 	public List<Computer> findAll() {
 		
-		List<Computer> computerList = new ArrayList<>();
-		this.connect = connectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER)){
-			
-			ResultSet resultat = statement.executeQuery();			
-			while (resultat.next()) {
-				Date dateSQLDis = resultat.getDate("discontinued");
-				LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
-				Date dateSQLInt = resultat.getDate("introduced");
-				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
-				int id = resultat.getInt("id");
-				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company.name");
-				String name = resultat.getString("name");
-				
-				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
-											.company(new Company.CompanyBuilder().idCompany(company_id)
-											.nameCompany(company_name).build()).build();
-				computerList.add(computer);
-				
-			    }
-		
-		} catch (SQLException e) {
-			
-			e.getMessage();
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-
-		return computerList;
+		return jdbcTemplate.query(SELECT_ALL_COMPUTER, computerMapper);
 	}
 	
 	
 	public List<Computer> findAll(int limite, int offset) {
-		
-		List<Computer> computerList = new ArrayList<>();
-		this.connect = connectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(SELECT_ALL_COMPUTER_PAGINATION)){
-						
-			statement.setInt(1, limite);
-			statement.setInt(2, offset);
-			ResultSet resultat = statement.executeQuery();			
-			while (resultat.next()) {
-				Date dateSQLDis = resultat.getDate("discontinued");
-				LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
-				Date dateSQLInt = resultat.getDate("introduced");
-				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
-				int id = resultat.getInt("id");
-				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company.name");
-				String name = resultat.getString("name");
-				
-				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
-											.company(new Company.CompanyBuilder().idCompany(company_id)
-											.nameCompany(company_name).build()).build();
-				computerList.add(computer);
-				
-			    }
-		
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
 
-		return computerList;
+		return jdbcTemplate.query(SELECT_ALL_COMPUTER_PAGINATION, computerMapper, limite, offset);
 	}
 	
 	public Computer findOne(int idSearch) {
-			
-		Computer computer = null;
-		Connection connect = connectionSQL.seConnecter();
 		
-		try (PreparedStatement statement = connect.prepareStatement(SELECT_ONE_COMPUTER);){
-		
-			statement.setInt(1, idSearch);
-			ResultSet resultat = statement.executeQuery();	
-			resultat.next();
-			Date dateSQLDis = resultat.getDate("discontinued");
-			LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
-			Date dateSQLInt = resultat.getDate("introduced");
-			LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
-			int id = idSearch;
-			int company_id = resultat.getInt("company_id");
-			String company_name = resultat.getString("company.name");
-			String name = resultat.getString("name");
-			
-			computer = new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
-										.company(new Company.CompanyBuilder().idCompany(company_id)
-										.nameCompany(company_name).build()).build();
+		return jdbcTemplate.queryForObject(SELECT_ONE_COMPUTER, computerMapper, idSearch);
+	}
 
-		} catch (SQLException e ) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-		
-		return computer;
+	
+	public boolean create(Computer computer) {
+
+		return jdbcTemplate.update(CREATE_ONE_COMPUTER, computer.getName(), computer.getIntroducedDate(), computer.getDiscontinuedDate(),
+				computer.getCompany().getIdCompany()) > 0;
 	}
 
 
-	public void create(Computer computer) {
-		Connection connect = connectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(CREATE_ONE_COMPUTER);){		
-			
-			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, computer.getIntroducedDate() == null ? null : Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
-			statement.setTimestamp(3,computer.getDiscontinuedDate() == null ? null : Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
-			statement.setInt(4, computer.getCompany().getIdCompany());
-			statement.executeUpdate();
-
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-		return;
+	public boolean update(Computer computer) {
+						
+			return jdbcTemplate.update(UPDATE_ONE_COMPUTER, computer.getName(), computer.getIntroducedDate(), computer.getDiscontinuedDate(),
+					computer.getCompany().getIdCompany(), computer.getIdComputer()) > 0;	
 	}
 
 
+	public boolean delete(int idSearch) {
 
-	public void update(Computer computer) {
-		Connection connect = connectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(UPDATE_ONE_COMPUTER);){ 
-					
-			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, computer.getIntroducedDate() == null ? null : Timestamp.valueOf(computer.getIntroducedDate().atStartOfDay()));
-			statement.setTimestamp(3, computer.getIntroducedDate() == null ? null : Timestamp.valueOf(computer.getDiscontinuedDate().atStartOfDay()));
-			statement.setInt(4, computer.getCompany().getIdCompany());
-			statement.setInt(5, computer.getIdComputer());
-			
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-		
+		return jdbcTemplate.update(DELETE_ONE_COMPUTER, idSearch) > 0;
 	}
+	
 
+	
+	public List<Computer> searchComputerByName(String name, int limite, int offset) {
 
-	public void delete(int idSearch) {
-		
-		Connection connect = connectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(DELETE_ONE_COMPUTER);){
-								
-			statement.setInt(1, idSearch);
-			statement.executeUpdate();
-			
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-		
+		return jdbcTemplate.query(SEARCH_COMPUTER_BY_NAME, computerMapper, "%"+ name +"%", "%"+ name +"%", limite, offset);
 	}
+	
 	
 	public int nbComputer() {
 
-		Connection connect = connectionSQL.seConnecter();
-				
-		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER);) {
-			
-			ResultSet resultat = statement.executeQuery();
-			if (resultat.first()) {
-				return resultat.getInt("nbComputer");
-			}
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage(), "");	
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-		return 0;
-	}
-	
-	public List<Computer> searchComputerByName(int limite, int offset, String name) {
-		
-		List<Computer> computerList = new ArrayList<>();
-		this.connect = connectionSQL.seConnecter();
-		
-		try (PreparedStatement statement = connect.prepareStatement(SEARCH_COMPUTER_BY_NAME)){
-			
-			statement.setString(1, "%"+ name +"%");
-			statement.setString(2, "%"+ name +"%");
-			statement.setInt(3, limite);
-			statement.setInt(4, offset);
-			ResultSet resultat = statement.executeQuery();			
-			while (resultat.next()) {
-				Date dateSQLDis = resultat.getDate("discontinued");
-				LocalDate dateDis = (dateSQLDis != null ) ? dateSQLDis.toLocalDate() : null;
-				Date dateSQLInt = resultat.getDate("introduced");
-				LocalDate dateInt = (dateSQLInt != null ) ? dateSQLInt.toLocalDate() : null;
-				int id = resultat.getInt("id");
-				int company_id = resultat.getInt("company_id");
-				String company_name = resultat.getString("company.name");
-				String computer_name = resultat.getString("name");
-				
-				Computer computer = new Computer.ComputerBuilder().idComputer(id).name(computer_name).introducedDate(dateInt).discontinuedDate(dateDis)
-											.company(new Company.CompanyBuilder().idCompany(company_id)
-											.nameCompany(company_name).build()).build();
-				computerList.add(computer);
-				
-			    }
-		
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage());
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-
-		return computerList;
+		return jdbcTemplate.queryForObject(COUNT_COMPUTER, Integer.class);
 	}
 	
 	public int nbComputerByName(String name) {
-		
-		Connection connect = connectionSQL.seConnecter();
-				
-		try (PreparedStatement statement = connect.prepareStatement(COUNT_COMPUTER_BY_NAME);) {
-
-			statement.setString(1, "%"+ name +"%");
-			statement.setString(2, "%"+ name +"%");
-			ResultSet resultat = statement.executeQuery();
-			if (resultat.first()) {
-				return resultat.getInt("nbComputerByName");
-			}
-		} catch (SQLException e) {
-			
-			LOGGER.error(e.getMessage(), "");	
-			
-		} finally {
-			this.connect = connectionSQL.disconnectDB();
-		}
-		return 0;
+	
+		return jdbcTemplate.queryForObject(COUNT_COMPUTER_BY_NAME, Integer.class, "%"+ name +"%", "%"+ name +"%");
 	}
 	
 

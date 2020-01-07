@@ -28,7 +28,6 @@ public class CompanyDAO  {
 	}
 
 	public List<Company> findAll() {
-		
 		return  jdbcTemplate.query(SELECT_ALL_COMPUTER, companyMapper );
 	}
 	

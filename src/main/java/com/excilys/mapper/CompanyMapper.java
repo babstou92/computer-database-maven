@@ -15,34 +15,19 @@ public class CompanyMapper implements RowMapper<Company>{
 	public Company CompanyDTOToCompany(CompanyDTO companyDTO) {	
 		
 		return new Company.CompanyBuilder().idCompany(companyDTO.getIdCompany()).nameCompany(companyDTO.getNameCompany()).build();
-
 	}
 	
 	public CompanyDTO CompanyToCompanyDTO(Company company) {
 
 		return new CompanyDTO.CompanyDTOBuilder().idCompany(company.getIdCompany()).nameCompany(company.getNameCompany()).build();
-
 	}
 	
-	public Company ResultSetToCompany(ResultSet result) {
-		
-		int id = 0;
-		String name = "";
-		try {
-			id = result.getInt("id");
-			name = result.getString("name");
-		} catch(SQLException  sqle) {
-			for(Throwable e : sqle) {
-				System.err.println("Problèmes rencontrés: " + e);
-			}
-		}
-
-		return new Company.CompanyBuilder().idCompany(id).nameCompany(name).build();
-	}
 
 	@Override
-	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
-		return null;
+		public Company mapRow(ResultSet result, int rowNum) throws SQLException {
+			int id = result.getInt("id") != 0 ? result.getInt("id") : null;
+			String name = result.getString("name") != null ? result.getString("name") : null;
+			return new Company.CompanyBuilder().idCompany(id).nameCompany(name).build();
 	}
 
 }
