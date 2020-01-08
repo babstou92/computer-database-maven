@@ -1,7 +1,8 @@
 package com.excilys.configuration;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,26 +10,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.context.AbstractContextLoaderInitializer;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 
 
 @Configuration
-@ComponentScan(basePackages = {"com.excilys.configuration","com.excilys.dao","com.excilys.service", "com.excilys.servlets", 
-								"com.excilys.pagination", "com.excilys.mapper"})
+@EnableWebMvc
+@ComponentScan(basePackages = {"com.excilys.configuration","com.excilys.dao","com.excilys.service", 
+								"com.excilys.pagination", "com.excilys.mapper", "com.excilys.controller"})
 @PropertySource(value="classpath:database.properties")
-public class SpringConfig extends AbstractContextLoaderInitializer{
+public class SpringConfig implements WebApplicationInitializer {
 	
 	@Autowired
 	private Environment environment;
 
-	protected WebApplicationContext createRootApplicationContext() {
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(SpringConfig.class);
-		return rootContext;
-	}
-	
 	@Bean
 	 public DataSource seConnecter() {
 		 DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -38,7 +36,18 @@ public class SpringConfig extends AbstractContextLoaderInitializer{
 		 dataSource.setPassword(environment.getProperty("dataSource.password"));
 		 return dataSource;
 	 }
-	
+
+	@Override
+	public void onStartup(ServletContext servletContext) {
+
+		AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
+		webContext.register(SpringConfig.class);
+		webContext.setServletContext(servletContext);
+		
+		ServletRegistration.Dynamic registration =  servletContext.addServlet("springDispatcherServlet", new DispatcherServlet(webContext));
+        registration.setLoadOnStartup(1);
+        registration.addMapping("/");
+	}
 	
 
 }

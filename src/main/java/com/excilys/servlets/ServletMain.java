@@ -20,7 +20,7 @@ import com.excilys.pagination.Page;
 import com.excilys.service.ServiceComputer;
 
 
-@WebServlet(name = "Dashboard", urlPatterns = "/")
+//@WebServlet(name = "Dashboard", urlPatterns = "/")
 
 public class ServletMain extends HttpServlet {
 	
