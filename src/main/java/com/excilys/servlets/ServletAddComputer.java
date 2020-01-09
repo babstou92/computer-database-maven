@@ -23,8 +23,8 @@ import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 import com.excilys.validation.ValidationFront;
 
-
-@WebServlet(name = "AddComputer", urlPatterns = "/addcomputer")
+//
+//@WebServlet(name = "AddComputer", urlPatterns = "/addcomputer")
 
 public class ServletAddComputer extends HttpServlet {
 	

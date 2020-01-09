@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="/computer-database/addcomputer" method="POST">
+                    <form action="addcomputer" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -61,7 +61,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">
                             or
-                            <a href="dashboard" class="btn btn-default">Cancel</a>
+                            <a href="/computer-database" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>
