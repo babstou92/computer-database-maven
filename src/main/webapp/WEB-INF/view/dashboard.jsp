@@ -106,35 +106,35 @@
             
             	<c:if test="${currentPage != 1}">
                 	<li>
-                    	<a href="dashboard?search=${search}" aria-label="Previous">
+                    	<a href="?search=${search}" aria-label="Previous">
                       		<span aria-hidden="true">&laquo;</span>
                   		</a> 	
 		        	</li>
 		        </c:if>
 		        
               <c:if test="${currentPage - 2 > 0}">
-              	<li><a href="dashboard?page=${currentPage - 2}&search=${search}"><c:out value="${currentPage - 2}"/></a></li>
+              	<li><a href="?page=${currentPage - 2}&search=${search}"><c:out value="${currentPage - 2}"/></a></li>
               </c:if>
               
               <c:if test="${currentPage - 1 > 0}">
-              	<li><a href="dashboard?page=${currentPage - 1}&search=${search}"><c:out value="${currentPage - 1}"/></a></li>
+              	<li><a href="?page=${currentPage - 1}&search=${search}"><c:out value="${currentPage - 1}"/></a></li>
               </c:if>
               
 <%--               <c:if test="${currentPage != 1}"> --%>
-<%--               	<li><a href="dashboard?page=${currentPage    }&search=${search}"><c:out value="${currentPage    }"/></a></li> --%>
+<%--               	<li><a href="?page=${currentPage    }&search=${search}"><c:out value="${currentPage    }"/></a></li> --%>
 <%--               </c:if> --%>
               
               <c:if test="${currentPage + 1  < nbPage+1}">
-              	<li><a href="dashboard?page=${currentPage + 1}&search=${search}"><c:out value="${currentPage + 1}"/></a></li>
+              	<li><a href="?page=${currentPage + 1}&search=${search}"><c:out value="${currentPage + 1}"/></a></li>
               </c:if>
               
               <c:if test="${currentPage + 2  < nbPage+1}">
-              	<li><a href="dashboard?page=${currentPage + 2}&search=${search}"><c:out value="${currentPage + 2}"/></a></li>
+              	<li><a href="?page=${currentPage + 2}&search=${search}"><c:out value="${currentPage + 2}"/></a></li>
               </c:if>
               
               <c:if test="${currentPage < nbPage}">
               	<li>
-	                <a href="dashboard?page=${nbPage}&search=${search}" aria-label="Next">
+	                <a href="?page=${nbPage}&search=${search}" aria-label="Next">
 	                    <span aria-hidden="true">&raquo;</span>
 	                </a>            
             	</li>
@@ -144,9 +144,9 @@
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
         
-            <a class="btn btn-default" href="dashboard?limit=${10}&search=${search}"><c:out value="${10}"/></a>
-            <a class="btn btn-default" href="dashboard?limit=${50}&search=${search}"><c:out value="${50}"/></a>
-            <a class="btn btn-default" href="dashboard?limit=${100}&search=${search}"><c:out value="${100}"/></a>
+            <a class="btn btn-default" href="?limit=${10}&search=${search}"><c:out value="${10}"/></a>
+            <a class="btn btn-default" href="?limit=${50}&search=${search}"><c:out value="${50}"/></a>
+            <a class="btn btn-default" href="?limit=${100}&search=${search}"><c:out value="${100}"/></a>
             
             
         </div>
