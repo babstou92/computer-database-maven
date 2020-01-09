@@ -49,11 +49,11 @@
                                 
                                     <option value="0">--</option>
                                     
-                                    <c:forEach items="${listCompany}" var="company">
+                                    	<c:forEach items="${listCompany}" var="company">
                                     
-                                    	<option value="${company.getIdCompany()} "><c:out value="${company.getNameCompany()}"/></option>
+                                    		<option value="${company.getIdCompany()} "><c:out value="${company.getNameCompany()}"/></option>
                                     	
-                                    </c:forEach>
+                                    	</c:forEach>
                                     
                                 </select>
                             </div>                  

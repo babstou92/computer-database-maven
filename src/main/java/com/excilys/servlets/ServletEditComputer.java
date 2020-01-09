@@ -22,7 +22,7 @@ import com.excilys.models.Computer;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 
-@WebServlet(name = "EditComputer", urlPatterns = "/editcomputer")
+//@WebServlet(name = "EditComputer", urlPatterns = "/editcomputer")
 
 public class ServletEditComputer extends HttpServlet {
 	

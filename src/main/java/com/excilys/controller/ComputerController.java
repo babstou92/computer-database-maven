@@ -1,16 +1,12 @@
 package com.excilys.controller;
 
-
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
@@ -35,7 +31,7 @@ public class ComputerController {
 	private Page page;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String dashboard(HttpServletRequest request) {
+	public String getDashboard(HttpServletRequest request) {
 		
 		int offset = 0;
 		int currentPage = 1;
@@ -85,6 +81,20 @@ public class ComputerController {
 		return "/view/dashboard.jsp";
 	}
 	
+	@RequestMapping(value="/", method = RequestMethod.POST)
+	public String postDashboard(HttpServletRequest request, Model model) {
+		
+		String checkbox = request.getParameter("selection");
+		String checkboxNettoyée = checkbox.replaceAll(",", " ");
+		String [] checkboxTableau = checkboxNettoyée.split(" ");
+		for(String id : checkboxTableau) {
+			
+				serviceComputer.deleteOneComputer(Integer.parseInt(id));	
+				
+		}
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value="/addcomputer", method = RequestMethod.GET)
 	public String getAddComputer(HttpServletRequest request) {
 		
@@ -121,4 +131,36 @@ public class ComputerController {
 			return "/view/addComputer.jsp";
 		}
 	}
+	
+	@RequestMapping(value="/editcomputer", method = RequestMethod.GET)
+	public String getEditComputer(HttpServletRequest request) {
+
+		int computerId = Integer.parseInt(request.getParameter("computer_id"));
+		Computer computer = serviceComputer.findOneComputer(computerId);
+		List<Company> listCompany = serviceCompany.findAllCompany();
+		request.setAttribute("listCompany", listCompany);
+		request.setAttribute("computer", computer);
+
+		return "/view/editComputer.jsp";
+	}
+
+	@RequestMapping(value="/editcomputer", method = RequestMethod.POST)
+	public String postEditComputer(HttpServletRequest request, Model model) {
+		
+		String computerName = request.getParameter("computerName");
+		String dateStringInt = request.getParameter("introduced");
+		String dateStringDis = request.getParameter("discontinued");
+		int company_id = Integer.parseInt(request.getParameter("companyId").trim());
+		int computerId = Integer.parseInt(request.getParameter("id"));
+		
+		ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().idComputer(computerId).name(computerName)
+									.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
+									.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
+
+		
+        serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
+        
+        return "redirect:/";
+	}
+
 }

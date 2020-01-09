@@ -27,7 +27,7 @@
                     </div>
                     <h1>Edit Computer</h1>
 
-                    <form action="/computer-database/editcomputer" method="POST">
+                    <form action="editcomputer" method="POST">
                         <input type="hidden" id="id" name="id" value="${computer.getIdComputer()}"/> 
                         <fieldset>
                             <div class="form-group">
