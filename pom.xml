@@ -31,7 +31,7 @@
 	<jstl.version>1.2</jstl.version>
 	<HikariCP.version>3.4.0</HikariCP.version>
 	<Spring.version>5.2.0.RELEASE</Spring.version>
-	<logback-classic>1.2.3</logback-classic>
+	<logback-classic>1.0.13</logback-classic>
     
   </properties>
 
@@ -138,23 +138,11 @@
 	</dependency>
 	   
     <dependency>
-       <groupId>log4j</groupId>
-       <artifactId>log4j</artifactId>
-       <version>${log4j.version}</version>
-    </dependency>
-    
-    <dependency>
-       <groupId>org.slf4j</groupId>
-       <artifactId>slf4j-api</artifactId>
-       <version>${slf4j-api.version}</version>
-    </dependency>
-   
-    <dependency>
-       <groupId>org.slf4j</groupId>
-       <artifactId>slf4j-log4j12</artifactId>
-       <version>${slf4j-log4j12.version}</version>
-    </dependency>
-    
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-simple</artifactId>
+		<version>1.7.25</version>
+	</dependency>
+  
      <!-- Other --> 
      
 	<dependency>

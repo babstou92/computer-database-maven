@@ -1,10 +1,13 @@
 package com.excilys.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.excilys.dto.CompanyDTO;
@@ -30,14 +33,14 @@ public class ComputerController {
 	@Autowired
 	private Page page;
 	
-	@RequestMapping(value="/", method = RequestMethod.GET)
+	@GetMapping("/")
 	public String getDashboard(HttpServletRequest request) {
-		
+
 		int offset = 0;
 		int currentPage = 1;
 		int nbComputer = 0;
 		int nbPage = 0;
-		
+
 		if(request.getParameter("limit") != null) {
 			try {
 				int limit = Integer.parseInt(request.getParameter("limit"));
@@ -52,7 +55,7 @@ public class ComputerController {
 				currentPage = Integer.parseInt(request.getParameter("page"));
 				offset = page.calculOffset(currentPage);
 			} catch (NumberFormatException e) {
-				return "/views/500.jsp";
+				return "500";
 			}
 		} else {
 			offset = page.calculOffset(currentPage);
@@ -78,10 +81,10 @@ public class ComputerController {
 			request.setAttribute("currentPage", currentPage);
 
 		
-		return "/view/dashboard.jsp";
+		return "dashboard";
 	}
 	
-	@RequestMapping(value="/", method = RequestMethod.POST)
+	@PostMapping("/")
 	public String postDashboard(HttpServletRequest request, Model model) {
 		
 		String checkbox = request.getParameter("selection");
@@ -101,7 +104,7 @@ public class ComputerController {
 		List<Company> listCompany = serviceCompany.findAllCompany();
 		request.setAttribute("listCompany", listCompany);
 		
-		return "/view/addComputer.jsp";
+		return "addComputer";
 	}
 	
 	@RequestMapping(value="/addcomputer", method = RequestMethod.POST)
@@ -128,7 +131,7 @@ public class ComputerController {
 			request.setAttribute("listCompany", listCompany);
 			request.setAttribute("ValidationNameIsEmpty", ValidationNameIsEmpty);
 		
-			return "/view/addComputer.jsp";
+			return "addComputer";
 		}
 	}
 	
@@ -141,7 +144,7 @@ public class ComputerController {
 		request.setAttribute("listCompany", listCompany);
 		request.setAttribute("computer", computer);
 
-		return "/view/editComputer.jsp";
+		return "editComputer";
 	}
 
 	@RequestMapping(value="/editcomputer", method = RequestMethod.POST)

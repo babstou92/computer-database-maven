@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,8 +17,9 @@
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-        	
+        <div class="container">	
+			<a href="?locale=en"><img src="font/drapeau-royaume-uni.jpg" id="drapeau" alt="England"> </a>
+			<a href="?locale=fr"><img src="font/drapeau-france.jpg" id="drapeau" alt="France"></a>				
             <a class="navbar-brand" href="/computer-database"> Application - Computer Database </a>
         </div>
     </header>
@@ -26,20 +28,20 @@
         <div class="container">
             <h1 id="homeTitle">
             
-                <c:out value="${nbComputer}" /> Computers found 
+                <c:out value="${nbComputer}" /> <spring:message code="label.computerFound"/>
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${search}" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"class="btn btn-primary" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="<spring:message code="label.searchName"/>" value="${search}" />
+                        <input type="submit" id="searchsubmit" value="<spring:message code="label.filterByName"/>"class="btn btn-primary" />
                         
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="/computer-database/addcomputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="/computer-database/addcomputer"><spring:message code="label.addComputer"/></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="label.editComputer"/></a>
                 </div>
             </div>
         </div>
@@ -62,18 +64,18 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                            <spring:message code="label.computerName"/>
                         </th>
                         <th>
-                            Introduced date
+                            <spring:message code="label.introducedDate"/>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            Discontinued date
+                            <spring:message code="label.discontinuedDate"/>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            Company
+                            <spring:message code="label.company"/>
                         </th>
 
                     </tr>
@@ -147,8 +149,7 @@
             <a class="btn btn-default" href="?limit=${10}&search=${search}"><c:out value="${10}"/></a>
             <a class="btn btn-default" href="?limit=${50}&search=${search}"><c:out value="${50}"/></a>
             <a class="btn btn-default" href="?limit=${100}&search=${search}"><c:out value="${100}"/></a>
-            
-            
+                        
         </div>
 	</div>
     </footer>

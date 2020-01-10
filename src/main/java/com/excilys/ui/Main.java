@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-import org.apache.log4j.BasicConfigurator;
+//import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.excilys.models.Company;
@@ -28,7 +28,7 @@ public class Main {
 	
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		BasicConfigurator.configure();
+		//BasicConfigurator.configure();
 		LOGGER.info("Start ...");
 
 		boucleExt : do {
