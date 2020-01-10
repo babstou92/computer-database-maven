@@ -14,9 +14,9 @@ public class CompanyDAO  {
 	
 	private static final String SELECT_ALL_COMPUTER  		  = "SELECT * FROM company ;";	
 	
-	private static final String DELETE_COMPANY_BY_COMPANYID   = "DELETE FROM company where id = ? ;";
+	//private static final String DELETE_COMPANY_BY_COMPANYID   = "DELETE FROM company where id = ? ;";
 	
-	private static final String DELETE_COMPUTER_BY_COMPANYID  = "DELETE FROM computer where company_id = ? ;";
+	//private static final String DELETE_COMPUTER_BY_COMPANYID  = "DELETE FROM computer where company_id = ? ;";
 	
 	@Autowired
 	private CompanyMapper companyMapper;

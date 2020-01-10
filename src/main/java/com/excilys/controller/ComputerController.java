@@ -3,13 +3,14 @@ package com.excilys.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
@@ -24,57 +25,69 @@ import com.excilys.validation.ValidationFront;
 @Controller
 public class ComputerController {
 	
-	@Autowired
+
 	private ServiceComputer serviceComputer;
-	@Autowired
+
 	private  ServiceCompany serviceCompany;
-	@Autowired
-	ComputerMapper computerMapper;
-	@Autowired
+
+	private ComputerMapper computerMapper;
+
 	private Page page;
 	
+	public ComputerController (ServiceComputer serviceComputer, ServiceCompany serviceCompany, ComputerMapper computerMapper, Page page) {
+		this.serviceComputer = serviceComputer;
+		this.serviceCompany = serviceCompany;
+		this.computerMapper = computerMapper;
+		this.page = page;
+	}
+	
 	@GetMapping("/")
-	public String getDashboard(HttpServletRequest request) {
+	public String getDashboard( @RequestParam(required = false, defaultValue = "0") int limit,
+								@RequestParam(required = false, defaultValue = "1") int pageNumero, 
+								@RequestParam(required = false, defaultValue = "") String search, 
+								HttpServletRequest request, Model model) {
 
 		int offset = 0;
 		int currentPage = 1;
 		int nbComputer = 0;
 		int nbPage = 0;
 
-		if(request.getParameter("limit") != null) {
+		if(limit != 0) {
 			try {
-				int limit = Integer.parseInt(request.getParameter("limit"));
+//				int limitInt = Integer.parseInt(limit);
 				page.setLimite(limit);
 			} catch (NumberFormatException e) {
 				
 			}
 		}
 		
-		if (request.getParameter("page") != null) {
+		if (pageNumero != 0) {
 			try {
-				currentPage = Integer.parseInt(request.getParameter("page"));
-				offset = page.calculOffset(currentPage);
+//				currentPage = Integer.parseInt(page);
+				offset = page.calculOffset(pageNumero);
 			} catch (NumberFormatException e) {
 				return "500";
-			}
+			}			
 		} else {
-			offset = page.calculOffset(currentPage);
+			offset = page.calculOffset(pageNumero);
+			System.out.println(offset);
 		}
 		
-		if(request.getParameter("search") != null) {
+		if(search != "") {
 			
-			List<Computer> listComputer = serviceComputer.searchComputerByName(page.getLimite(), offset, request.getParameter("search"));
-			nbComputer= serviceComputer.countComputerByName(request.getParameter("search"));
+			List<Computer> listComputer = serviceComputer.searchComputerByName(page.getLimite(), offset, search);
+			nbComputer= serviceComputer.countComputerByName(search);
 			request.setAttribute("listComputer", listComputer);
-			request.setAttribute("search", request.getParameter("search"));
+			request.setAttribute("search", search);
 			nbPage = page.nbPageTotal(nbComputer);
-			
+			System.out.println("ici");
 		} else {
 
 			List<Computer> listComputer = serviceComputer.findAllComputer(page.getLimite(), offset);
 			nbComputer = serviceComputer.countComputer();
 			request.setAttribute("listComputer", listComputer);
 			nbPage = page.nbPageTotal(nbComputer);
+
 		}
 			request.setAttribute("nbComputer", nbComputer);
 			request.setAttribute("nbPage", nbPage);
@@ -98,7 +111,7 @@ public class ComputerController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/addcomputer", method = RequestMethod.GET)
+	@GetMapping("/addcomputer")
 	public String getAddComputer(HttpServletRequest request) {
 		
 		List<Company> listCompany = serviceCompany.findAllCompany();
@@ -107,7 +120,7 @@ public class ComputerController {
 		return "addComputer";
 	}
 	
-	@RequestMapping(value="/addcomputer", method = RequestMethod.POST)
+	@PostMapping("/addcomputer")
 	public String postAddComputer(HttpServletRequest request, Model model) {
 		String computerName =  request.getParameter("computerName");
 		String dateStringInt = request.getParameter("introduced");
@@ -135,7 +148,7 @@ public class ComputerController {
 		}
 	}
 	
-	@RequestMapping(value="/editcomputer", method = RequestMethod.GET)
+	@GetMapping("/editcomputer")
 	public String getEditComputer(HttpServletRequest request) {
 
 		int computerId = Integer.parseInt(request.getParameter("computer_id"));
@@ -147,7 +160,7 @@ public class ComputerController {
 		return "editComputer";
 	}
 
-	@RequestMapping(value="/editcomputer", method = RequestMethod.POST)
+	@PostMapping("/editcomputer")
 	public String postEditComputer(HttpServletRequest request, Model model) {
 		
 		String computerName = request.getParameter("computerName");

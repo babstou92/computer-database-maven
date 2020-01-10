@@ -19,7 +19,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -45,15 +44,6 @@ public class SpringConfig implements WebApplicationInitializer, WebMvcConfigurer
 		 dataSource.setPassword(environment.getProperty("dataSource.password"));
 		 return dataSource;
 	 }
-	
-    @Bean
-    public ViewResolver internalResourceViewResolver() {
-      InternalResourceViewResolver bean = new InternalResourceViewResolver();
-      bean.setViewClass(JstlView.class);
-      bean.setPrefix("/view/");
-      bean.setSuffix(".jsp");
-      return bean;
-    }
 
 	@Override
 	public void onStartup(ServletContext servletContext) {
@@ -66,7 +56,16 @@ public class SpringConfig implements WebApplicationInitializer, WebMvcConfigurer
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
 	}
-	
+		
+    @Bean
+    public ViewResolver internalResourceViewResolver() {
+      InternalResourceViewResolver bean = new InternalResourceViewResolver();
+      bean.setViewClass(JstlView.class);
+      bean.setPrefix("/view/");
+      bean.setSuffix(".jsp");
+      return bean;
+    }
+    
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource ret = new ReloadableResourceBundleMessageSource();

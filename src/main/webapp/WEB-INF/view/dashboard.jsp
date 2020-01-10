@@ -18,8 +18,8 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">	
-			<a href="?locale=en"><img src="font/drapeau-royaume-uni.jpg" id="drapeau" alt="England"> </a>
-			<a href="?locale=fr"><img src="font/drapeau-france.jpg" id="drapeau" alt="France"></a>				
+			<a href="?locale=en"><img src="src/main/webapp/font/drapeau-royaume-uni.jpg" id="drapeau" alt="England"> </a>
+			<a href="?locale=fr"><img src="src/main/webapp/font/drapeau-france.jpg" id="drapeau" alt="France"></a>				
             <a class="navbar-brand" href="/computer-database"> Application - Computer Database </a>
         </div>
     </header>
@@ -115,28 +115,28 @@
 		        </c:if>
 		        
               <c:if test="${currentPage - 2 > 0}">
-              	<li><a href="?page=${currentPage - 2}&search=${search}"><c:out value="${currentPage - 2}"/></a></li>
+              	<li><a href="?pageNumero=${currentPage - 2}&search=${search}"><c:out value="${currentPage - 2}"/></a></li>
               </c:if>
               
               <c:if test="${currentPage - 1 > 0}">
-              	<li><a href="?page=${currentPage - 1}&search=${search}"><c:out value="${currentPage - 1}"/></a></li>
+              	<li><a href="?pageNumero=${currentPage - 1}&search=${search}"><c:out value="${currentPage - 1}"/></a></li>
               </c:if>
               
 <%--               <c:if test="${currentPage != 1}"> --%>
-<%--               	<li><a href="?page=${currentPage    }&search=${search}"><c:out value="${currentPage    }"/></a></li> --%>
+<%--               	<li><a href="?pageNumero=${currentPage    }&search=${search}"><c:out value="${currentPage    }"/></a></li> --%>
 <%--               </c:if> --%>
               
               <c:if test="${currentPage + 1  < nbPage+1}">
-              	<li><a href="?page=${currentPage + 1}&search=${search}"><c:out value="${currentPage + 1}"/></a></li>
+              	<li><a href="?pageNumero=${currentPage + 1}&search=${search}"><c:out value="${currentPage + 1}"/></a></li>
               </c:if>
               
               <c:if test="${currentPage + 2  < nbPage+1}">
-              	<li><a href="?page=${currentPage + 2}&search=${search}"><c:out value="${currentPage + 2}"/></a></li>
+              	<li><a href="?pageNumero=${currentPage + 2}&search=${search}"><c:out value="${currentPage + 2}"/></a></li>
               </c:if>
               
               <c:if test="${currentPage < nbPage}">
               	<li>
-	                <a href="?page=${nbPage}&search=${search}" aria-label="Next">
+	                <a href="?pageNumero=${nbPage}&search=${search}" aria-label="Next">
 	                    <span aria-hidden="true">&raquo;</span>
 	                </a>            
             	</li>

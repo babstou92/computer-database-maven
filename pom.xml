@@ -29,9 +29,9 @@
 	<slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
 	<log4j.version>1.2.17</log4j.version>
 	<jstl.version>1.2</jstl.version>
-	<HikariCP.version>3.4.0</HikariCP.version>
 	<Spring.version>5.2.0.RELEASE</Spring.version>
 	<logback-classic>1.0.13</logback-classic>
+	<slf4j-simple>1.7.25</slf4j-simple>
     
   </properties>
 
@@ -84,6 +84,13 @@
 		<groupId>org.junit.vintage</groupId>
 		<artifactId>junit-vintage-engine</artifactId>
 		<version>${junit.vintage.version}</version>
+	</dependency>
+	     
+	<dependency>
+		<groupId>org.assertj</groupId>
+		<artifactId>assertj-core</artifactId>
+		<version>${assertj-core.version}</version>
+		<scope>test</scope>
 	</dependency>
 	
 	<!-- Servlet -->
@@ -140,17 +147,10 @@
     <dependency>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-simple</artifactId>
-		<version>1.7.25</version>
+		<version>${slf4j-simple}</version>
 	</dependency>
   
      <!-- Other --> 
-     
-	<dependency>
-		<groupId>org.assertj</groupId>
-		<artifactId>assertj-core</artifactId>
-		<version>${assertj-core.version}</version>
-		<scope>test</scope>
-	</dependency>
 	   
 	<dependency>
 	    <groupId>jstl</groupId>
