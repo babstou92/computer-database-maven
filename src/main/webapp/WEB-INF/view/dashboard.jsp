@@ -14,12 +14,14 @@
 <style><%@ include file ="/style/main.css"%></style>
 <style><%@ include file ="/style/font-awesome.css"%></style>
 <style><%@ include file ="/style/bootstrap.min.css"%></style>
+<a href="?locale=en"><img style="margin-left: 50px;" src="https://cdn.icon-icons.com/icons2/107/PNG/512/united_kingdom_flag_flags_18060.png" id="drapeau" width="24" height="24" alt="England"> </a>
+<a href="?locale=fr"><img style="margin-left: 10px;" src="http://www.vogo-group.com/wp-content/uploads/2019/10/france_icon.png" id="drapeau" alt="France" width="24" height="24"></a>  			
 </head>
+
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">	
-			<a href="?locale=en"><img src="src/main/webapp/font/drapeau-royaume-uni.jpg" id="drapeau" alt="England"> </a>
-			<a href="?locale=fr"><img src="src/main/webapp/font/drapeau-france.jpg" id="drapeau" alt="France"></a>				
+		
             <a class="navbar-brand" href="/computer-database"> Application - Computer Database </a>
         </div>
     </header>

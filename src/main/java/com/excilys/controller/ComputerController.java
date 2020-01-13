@@ -2,9 +2,8 @@ package com.excilys.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,23 +53,21 @@ public class ComputerController {
 
 		if(limit != 0) {
 			try {
-//				int limitInt = Integer.parseInt(limit);
 				page.setLimite(limit);
 			} catch (NumberFormatException e) {
 				
 			}
 		}
 		
-		if (pageNumero != 0) {
+		if (pageNumero != 1) {
 			try {
-//				currentPage = Integer.parseInt(page);
-				offset = page.calculOffset(pageNumero);
+				currentPage = pageNumero;
+				offset = page.calculOffset(currentPage);
 			} catch (NumberFormatException e) {
 				return "500";
 			}			
 		} else {
-			offset = page.calculOffset(pageNumero);
-			System.out.println(offset);
+			offset = page.calculOffset(currentPage);
 		}
 		
 		if(search != "") {
@@ -98,10 +95,9 @@ public class ComputerController {
 	}
 	
 	@PostMapping("/")
-	public String postDashboard(HttpServletRequest request, Model model) {
+	public String postDashboard(@RequestParam(required = false, defaultValue = "") String selection, HttpServletRequest request, Model model) {
 		
-		String checkbox = request.getParameter("selection");
-		String checkboxNettoyée = checkbox.replaceAll(",", " ");
+		String checkboxNettoyée = selection.replaceAll(",", " ");
 		String [] checkboxTableau = checkboxNettoyée.split(" ");
 		for(String id : checkboxTableau) {
 			
@@ -121,18 +117,19 @@ public class ComputerController {
 	}
 	
 	@PostMapping("/addcomputer")
-	public String postAddComputer(HttpServletRequest request, Model model) {
-		String computerName =  request.getParameter("computerName");
-		String dateStringInt = request.getParameter("introduced");
-		String dateStringDis = request.getParameter("discontinued");
-		int company_id =  Integer.parseInt(request.getParameter("companyId").trim());
+	public String postAddComputer(@RequestParam(required = false) String computerName, 
+								  @RequestParam(required = false, defaultValue = "") String introduced,
+								  @RequestParam(required = false, defaultValue = "") String discontinued,
+								  @RequestParam(required = false) int companyId,
+								  HttpServletRequest request, Model model) {
+
 		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);
 	
 		if(!ValidationNameIsEmpty) {
 
 			ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().name(computerName)
-										.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
-										.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
+										.introducedDate(introduced).discontinuedDate(discontinued)
+										.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(companyId).build()).build();
 	
 			serviceComputer.createOneComputer(computerMapper.ComputerDTOToComputer(computerDTO));
 
@@ -149,10 +146,9 @@ public class ComputerController {
 	}
 	
 	@GetMapping("/editcomputer")
-	public String getEditComputer(HttpServletRequest request) {
+	public String getEditComputer(@RequestParam(required = false) int computer_id, HttpServletRequest request) {
 
-		int computerId = Integer.parseInt(request.getParameter("computer_id"));
-		Computer computer = serviceComputer.findOneComputer(computerId);
+		Computer computer = serviceComputer.findOneComputer(computer_id);
 		List<Company> listCompany = serviceCompany.findAllCompany();
 		request.setAttribute("listCompany", listCompany);
 		request.setAttribute("computer", computer);
@@ -161,17 +157,17 @@ public class ComputerController {
 	}
 
 	@PostMapping("/editcomputer")
-	public String postEditComputer(HttpServletRequest request, Model model) {
+	public String postEditComputer(@RequestParam(required = false, defaultValue = "") String computerName,
+								   @RequestParam(required = false, defaultValue = "") String introduced,
+								   @RequestParam(required = false, defaultValue = "") String discontinued,
+								   @RequestParam(required = false) int companyId,
+								   @RequestParam(required = false) int id,
+								   HttpServletRequest request, Model model) {
+
 		
-		String computerName = request.getParameter("computerName");
-		String dateStringInt = request.getParameter("introduced");
-		String dateStringDis = request.getParameter("discontinued");
-		int company_id = Integer.parseInt(request.getParameter("companyId").trim());
-		int computerId = Integer.parseInt(request.getParameter("id"));
-		
-		ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().idComputer(computerId).name(computerName)
-									.introducedDate(dateStringInt).discontinuedDate(dateStringDis)
-									.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(company_id).build()).build();
+		ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().idComputer(id).name(computerName)
+									.introducedDate(introduced).discontinuedDate(discontinued)
+									.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(companyId).build()).build();
 
 		
         serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
