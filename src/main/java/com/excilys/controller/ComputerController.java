@@ -1,15 +1,12 @@
 package com.excilys.controller;
 
 import java.util.List;
-
-
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
@@ -44,12 +41,9 @@ public class ComputerController {
 	public String getDashboard( @RequestParam(required = false, defaultValue = "0") int limit,
 								@RequestParam(required = false, defaultValue = "1") int pageNumero, 
 								@RequestParam(required = false, defaultValue = "") String search, 
-								HttpServletRequest request, Model model) {
+								Model model) {
 
-		int offset = 0;
-		int currentPage = 1;
-		int nbComputer = 0;
-		int nbPage = 0;
+		int offset = 0, currentPage = 1, nbComputer = 0, nbPage = 0;
 
 		if(limit != 0) {
 			try {
@@ -74,44 +68,43 @@ public class ComputerController {
 			
 			List<Computer> listComputer = serviceComputer.searchComputerByName(page.getLimite(), offset, search);
 			nbComputer= serviceComputer.countComputerByName(search);
-			request.setAttribute("listComputer", listComputer);
-			request.setAttribute("search", search);
+			model.addAttribute("listComputer", listComputer);
+			model.addAttribute("search", search);
 			nbPage = page.nbPageTotal(nbComputer);
-			System.out.println("ici");
+
 		} else {
 
 			List<Computer> listComputer = serviceComputer.findAllComputer(page.getLimite(), offset);
 			nbComputer = serviceComputer.countComputer();
-			request.setAttribute("listComputer", listComputer);
+			model.addAttribute("listComputer", listComputer);
 			nbPage = page.nbPageTotal(nbComputer);
 
 		}
-			request.setAttribute("nbComputer", nbComputer);
-			request.setAttribute("nbPage", nbPage);
-			request.setAttribute("currentPage", currentPage);
+			model.addAttribute("nbComputer", nbComputer);
+			model.addAttribute("nbPage", nbPage);
+			model.addAttribute("currentPage", currentPage);
 
 		
 		return "dashboard";
 	}
 	
 	@PostMapping("/")
-	public String postDashboard(@RequestParam(required = false, defaultValue = "") String selection, HttpServletRequest request, Model model) {
+	public String postDashboard(@RequestParam(required = false, defaultValue = "") String selection) {
 		
 		String checkboxNettoyée = selection.replaceAll(",", " ");
 		String [] checkboxTableau = checkboxNettoyée.split(" ");
 		for(String id : checkboxTableau) {
 			
-				serviceComputer.deleteOneComputer(Integer.parseInt(id));	
-				
+				serviceComputer.deleteOneComputer(Integer.parseInt(id));				
 		}
 		return "redirect:/";
 	}
 	
 	@GetMapping("/addcomputer")
-	public String getAddComputer(HttpServletRequest request) {
+	public String getAddComputer(Model model) {
 		
 		List<Company> listCompany = serviceCompany.findAllCompany();
-		request.setAttribute("listCompany", listCompany);
+		model.addAttribute("listCompany", listCompany);
 		
 		return "addComputer";
 	}
@@ -121,7 +114,7 @@ public class ComputerController {
 								  @RequestParam(required = false, defaultValue = "") String introduced,
 								  @RequestParam(required = false, defaultValue = "") String discontinued,
 								  @RequestParam(required = false) int companyId,
-								  HttpServletRequest request, Model model) {
+								  Model model) {
 
 		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);
 	
@@ -138,20 +131,20 @@ public class ComputerController {
 		} else {
 			
 			List<Company> listCompany = serviceCompany.findAllCompany();
-			request.setAttribute("listCompany", listCompany);
-			request.setAttribute("ValidationNameIsEmpty", ValidationNameIsEmpty);
+			model.addAttribute("listCompany", listCompany);
+			model.addAttribute("ValidationNameIsEmpty", ValidationNameIsEmpty);
 		
 			return "addComputer";
 		}
 	}
 	
 	@GetMapping("/editcomputer")
-	public String getEditComputer(@RequestParam(required = false) int computer_id, HttpServletRequest request) {
+	public String getEditComputer(@RequestParam(required = false) int computer_id, Model model) {
 
 		Computer computer = serviceComputer.findOneComputer(computer_id);
 		List<Company> listCompany = serviceCompany.findAllCompany();
-		request.setAttribute("listCompany", listCompany);
-		request.setAttribute("computer", computer);
+		model.addAttribute("listCompany", listCompany);
+		model.addAttribute("computer", computer);
 
 		return "editComputer";
 	}
@@ -161,14 +154,12 @@ public class ComputerController {
 								   @RequestParam(required = false, defaultValue = "") String introduced,
 								   @RequestParam(required = false, defaultValue = "") String discontinued,
 								   @RequestParam(required = false) int companyId,
-								   @RequestParam(required = false) int id,
-								   HttpServletRequest request, Model model) {
+								   @RequestParam(required = false) int id) {
 
-		
 		ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().idComputer(id).name(computerName)
-									.introducedDate(introduced).discontinuedDate(discontinued)
-									.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(companyId).build()).build();
-
+				.introducedDate(introduced).discontinuedDate(discontinued)
+				.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(companyId).build()).build();
+		
 		
         serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
         
