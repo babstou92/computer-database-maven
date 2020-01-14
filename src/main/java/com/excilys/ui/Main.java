@@ -28,9 +28,6 @@ public class Main {
 	
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		//BasicConfigurator.configure();
-		LOGGER.info("Start ...");
-
 		boucleExt : do {
 			
 			firstChoice();

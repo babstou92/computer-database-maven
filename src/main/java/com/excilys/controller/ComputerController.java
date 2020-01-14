@@ -1,7 +1,6 @@
 package com.excilys.controller;
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +34,7 @@ public class ComputerController {
 		this.serviceCompany = serviceCompany;
 		this.computerMapper = computerMapper;
 		this.page = page;
+		
 	}
 	
 	@GetMapping("/")
@@ -44,59 +44,49 @@ public class ComputerController {
 								Model model) {
 
 		int offset = 0, currentPage = 1, nbComputer = 0, nbPage = 0;
+		currentPage = pageNumero;
+		offset = page.calculOffset(currentPage);
 
-		if(limit != 0) {
-			try {
-				page.setLimite(limit);
-			} catch (NumberFormatException e) {
-				
-			}
-		}
-		
-		if (pageNumero != 1) {
-			try {
-				currentPage = pageNumero;
-				offset = page.calculOffset(currentPage);
-			} catch (NumberFormatException e) {
-				return "500";
-			}			
-		} else {
-			offset = page.calculOffset(currentPage);
-		}
+		if(limit != 0) {	
+			
+			page.setLimite(limit);	
+			
+		}	
 		
 		if(search != "") {
 			
 			List<Computer> listComputer = serviceComputer.searchComputerByName(page.getLimite(), offset, search);
 			nbComputer= serviceComputer.countComputerByName(search);
+			nbPage = page.nbPageTotal(nbComputer);
 			model.addAttribute("listComputer", listComputer);
 			model.addAttribute("search", search);
-			nbPage = page.nbPageTotal(nbComputer);
 
 		} else {
 
 			List<Computer> listComputer = serviceComputer.findAllComputer(page.getLimite(), offset);
 			nbComputer = serviceComputer.countComputer();
-			model.addAttribute("listComputer", listComputer);
 			nbPage = page.nbPageTotal(nbComputer);
+			model.addAttribute("listComputer", listComputer);
 
 		}
-			model.addAttribute("nbComputer", nbComputer);
-			model.addAttribute("nbPage", nbPage);
-			model.addAttribute("currentPage", currentPage);
-
 		
+		model.addAttribute("nbComputer", nbComputer);
+		model.addAttribute("nbPage", nbPage);
+		model.addAttribute("currentPage", currentPage);
+	
 		return "dashboard";
 	}
 	
 	@PostMapping("/")
 	public String postDashboard(@RequestParam(required = false, defaultValue = "") String selection) {
 		
-		String checkboxNettoyée = selection.replaceAll(",", " ");
-		String [] checkboxTableau = checkboxNettoyée.split(" ");
+		String [] checkboxTableau = selection.split(",");
 		for(String id : checkboxTableau) {
 			
-				serviceComputer.deleteOneComputer(Integer.parseInt(id));				
+			serviceComputer.deleteOneComputer(Integer.parseInt(id));
+			
 		}
+		
 		return "redirect:/";
 	}
 	
@@ -107,6 +97,7 @@ public class ComputerController {
 		model.addAttribute("listCompany", listCompany);
 		
 		return "addComputer";
+		
 	}
 	
 	@PostMapping("/addcomputer")
@@ -116,8 +107,7 @@ public class ComputerController {
 								  @RequestParam(required = false) int companyId,
 								  Model model) {
 
-		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);
-	
+		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);	
 		if(!ValidationNameIsEmpty) {
 
 			ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().name(computerName)
@@ -135,6 +125,7 @@ public class ComputerController {
 			model.addAttribute("ValidationNameIsEmpty", ValidationNameIsEmpty);
 		
 			return "addComputer";
+			
 		}
 	}
 	
@@ -147,6 +138,7 @@ public class ComputerController {
 		model.addAttribute("computer", computer);
 
 		return "editComputer";
+		
 	}
 
 	@PostMapping("/editcomputer")
@@ -164,6 +156,7 @@ public class ComputerController {
         serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
         
         return "redirect:/";
+        
 	}
 
 }

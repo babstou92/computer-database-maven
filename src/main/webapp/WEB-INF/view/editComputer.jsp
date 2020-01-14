@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,6 +14,8 @@
 <style><%@ include file ="../style/main.css"%></style>
 <style><%@ include file ="../style/font-awesome.css"%></style>
 <style><%@ include file ="../style/bootstrap.min.css"%></style>
+<a href="?locale=en"><img style="margin-left: 50px;" src="https://cdn.icon-icons.com/icons2/107/PNG/512/united_kingdom_flag_flags_18060.png" id="drapeau" width="24" height="24" alt="England"> </a>
+<a href="?locale=fr"><img style="margin-left: 10px;" src="http://www.vogo-group.com/wp-content/uploads/2019/10/france_icon.png" id="drapeau" alt="France" width="24" height="24"></a>
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -27,9 +30,9 @@
                     <div class="label label-default pull-right">
                         id: <c:out value="${computer.getIdComputer()}"/>
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><spring:message code="label.editComputer"/></h1>
 
-                    <form action="editcomputer" method="POST">
+                    <form:form method="POST" action="editcomputer" modelAttribute="employee">
                         <input type="hidden" id="id" name="id" value="${computer.getIdComputer()}"/> 
                         <fieldset>
                             <div class="form-group">
@@ -64,7 +67,8 @@
                             or
                             <a href="/computer-database" class="btn btn-default"><spring:message code="label.cancel"/></a>
                         </div>
-                    </form>
+                        </form:form>
+
                 </div>
             </div>
         </div>
