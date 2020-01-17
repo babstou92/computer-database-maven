@@ -29,38 +29,39 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1><spring:message code="label.addComputer"/></label></h1>
-                    <form action="addcomputer" method="POST">
+                    <form:form method="POST" action="addcomputer" modelAttribute="computer">
+
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName"><spring:message code="label.computerName"/></label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="<spring:message code="label.computerName"/>">
-                                                              
-                                	<c:if test="${ValidationNameIsEmpty}">
-                                		<c:out value="Vous devez rentrer au moins un caractère" />
-                                	</c:if>                               
-                                
+                                <form:label for="computerName" path="computerName"><spring:message code="label.computerName"/></form:label>
+                                <form:input type="text" path="computerName" class="form-control" id="computerName" name="computerName" placeholder="label.computerName"/>
+                                                             
+                                <c:if test="${ValidationNameIsEmpty}">
+                                <c:out value="Vous devez rentrer au moins un caractère" />
+                                </c:if>                              
+                               
                             </div>
                             <div class="form-group">
-                                <label for="introduced"><spring:message code="label.introducedDate"/></label>
-                                <input type="text" class="form-control" id="introduced" name="introduced" placeholder="<spring:message code="label.introducedDate"/>">
+                                <form:label for="introduced" path="introduced"><spring:message code="label.introducedDate"/></form:label>
+                                <form:input type="text" path="introduced"class="form-control" id="introduced" name="introduced" placeholder="label.introducedDate"/>
                             </div>
                             <div class="form-group">
-                                <label for="discontinued"><spring:message code="label.discontinuedDate"/></label>
-                                <input type="text" class="form-control" id="discontinued" name="discontinued" placeholder="<spring:message code="label.discontinuedDate"/>">
+                                <form:label for="discontinued" path="discontinued"><spring:message code="label.discontinuedDate"/></form:label>
+                                <form:input type="text" path="discontinued" class="form-control" id="discontinued" name="discontinued" placeholder="label.discontinuedDate"/>
                             </div>
                             <div class="form-group">
-                                <label for="companyId"><spring:message code="label.company"/></label>
-                                <select class="form-control" id="companyId" name="companyId">
-                                
-                                    <option value="0">--</option>
-                                    
-                                    	<c:forEach items="${listCompany}" var="company">
-                                    
-                                    		<option value="${company.getIdCompany()} "><c:out value="${company.getNameCompany()}"/></option>
-                                    	
-                                    	</c:forEach>
-                                    
-                                </select>
+                                <form:label for="companyId" path="companyId"><spring:message code="label.company"/></form:label>
+                                <form:select class="form-control" path="companyId" id="companyId" name="companyId">
+                               
+                                    <form:option value="0">--</form:option>
+                                   
+                                    <c:forEach items="${listCompany}" var="company">
+                                   
+                                    <form:option value="${company.getIdCompany()} "><c:out value="${company.getNameCompany()}"/></form:option>
+                                   
+                                    </c:forEach>
+                                   
+                                </form:select>
                             </div>                  
                         </fieldset>
                         <div class="actions pull-right">
@@ -68,7 +69,7 @@
                             or
                             <a href="/computer-database" class="btn btn-default"><spring:message code="label.cancel"/></a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>
