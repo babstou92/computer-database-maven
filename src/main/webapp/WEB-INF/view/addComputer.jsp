@@ -36,14 +36,19 @@
                                 <form:label for="computerName" path="computerName"><spring:message code="label.computerName"/></form:label>
                                 <form:input type="text" path="computerName" class="form-control" id="computerName" name="computerName" placeholder="computerName"/>
                                                              
-                                <c:if test="${ValidationNameIsEmpty}">
-                                <c:out value="Vous devez rentrer au moins un caractère" />
+                                <c:if test="${nameError != ''}">
+                                 <c:out value="${nameError}" />
                                 </c:if>                              
                                
                             </div>
                             <div class="form-group">
                                 <form:label for="introduced" path="introducedDate"><spring:message code="label.introducedDate"/></form:label>
                                 <form:input type="text" path="introducedDate" class="form-control" id="introduced" name="introduced" placeholder="introducedDate"/>
+                            
+                           		<c:if test="${dateError != ''}">
+                                 <c:out value="${dateError}" />
+                                </c:if>  
+                                
                             </div>
                             <div class="form-group">
                                 <form:label for="discontinued" path="discontinuedDate"><spring:message code="label.discontinuedDate"/></form:label>

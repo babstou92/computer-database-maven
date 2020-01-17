@@ -7,7 +7,7 @@ import com.excilys.models.Company;
 public class Computer {
 	
 	private int idComputer;
-	private String name;
+	private String computerName;
 	private LocalDate introducedDate;
 	private LocalDate discontinuedDate;
 	private Company company;
@@ -15,7 +15,7 @@ public class Computer {
 	
 	private Computer(ComputerBuilder builder) {
 		this.idComputer = builder.idComputer;
-		this.name = builder.name;
+		this.computerName = builder.computerName;
 		this.introducedDate = builder.introducedDate;
 		this.discontinuedDate = builder.discontinuedDate;
 		this.company = builder.company;
@@ -24,7 +24,7 @@ public class Computer {
 	public static class ComputerBuilder {
 		
 		private int idComputer;
-		private String name;
+		private String computerName;
 		private LocalDate introducedDate;
 		private LocalDate discontinuedDate;
 		private Company company;
@@ -35,8 +35,8 @@ public class Computer {
     		this.idComputer = idComputer;
     		return this;
     	}
-    	public ComputerBuilder name(String name) {
-    		this.name = name;
+    	public ComputerBuilder computerName(String computerName) {
+    		this.computerName = computerName;
     		return this;
     	}
     	public ComputerBuilder introducedDate(LocalDate introducedDate) {
@@ -69,13 +69,13 @@ public class Computer {
 	}
 
 
-	public String getName() {
-		return name;
+	public String getComputerName() {
+		return computerName;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setComputerName(String computerName) {
+		this.computerName = computerName;
 	}
 
 
@@ -110,7 +110,7 @@ public class Computer {
 
 
 	public String toString() {
-		return "Computer [idComputer=" + idComputer + ", nameComputer=" + name + ", introducedDateComputer="
+		return "Computer [idComputer=" + idComputer + ", nameComputer=" + computerName + ", introducedDateComputer="
 				+ introducedDate + ", discontinuedDateComputer=" + discontinuedDate
 				+", company=" + company + "]";
 	}

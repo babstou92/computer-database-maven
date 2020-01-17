@@ -34,7 +34,7 @@ public class ComputerDTO {
     		this.idComputer = idComputer;
     		return this;
     	}
-    	public ComputerDTOBuilder name(String computerName) {
+    	public ComputerDTOBuilder computerName(String computerName) {
     		this.computerName = computerName;
     		return this;
     	}

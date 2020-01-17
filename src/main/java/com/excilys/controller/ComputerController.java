@@ -7,15 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.exception.CheckDateIntervale;
+import com.excilys.exception.CheckNameException;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 import com.excilys.pagination.Page;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
-import com.excilys.validation.ValidationFront;
+import com.excilys.validation.Validation;
 
 
 @Controller
@@ -105,22 +106,23 @@ public class ComputerController {
 	@PostMapping("/addcomputer")
 	public String postAddComputer(@ModelAttribute("computer")ComputerDTO computerDTO, Model model ) {
 
-		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerDTO.getComputerName());	
-		if(!ValidationNameIsEmpty) {			
+		try {
 			Computer computer = computerMapper.computerDTOtoComputer(computerDTO);
+			Validation.computerNameIsEmpty(computer.getComputerName());
+			Validation.discontinuedDateIsLater(computer.getDiscontinuedDate(), computer.getIntroducedDate());
 			serviceComputer.createOneComputer(computer);
-
 			return "redirect:/";
 			
-		} else {
-			
+		} catch(CheckNameException e) {
+			model.addAttribute("nameError", e.getMessage());
+		} catch(CheckDateIntervale e) {
+			model.addAttribute("dateError", e.getMessage());
+		}
 			List<Company> listCompany = serviceCompany.findAllCompany();
 			model.addAttribute("listCompany", listCompany);
-			model.addAttribute("ValidationNameIsEmpty", ValidationNameIsEmpty);
 		
 			return "addComputer";
 			
-		}
 	}
 	
 	@GetMapping("/editcomputer")

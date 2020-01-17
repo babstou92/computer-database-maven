@@ -86,14 +86,14 @@ public class ComputerDAO {
 	
 	public boolean create(Computer computer) {
 
-		return jdbcTemplate.update(CREATE_ONE_COMPUTER, computer.getName(), computer.getIntroducedDate(), computer.getDiscontinuedDate(),
+		return jdbcTemplate.update(CREATE_ONE_COMPUTER, computer.getComputerName(), computer.getIntroducedDate(), computer.getDiscontinuedDate(),
 				computer.getCompany().getIdCompany()) > 0;
 	}
 
 
 	public boolean update(Computer computer) {
 						
-			return jdbcTemplate.update(UPDATE_ONE_COMPUTER, computer.getName(), computer.getIntroducedDate(), computer.getDiscontinuedDate(),
+			return jdbcTemplate.update(UPDATE_ONE_COMPUTER, computer.getComputerName(), computer.getIntroducedDate(), computer.getDiscontinuedDate(),
 					computer.getCompany().getIdCompany(), computer.getIdComputer()) > 0;	
 	}
 

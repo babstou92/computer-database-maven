@@ -91,7 +91,7 @@
 	                            <input type="checkbox" name="cb" class="cb" value="${computer.getIdComputer()}">
 	                        </td>
 	                        <td>
-	                            <a href="editcomputer?computer_id=${computer.getIdComputer()}" onclick="">${computer.getName()}</a>
+	                            <a href="editcomputer?computer_id=${computer.getIdComputer()}" onclick="">${computer.getComputerName()}</a>
 	                        </td>
 	                        <td>${computer.getIntroducedDate()}</td>
 	                        <td>${computer.getDiscontinuedDate()}</td>

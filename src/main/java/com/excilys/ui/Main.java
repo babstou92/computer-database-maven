@@ -119,7 +119,7 @@ public class Main {
         LocalDate discontinued = LocalDate.parse(dateString, formatter);
         System.out.println("l'id de la company");
         int company_id = scanner.nextInt();
-		serviceComputer.createOneComputer(  new Computer.ComputerBuilder().name(computerName).introducedDate(introduced)
+		serviceComputer.createOneComputer(  new Computer.ComputerBuilder().computerName(computerName).introducedDate(introduced)
 														.discontinuedDate(discontinued).company(new Company.CompanyBuilder()
 														.idCompany(company_id).build()).build());
 	}
@@ -138,7 +138,7 @@ public class Main {
         LocalDate discontinued = LocalDate.parse(dateString, formatter);
         System.out.println("l'id de la company");
         int company_id = scanner.nextInt();
-        serviceComputer.updateOneComputer(  new Computer.ComputerBuilder().idComputer(tableauId[0]).name(computerName).introducedDate(introduced)
+        serviceComputer.updateOneComputer(  new Computer.ComputerBuilder().idComputer(tableauId[0]).computerName(computerName).introducedDate(introduced)
 														.discontinuedDate(discontinued).company(new Company.CompanyBuilder()
 														.idCompany(company_id).build()).build()); 
 	}

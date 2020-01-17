@@ -23,25 +23,23 @@ public class ComputerMapper implements RowMapper<Computer>{
 	
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");	
 
-
 	public Computer computerDTOtoComputer(ComputerDTO computerDTO) {
-		System.out.println(computerDTO.toString());
+
 		String dateStringInt = computerDTO.getIntroducedDate();
 		LocalDate introduced = dateStringInt.equals("") ? null : LocalDate.parse(dateStringInt, formatter);
 		String dateStringDis = computerDTO.getDiscontinuedDate();
 		LocalDate discontinued = dateStringInt.equals("") ? null : LocalDate.parse(dateStringDis, formatter);
 
-		Computer computer =  new Computer.ComputerBuilder().idComputer(computerDTO.getIdComputer()).name(computerDTO.getComputerName())
+		return  new Computer.ComputerBuilder().idComputer(computerDTO.getIdComputer()).computerName(computerDTO.getComputerName())
 							.introducedDate(introduced).discontinuedDate(discontinued)
 							.company(new Company.CompanyBuilder().idCompany(computerDTO.getIdCompany()).build()).build();
-		return computer;
 	}
 
 	public ComputerDTO computertoComputerDTO(Computer computer) {
 		String introducedDate = computer.getIntroducedDate()!= null ? computer.getIntroducedDate().toString() : null;
 		String discontinuedDate = computer.getDiscontinuedDate()!= null ? computer.getDiscontinuedDate().toString() : null;
 		
-		return new ComputerDTO.ComputerDTOBuilder().idComputer(computer.getIdComputer()).name(computer.getName())
+		return new ComputerDTO.ComputerDTOBuilder().idComputer(computer.getIdComputer()).computerName(computer.getComputerName())
 								.introducedDate(introducedDate).discontinuedDate(discontinuedDate)
 								.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(computer.getCompany().getIdCompany()).nameCompany(computer.getCompany().getNameCompany()).build()).build();
 	}
@@ -58,7 +56,7 @@ public class ComputerMapper implements RowMapper<Computer>{
 		String company_name = result.getString("company.name");
 		String name = result.getString("name");
 
-		return  new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
+		return  new Computer.ComputerBuilder().idComputer(id).computerName(name).introducedDate(dateInt).discontinuedDate(dateDis)
 									.company(new Company.CompanyBuilder().idCompany(company_id)
 									.nameCompany(company_name).build()).build();
 
