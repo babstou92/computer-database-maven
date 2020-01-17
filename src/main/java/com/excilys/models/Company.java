@@ -47,39 +47,5 @@ public class Company {
 	public void setNameCompany(String nameCompany) {
 		this.nameCompany = nameCompany;
 	}
-
-
-	public String toString() {
-		return "Company [idCompany=" + idCompany + ", nameCompany=" + nameCompany + "]";
-	}
-
-
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idCompany;
-		result = prime * result + ((nameCompany == null) ? 0 : nameCompany.hashCode());
-		return result;
-	}
-
-
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Company other = (Company) obj;
-		if (idCompany != other.idCompany)
-			return false;
-		if (nameCompany == null) {
-			if (other.nameCompany != null)
-				return false;
-		} else if (!nameCompany.equals(other.nameCompany))
-			return false;
-		return true;
-	}
-
 	
 }

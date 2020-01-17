@@ -16,12 +16,6 @@ public class CompanyMapper implements RowMapper<Company>{
 		
 		return new Company.CompanyBuilder().idCompany(companyDTO.getIdCompany()).nameCompany(companyDTO.getNameCompany()).build();
 	}
-	
-	public CompanyDTO CompanyToCompanyDTO(Company company) {
-
-		return new CompanyDTO.CompanyDTOBuilder().idCompany(company.getIdCompany()).nameCompany(company.getNameCompany()).build();
-	}
-	
 
 	@Override
 		public Company mapRow(ResultSet result, int rowNum) throws SQLException {

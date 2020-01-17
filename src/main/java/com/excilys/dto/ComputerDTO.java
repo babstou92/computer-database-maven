@@ -3,15 +3,18 @@ package com.excilys.dto;
 public class ComputerDTO {
 	
 	private int idComputer;
-	private String name;
+	private String computerName;
 	private String introducedDate;
 	private String discontinuedDate;
+	private int idCompany;
 	private CompanyDTO companyDTO;
 
-	
+	public ComputerDTO() {
+		
+	}
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		this.idComputer = builder.idComputer;
-		this.name = builder.name;
+		this.computerName = builder.computerName;
 		this.introducedDate = builder.introducedDate;
 		this.discontinuedDate = builder.discontinuedDate;
 		this.companyDTO = builder.companyDTO;
@@ -20,7 +23,7 @@ public class ComputerDTO {
 	public static class ComputerDTOBuilder {
 		
 		private int idComputer;
-		private String name;
+		private String computerName;
 		private String introducedDate;
 		private String discontinuedDate;
 		private CompanyDTO companyDTO;
@@ -31,8 +34,8 @@ public class ComputerDTO {
     		this.idComputer = idComputer;
     		return this;
     	}
-    	public ComputerDTOBuilder name(String name) {
-    		this.name = name;
+    	public ComputerDTOBuilder name(String computerName) {
+    		this.computerName = computerName;
     		return this;
     	}
     	public ComputerDTOBuilder introducedDate(String introducedDate) {
@@ -65,13 +68,13 @@ public class ComputerDTO {
 	}
 
 
-	public String getName() {
-		return name;
+	public String getComputerName() {
+		return computerName;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setComputerName(String computerName) {
+		this.computerName = computerName;
 	}
 
 
@@ -105,55 +108,22 @@ public class ComputerDTO {
 	}
 
 
+	public int getIdCompany() {
+		return idCompany;
+	}
+
+
+	public void setIdCompany(int idCompany) {
+		this.idCompany = idCompany;
+	}
+
+
+	@Override
 	public String toString() {
-		return "Computer [idComputerDTO=" + idComputer + ", nameComputerDTO=" + name + ", introducedDateComputer="
-				+ introducedDate + ", discontinuedDateComputerDTO=" + discontinuedDate
-				+", companyDTO=" + companyDTO + "]";
+		return "ComputerDTO [idComputer=" + idComputer + ", computerName=" + computerName + ", introducedDate="
+				+ introducedDate + ", discontinuedDate=" + discontinuedDate + ", idCompany=" + idCompany
+				+ ", companyDTO=" + companyDTO + "]";
 	}
 
-
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((companyDTO == null) ? 0 : companyDTO.hashCode());
-		result = prime * result + ((discontinuedDate == null) ? 0 : discontinuedDate.hashCode());
-		result = prime * result + idComputer;
-		result = prime * result + ((introducedDate == null) ? 0 : introducedDate.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ComputerDTO other = (ComputerDTO) obj;
-		if (companyDTO == null) {
-			if (other.companyDTO != null)
-				return false;
-		} else if (!companyDTO.equals(other.companyDTO))
-			return false;
-		if (discontinuedDate == null) {
-			if (other.discontinuedDate != null)
-				return false;
-		} else if (!discontinuedDate.equals(other.discontinuedDate))
-			return false;
-		if (idComputer != other.idComputer)
-			return false;
-		if (introducedDate == null) {
-			if (other.introducedDate != null)
-				return false;
-		} else if (!introducedDate.equals(other.introducedDate))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
+	
 }

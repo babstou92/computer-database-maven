@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.excilys.dto.CompanyDTO;
@@ -95,26 +96,19 @@ public class ComputerController {
 		
 		List<Company> listCompany = serviceCompany.findAllCompany();
 		model.addAttribute("listCompany", listCompany);
+		model.addAttribute("computer", new ComputerDTO.ComputerDTOBuilder().build());
 		
 		return "addComputer";
 		
 	}
 	
 	@PostMapping("/addcomputer")
-	public String postAddComputer(@RequestParam(required = false) String computerName, 
-								  @RequestParam(required = false, defaultValue = "") String introduced,
-								  @RequestParam(required = false, defaultValue = "") String discontinued,
-								  @RequestParam(required = false) int companyId,
-								  Model model) {
+	public String postAddComputer(@ModelAttribute("computer")ComputerDTO computerDTO, Model model ) {
 
-		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerName);	
-		if(!ValidationNameIsEmpty) {
-
-			ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().name(computerName)
-										.introducedDate(introduced).discontinuedDate(discontinued)
-										.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(companyId).build()).build();
-	
-			serviceComputer.createOneComputer(computerMapper.ComputerDTOToComputer(computerDTO));
+		Boolean ValidationNameIsEmpty = ValidationFront.verificationNameComputerIsEmpty(computerDTO.getComputerName());	
+		if(!ValidationNameIsEmpty) {			
+			Computer computer = computerMapper.computerDTOtoComputer(computerDTO);
+			serviceComputer.createOneComputer(computer);
 
 			return "redirect:/";
 			
@@ -130,30 +124,21 @@ public class ComputerController {
 	}
 	
 	@GetMapping("/editcomputer")
-	public String getEditComputer(@RequestParam(required = false) int computer_id, Model model) {
+	public String getEditComputer(@RequestParam(required = true) int computer_id, Model model) {
 
 		Computer computer = serviceComputer.findOneComputer(computer_id);
 		List<Company> listCompany = serviceCompany.findAllCompany();
 		model.addAttribute("listCompany", listCompany);
-		model.addAttribute("computer", computer);
+		model.addAttribute("computer", computerMapper.computertoComputerDTO(computer));
 
 		return "editComputer";
 		
 	}
 
 	@PostMapping("/editcomputer")
-	public String postEditComputer(@RequestParam(required = false, defaultValue = "") String computerName,
-								   @RequestParam(required = false, defaultValue = "") String introduced,
-								   @RequestParam(required = false, defaultValue = "") String discontinued,
-								   @RequestParam(required = false) int companyId,
-								   @RequestParam(required = false) int id) {
-
-		ComputerDTO computerDTO = new ComputerDTO.ComputerDTOBuilder().idComputer(id).name(computerName)
-				.introducedDate(introduced).discontinuedDate(discontinued)
-				.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(companyId).build()).build();
+	public String postEditComputer(@ModelAttribute("computer")ComputerDTO computerDTO) {
 		
-		
-        serviceComputer.updateOneComputer(computerMapper.ComputerDTOToComputer(computerDTO)); 
+        serviceComputer.updateOneComputer(computerMapper.computerDTOtoComputer(computerDTO)); 
         
         return "redirect:/";
         

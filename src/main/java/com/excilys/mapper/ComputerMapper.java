@@ -23,26 +23,29 @@ public class ComputerMapper implements RowMapper<Computer>{
 	
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");	
 
-	
-	public Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
-		
+
+	public Computer computerDTOtoComputer(ComputerDTO computerDTO) {
+		System.out.println(computerDTO.toString());
 		String dateStringInt = computerDTO.getIntroducedDate();
 		LocalDate introduced = dateStringInt.equals("") ? null : LocalDate.parse(dateStringInt, formatter);
 		String dateStringDis = computerDTO.getDiscontinuedDate();
 		LocalDate discontinued = dateStringInt.equals("") ? null : LocalDate.parse(dateStringDis, formatter);
-		CompanyDTO companyDTO = computerDTO.getCompanyDTO();
-		
-		return new Computer.ComputerBuilder().idComputer(computerDTO.getIdComputer()).name(computerDTO.getName())
+
+		Computer computer =  new Computer.ComputerBuilder().idComputer(computerDTO.getIdComputer()).name(computerDTO.getComputerName())
 							.introducedDate(introduced).discontinuedDate(discontinued)
-							.company(new Company.CompanyBuilder().idCompany(companyDTO.getIdCompany()).nameCompany(companyDTO.getNameCompany()).build()).build();
+							.company(new Company.CompanyBuilder().idCompany(computerDTO.getIdCompany()).build()).build();
+		return computer;
 	}
-	
-	public ComputerDTO ComputerToComputerDTO(Computer computer) {
-			 	
+
+	public ComputerDTO computertoComputerDTO(Computer computer) {
+		String introducedDate = computer.getIntroducedDate()!= null ? computer.getIntroducedDate().toString() : null;
+		String discontinuedDate = computer.getDiscontinuedDate()!= null ? computer.getDiscontinuedDate().toString() : null;
+		
 		return new ComputerDTO.ComputerDTOBuilder().idComputer(computer.getIdComputer()).name(computer.getName())
-								.introducedDate(computer.getIntroducedDate().toString()).discontinuedDate(computer.getDiscontinuedDate().toString())
+								.introducedDate(introducedDate).discontinuedDate(discontinuedDate)
 								.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(computer.getCompany().getIdCompany()).nameCompany(computer.getCompany().getNameCompany()).build()).build();
 	}
+
 
 	@Override
 	public Computer mapRow(ResultSet result, int rowNum) throws SQLException {
@@ -54,7 +57,7 @@ public class ComputerMapper implements RowMapper<Computer>{
 		int company_id = result.getInt("company_id");
 		String company_name = result.getString("company.name");
 		String name = result.getString("name");
-		
+
 		return  new Computer.ComputerBuilder().idComputer(id).name(name).introducedDate(dateInt).discontinuedDate(dateDis)
 									.company(new Company.CompanyBuilder().idCompany(company_id)
 									.nameCompany(company_name).build()).build();

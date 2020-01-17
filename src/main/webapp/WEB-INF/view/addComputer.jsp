@@ -34,7 +34,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <form:label for="computerName" path="computerName"><spring:message code="label.computerName"/></form:label>
-                                <form:input type="text" path="computerName" class="form-control" id="computerName" name="computerName" placeholder="label.computerName"/>
+                                <form:input type="text" path="computerName" class="form-control" id="computerName" name="computerName" placeholder="computerName"/>
                                                              
                                 <c:if test="${ValidationNameIsEmpty}">
                                 <c:out value="Vous devez rentrer au moins un caractère" />
@@ -42,16 +42,16 @@
                                
                             </div>
                             <div class="form-group">
-                                <form:label for="introduced" path="introduced"><spring:message code="label.introducedDate"/></form:label>
-                                <form:input type="text" path="introduced"class="form-control" id="introduced" name="introduced" placeholder="label.introducedDate"/>
+                                <form:label for="introduced" path="introducedDate"><spring:message code="label.introducedDate"/></form:label>
+                                <form:input type="text" path="introducedDate" class="form-control" id="introduced" name="introduced" placeholder="introducedDate"/>
                             </div>
                             <div class="form-group">
-                                <form:label for="discontinued" path="discontinued"><spring:message code="label.discontinuedDate"/></form:label>
-                                <form:input type="text" path="discontinued" class="form-control" id="discontinued" name="discontinued" placeholder="label.discontinuedDate"/>
+                                <form:label for="discontinued" path="discontinuedDate"><spring:message code="label.discontinuedDate"/></form:label>
+                                <form:input type="text" path="discontinuedDate" class="form-control" id="discontinued" name="discontinued" placeholder="discontinuedDate"/>
                             </div>
                             <div class="form-group">
-                                <form:label for="companyId" path="companyId"><spring:message code="label.company"/></form:label>
-                                <form:select class="form-control" path="companyId" id="companyId" name="companyId">
+                                <form:label for="companyId" path="idCompany"><spring:message code="label.company"/></form:label>
+                                <form:select class="form-control" path="idCompany" id="companyId" name="companyId">
                                
                                     <form:option value="0">--</form:option>
                                    
