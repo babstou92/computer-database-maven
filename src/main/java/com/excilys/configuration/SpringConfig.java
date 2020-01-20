@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {"com.excilys.configuration","com.excilys.dao","com.excilys.service", 
 								"com.excilys.pagination", "com.excilys.mapper", "com.excilys.controller", "com.excilys.dto"})
 @PropertySource(value= "classpath:database.properties")
+@EnableTransactionManagement
 public class SpringConfig implements WebApplicationInitializer {
 	
 	@Autowired
@@ -44,7 +46,7 @@ public class SpringConfig implements WebApplicationInitializer {
 	public void onStartup(ServletContext servletContext) {
 
 		AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
-		webContext.register(SpringConfig.class, SpringMVC.class);
+		webContext.register(SpringConfig.class, SpringMVC.class, SpringSecurity.class);
 		webContext.setServletContext(servletContext);
 		
 		ServletRegistration.Dynamic registration =  servletContext.addServlet("springDispatcherServlet", new DispatcherServlet(webContext));

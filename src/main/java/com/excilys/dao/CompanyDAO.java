@@ -49,7 +49,7 @@ public class CompanyDAO  {
 //			
 //		} catch (SQLException e) {
 //			
-//			LOGGER.error(e.getMessage());
+//			system.out.println(e.getMessage());
 //			
 //		} finally {
 //			this.connect = connectionSQL.disconnectDB();

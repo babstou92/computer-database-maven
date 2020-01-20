@@ -1,9 +1,15 @@
 package com.excilys.dao;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import javax.sql.DataSource;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.excilys.mapper.ComputerMapper;
@@ -58,32 +64,43 @@ public class ComputerDAO {
 	
 	private JdbcTemplate jdbcTemplate;
 	private ComputerMapper computerMapper;
+	private SessionFactory sessionFactory;
 
-	public ComputerDAO(DataSource dataSource, ComputerMapper computerMapper) {
+	public ComputerDAO(DataSource dataSource, ComputerMapper computerMapper, SessionFactory sessionFactory) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.computerMapper = computerMapper;
+		this.sessionFactory = sessionFactory;
 	}
 	
 	@PersistenceContext
 	EntityManager entityManager;
-								
-	
+
 	public List<Computer> findAll() {
+		Session session = sessionFactory.openSession();
+		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
 		
-		return jdbcTemplate.query(SELECT_ALL_COMPUTER, computerMapper);
-	}
-	
+		return listComputer;
+	}	
 	
 	public List<Computer> findAll(int limite, int offset) {
-
-		return jdbcTemplate.query(SELECT_ALL_COMPUTER_PAGINATION, computerMapper, limite, offset);
+		Session session = sessionFactory.openSession();
+		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER_PAGINATION, Computer.class).getResultList();
+			
+		return listComputer;
 	}
 	
 	public Computer findOne(int idSearch) {
 		
 		return jdbcTemplate.queryForObject(SELECT_ONE_COMPUTER, computerMapper, idSearch);
 	}
-
+	
+//	public Computer findOne(int idSearch) {
+//		Session session = sessionFactory.openSession();
+//		Computer computer = session.createQuery(SELECT_ONE_COMPUTER, Computer.class).setParameter(0, idSearch).uniqueResult();
+//		
+//		return computer;
+//	}
+	
 	
 	public boolean create(Computer computer) {
 
