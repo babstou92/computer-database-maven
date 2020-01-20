@@ -1,14 +1,13 @@
 package com.excilys.dao;
 
-
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Computer;
-
 
 @Repository
 public class ComputerDAO {
@@ -58,13 +57,15 @@ public class ComputerDAO {
 														+ "WHERE company.name LIKE ? OR computer.name LIKE ?";
 	
 	private JdbcTemplate jdbcTemplate;
-
-	public ComputerDAO(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
-	@Autowired
 	private ComputerMapper computerMapper;
+
+	public ComputerDAO(DataSource dataSource, ComputerMapper computerMapper) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		this.computerMapper = computerMapper;
+	}
+	
+	@PersistenceContext
+	EntityManager entityManager;
 								
 	
 	public List<Computer> findAll() {
