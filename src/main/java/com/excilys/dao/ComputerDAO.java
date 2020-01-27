@@ -1,15 +1,11 @@
 package com.excilys.dao;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import javax.sql.DataSource;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.excilys.mapper.ComputerMapper;
