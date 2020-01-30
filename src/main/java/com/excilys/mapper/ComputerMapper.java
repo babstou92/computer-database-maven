@@ -9,6 +9,8 @@ import java.time.LocalDate;
 
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -43,7 +45,15 @@ public class ComputerMapper implements RowMapper<Computer>{
 								.introducedDate(introducedDate).discontinuedDate(discontinuedDate)
 								.companyDTO(new CompanyDTO.CompanyDTOBuilder().idCompany(computer.getCompany().getIdCompany()).nameCompany(computer.getCompany().getNameCompany()).build()).build();
 	}
-
+	
+	public List<ComputerDTO> listComputerToListComputerDTO(List<Computer> listComputer){
+		List<ComputerDTO> listComputerDTO = new ArrayList<ComputerDTO> ();
+		
+		for (Computer computer : listComputer) {
+			listComputerDTO.add(computertoComputerDTO(computer));
+		}
+		return listComputerDTO;		
+	}
 
 	@Override
 	public Computer mapRow(ResultSet result, int rowNum) throws SQLException {
