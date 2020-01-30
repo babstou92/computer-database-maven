@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.models.Computer;
 
@@ -70,13 +72,21 @@ public class ComputerDAO {
 	
 	@PersistenceContext
 	EntityManager entityManager;
-
+	
+	
 	public List<Computer> findAll() {
 		Session session = sessionFactory.openSession();
 		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
 		
 		return listComputer;
 	}	
+	
+	public List<ComputerDTO> findAllDTO() {
+		Session session = sessionFactory.openSession();
+		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
+		List<ComputerDTO> listComputerDTO = computerMapper.listComputerToListComputerDTO(listComputer);
+		return listComputerDTO;
+	}
 	
 	public List<Computer> findAll(int limite, int offset) {
 		Session session = sessionFactory.openSession();

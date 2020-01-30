@@ -3,6 +3,7 @@ package com.excilys.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.excilys.dao.ComputerDAO;
+import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Computer;
 
 @Service
@@ -18,6 +19,10 @@ public class ServiceComputer {
 		return computerDAO.findAll();
 		}
 	
+	public  List<ComputerDTO> findAllComputerDTO() {
+		return computerDAO.findAllDTO();
+		}
+	
 	public  List<Computer> findAllComputer(int limite, int offset) {
 		return computerDAO.findAll(limite, offset);	
 		}
@@ -26,16 +31,16 @@ public class ServiceComputer {
 		return computerDAO.findOne(id);
 	}
 	
-	public  void deleteOneComputer(int id) {
-		computerDAO.delete(id);
+	public  boolean deleteOneComputer(int id) {
+		return computerDAO.delete(id);
 	}
 	
-	public void createOneComputer(Computer computer) {		
-		computerDAO.create(computer);
+	public boolean createOneComputer(Computer computer) {		
+		 return computerDAO.create(computer);
 	}
 
-	public void updateOneComputer(Computer computer) {
-		computerDAO.update(computer);
+	public boolean updateOneComputer(Computer computer) {
+		return computerDAO.update(computer);
 	}
 	
 	public int countComputer() {
