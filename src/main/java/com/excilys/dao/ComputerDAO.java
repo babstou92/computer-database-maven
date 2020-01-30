@@ -21,7 +21,7 @@ public class ComputerDAO {
 														+ "computer.company_id, company.name "
 														+ "FROM computer "
 														+ "LEFT JOIN company ON computer.company_id = company.id "
-														+ "ORDER BY computer.id ;";
+														+ "ORDER BY computer.id ";
 	
 	private static final String SELECT_ALL_COMPUTER_PAGINATION = "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
 														+ "computer.company_id, company.name "
@@ -62,38 +62,53 @@ public class ComputerDAO {
 	
 	private JdbcTemplate jdbcTemplate;
 	private ComputerMapper computerMapper;
-	private SessionFactory sessionFactory;
 
 	public ComputerDAO(DataSource dataSource, ComputerMapper computerMapper, SessionFactory sessionFactory) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.computerMapper = computerMapper;
-		this.sessionFactory = sessionFactory;
 	}
 	
-	@PersistenceContext
-	EntityManager entityManager;
-	
+//	@PersistenceContext
+//	EntityManager entityManager;
 	
 	public List<Computer> findAll() {
-		Session session = sessionFactory.openSession();
-		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
 		
-		return listComputer;
-	}	
+		return jdbcTemplate.query(SELECT_ALL_COMPUTER, computerMapper);
+	}
+	
+	
+	public List<Computer> findAll(int limite, int offset) {
+
+		return jdbcTemplate.query(SELECT_ALL_COMPUTER_PAGINATION, computerMapper, limite, offset);
+	}
 	
 	public List<ComputerDTO> findAllDTO() {
-		Session session = sessionFactory.openSession();
-		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
-		List<ComputerDTO> listComputerDTO = computerMapper.listComputerToListComputerDTO(listComputer);
+		List<ComputerDTO> listComputerDTO = computerMapper.listComputerToListComputerDTO(jdbcTemplate.query(SELECT_ALL_COMPUTER, computerMapper));
+		
 		return listComputerDTO;
 	}
 	
-	public List<Computer> findAll(int limite, int offset) {
-		Session session = sessionFactory.openSession();
-		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER_PAGINATION, Computer.class).getResultList();
-			
-		return listComputer;
-	}
+	
+//	public List<Computer> findAll() {
+//		Session session = sessionFactory.openSession();
+//		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
+//		
+//		return listComputer;
+//	}	
+//	
+//	public List<ComputerDTO> findAllDTO() {
+//		Session session = sessionFactory.openSession();
+//		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER, Computer.class).getResultList();
+//		List<ComputerDTO> listComputerDTO = computerMapper.listComputerToListComputerDTO(listComputer);
+//		return listComputerDTO;
+//	}
+//	
+//	public List<Computer> findAll(int limite, int offset) {
+//		Session session = sessionFactory.openSession();
+//		List<Computer> listComputer = session.createQuery(SELECT_ALL_COMPUTER_PAGINATION, Computer.class).getResultList();
+//			
+//		return listComputer;
+//	}
 	
 	public Computer findOne(int idSearch) {
 		
