@@ -32,7 +32,7 @@
 	<Spring.version>5.2.0.RELEASE</Spring.version>
 	<logback-classic>1.0.13</logback-classic>
 	<slf4j-simple>1.7.25</slf4j-simple>
-	<hibernate-core>5.4.8.Final</hibernate-core>
+	<hibernate-core>5.4.24.Final</hibernate-core>
 	<jackson.databind-version>2.10.1</jackson.databind-version>
     
   </properties>
