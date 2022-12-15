@@ -29,7 +29,7 @@
 	<slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
 	<log4j.version>1.2.17</log4j.version>
 	<jstl.version>1.2</jstl.version>
-	<Spring.version>5.2.0.RELEASE</Spring.version>
+	<Spring.version>5.2.20.RELEASE</Spring.version>
 	<logback-classic>1.0.13</logback-classic>
 	<slf4j-simple>1.7.25</slf4j-simple>
 	<hibernate-core>5.4.8.Final</hibernate-core>
